@@ -8,7 +8,7 @@ export const dataInfo = {
     socials: {
       linkedin: {
         name: 'linkedin.com/in/kos-belozyorov',
-        url: 'https://www.linkedin.com/in/kos-belozyorov/',
+        url: 'https://www.linkedin.com/in/k-bielozorov/',
       },
       telegram: {
         name: 'kostya_belozyorov',
@@ -16,7 +16,7 @@ export const dataInfo = {
       },
       github: {
         name: 'Kostiantyn Bielozorov',
-        url: 'https://github.com/k-bielozorov',
+        url: 'https://github.com/kosbielozorov',
       },
     },
   },
