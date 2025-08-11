@@ -7,7 +7,7 @@ export const dataInfo = {
     phone: '+38 (098) 794-95-07',
     socials: {
       linkedin: {
-        name: 'linkedin.com/in/kos-belozyorov',
+        name: 'linkedin.com/in/k-bielozorov',
         url: 'https://www.linkedin.com/in/k-bielozorov/',
       },
       telegram: {
