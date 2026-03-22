@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function CallToAction() {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function CallToAction() {
       {isScrolled ? (
         <div
           className="bg-[#e9b200] p-4 w-fit rounded-xl fixed bottom-8 right-8 cursor-pointer z-50 animate-bounce"
-          title="Back to top"
+          title={t('cta.backToTop')}
           onClick={() => window.scrollTo(0, 0)}
         >
           <svg

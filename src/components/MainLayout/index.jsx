@@ -6,15 +6,23 @@ import Footer from '../Footer';
 import Header from '../Header';
 import Home from '../Home';
 
-import { Helmet } from 'react-helmet';
-import { dataInfo } from '../../info';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { usePortfolioData } from '../../info';
 
 function MainLayout() {
+  const dataInfo = usePortfolioData();
+  const { i18n } = useTranslation();
   const { name, secondName, position } = dataInfo.first;
+  const htmlLang = (i18n.resolvedLanguage || i18n.language || 'en')
+    .toLowerCase()
+    .startsWith('uk')
+    ? 'uk'
+    : 'en';
 
   return (
     <>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: htmlLang }}>
         <title>{`${name} ${secondName} | ${position}`}</title>
         <meta name="description" content={dataInfo.summary.description} />
         <meta

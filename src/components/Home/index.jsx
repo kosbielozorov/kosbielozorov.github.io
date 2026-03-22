@@ -1,11 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { dataInfo } from '../../info';
-
-const { name, position } = dataInfo.first;
+import { usePortfolioData } from '../../info';
 
 export default function Home() {
+  const { t } = useTranslation();
+  const dataInfo = usePortfolioData();
+  const { name, position } = dataInfo.first;
+
   return (
     <React.Fragment>
       <div
@@ -27,10 +30,10 @@ export default function Home() {
                   <p
                     className={`text-[#47AEDE] text-3xl md:text-base lg:text-2xl `}
                   >
-                    Hi There!
+                    {t('hero.hiThere')}
                   </p>
                   <h1 className="text-[#223740] font-recoletaBlack text-5xl md:text-5xl lg:text-7xl xl:text-7xl mt-5 md:mt-3">
-                    I'm {name}
+                    {t('hero.imName', { name })}
                   </h1>
                   <h2
                     className={`text-[#223740] py-2 font-bold uppercase md:text-xl`}
@@ -41,13 +44,13 @@ export default function Home() {
                     href="/#experience"
                     className={`cursor-pointer inline-block bg-[#47AEDE] transition-all duration-300 ease-in-out rounded-lg text-white py-3 px-5 font-bold mt-8 uppercase md:py-2 lg:py-3 lg:px-8 md:text-xs lg:text-base md:mt-5 xl:mt-10 hover:bg-[#e9b200] hover:show-lg transform hover:translate-y-1 `}
                   >
-                    Experience
+                    {t('hero.experience')}
                   </a>
                   <Link
-                    to="/my-resume/#my-resume"
+                    to="/my-resume"
                     className={`ml-10 cursor-pointer inline-block bg-[#e9b200] transition-all duration-300 ease-in-out rounded-lg text-white py-3 px-5 font-bold mt-8 uppercase md:py-2 lg:py-3 lg:px-8 md:text-xs lg:text-base md:mt-5 xl:mt-10 hover:bg-[#47AEDE] hover:show-lg transform hover:translate-y-1 `}
                   >
-                    My resume
+                    {t('hero.myResume')}
                   </Link>
                 </div>
               </div>
@@ -57,7 +60,7 @@ export default function Home() {
                 <img
                   src="/images/portfolio.webp"
                   decoding="async"
-                  alt="my profile foto"
+                  alt={t('resume.profileImageAlt')}
                 />
               </div>
             </div>

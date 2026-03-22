@@ -1,7 +1,9 @@
 // import { Hind } from "next/font/google";
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { dataInfo } from '../../info';
+import { useTranslation } from 'react-i18next';
+
+import { usePortfolioData } from '../../info';
 import Job from '../Job';
 import Skill from '../Skill';
 
@@ -9,16 +11,25 @@ import Education from '../Education';
 import Language from '../Language';
 import './resume.css';
 
-const { jobs } = dataInfo.experience;
-const { techSkills } = dataInfo.skills;
-const { softSkills } = dataInfo.skills;
-const { toolsSkills } = dataInfo.skills;
-const { name, secondName, position, email, phone, socials } = dataInfo.first;
-const { linkedin, telegram } = socials;
-const { description } = dataInfo.summary;
-const { languages, educations } = dataInfo;
-
 export default function Home() {
+  const { t, i18n } = useTranslation();
+  const dataInfo = usePortfolioData();
+  const isUk = (i18n.resolvedLanguage || i18n.language || 'en')
+    .toLowerCase()
+    .startsWith('uk');
+  const resumePdfFile = isUk
+    ? 'qa-engineer-k.bielozorov-ua.pdf'
+    : 'qa-engineer-k.bielozorov-en.pdf';
+  const resumePdfHref = `/download/${resumePdfFile}`;
+  const { jobs } = dataInfo.experience;
+  const { techSkills } = dataInfo.skills;
+  const { softSkills } = dataInfo.skills;
+  const { toolsSkills } = dataInfo.skills;
+  const { name, secondName, position, email, phone, socials } = dataInfo.first;
+  const { linkedin, telegram } = socials;
+  const { description } = dataInfo.summary;
+  const { languages, educations } = dataInfo;
+
   return (
     <React.Fragment>
       <div
@@ -27,7 +38,7 @@ export default function Home() {
       >
         <div className="container m-auto print:scale-90 print:w-full print:max-w-none">
           <h1 className="relative font-extrabold text-5xl text-[#48AFDE] mb-20 -mt-20  md:px-24 px-5">
-            My resume
+            {t('resume.title')}
           </h1>
 
           <section className="experience relative flex flex-col lg:flex-row px-5 md:px-24">
@@ -36,9 +47,9 @@ export default function Home() {
                 <div className="header__wrapper">
                   <img
                     src="../images/kos.jpg"
-                    alt="Kostiantyn Bielozorov foto"
+                    alt={t('resume.altPhoto')}
                     className="header__foto"
-                    title="Kostiantyn Bielozorov"
+                    title={`${name} ${secondName}`}
                   />
                   <h1 className="header__name">
                     {name} <br />
@@ -127,11 +138,11 @@ export default function Home() {
               </div>
               <div className="skills">
                 <h2 className="skills__title text-[#e9b200] py-2 font-bold mt-6 mb-6 md:text-xl">
-                  Skills
+                  {t('resume.skills')}
                 </h2>
                 <div className="technologies">
                   <h3 className="technologies__title mb-4 mt-4 text-[#48AFDE]">
-                    technical skills
+                    {t('resume.technicalSkills')}
                   </h3>
                   <ul className="technologies__list">
                     {techSkills.map((techSkill, index) => (
@@ -143,7 +154,7 @@ export default function Home() {
                 </div>
                 <div className="programs">
                   <h3 className="programs__title mt-4 mb-4">
-                    programs & tools
+                    {t('resume.programsTools')}
                   </h3>
                   <ul className="programs__list">
                     {toolsSkills.map((toolsSkill, index) => (
@@ -154,7 +165,9 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="soft">
-                  <h3 className="soft__title mt-4 mb-4">soft skills</h3>
+                  <h3 className="soft__title mt-4 mb-4">
+                    {t('resume.softSkills')}
+                  </h3>
                   <ul className="soft__list">
                     {softSkills.map((softSkill, index) => (
                       <li key={index} className="soft__list-item">
@@ -166,7 +179,7 @@ export default function Home() {
               </div>
               <div className="languages">
                 <h2 className="languages__title text-[#e9b200] py-2 font-bold md:text-xl">
-                  Languages
+                  {t('resume.languages')}
                 </h2>
                 <ul className="languages__list">
                   {languages.map((language, index) => (
@@ -180,12 +193,12 @@ export default function Home() {
             <div className="right-column">
               <div className="summary-right">
                 <h2 className="summary__title text-[#e9b200] py-2 font-bold md:text-xl">
-                  Summary
+                  {t('resume.summary')}
                 </h2>
                 <p className="summary__description">{description}</p>
               </div>
               <h2 className="experience__title text-[#e9b200] py-2 font-bold md:text-xl">
-                Experience
+                {t('resume.experience')}
               </h2>
               <ul className="experience__list pb-10">
                 {jobs.map((job, index) => (
@@ -196,7 +209,7 @@ export default function Home() {
               </ul>
               <div className="education">
                 <h2 className="education__title text-[#e9b200] py-2 font-bold md:text-xl">
-                  Education
+                  {t('resume.education')}
                 </h2>
                 <ul className="education__list">
                   {educations.map((education, index) => (
@@ -223,20 +236,20 @@ export default function Home() {
 
           <div className="px-5 md:px-24 text-center flex flex-col sm:flex-row sm:justify-between">
             <a
-              href="../download/qa-engineer-k.bielozorov.pdf"
-              download="qa-engineer-k.bielozorov.pdf"
-              title="Click to download my resume"
+              href={resumePdfHref}
+              download={resumePdfFile}
+              title={t('resume.downloadTitle')}
               className={`cursor-pointer inline-block bg-[#e9b200] transition-all duration-300 ease-in-out rounded-lg text-white py-3 px-5 font-bold mt-8 uppercase md:py-2 lg:py-3 lg:px-8 md:text-xs lg:text-base md:mt-5 xl:mt-10 hover:bg-[#47AEDE] hover:show-lg transform hover:translate-y-1 print:hidden`}
             >
-              Download my resume
+              {t('resume.download')}
             </a>
             <Link
               to="/#home"
               id="back-to-home"
-              title="Click to return to home page"
+              title={t('resume.backHomeTitle')}
               className={`cursor-pointer inline-block bg-[#47AEDE] transition-all duration-300 ease-in-out rounded-lg text-white py-3 px-5 font-bold mt-8 uppercase md:py-2 lg:py-3 lg:px-8 md:text-xs lg:text-base md:mt-5 xl:mt-10 hover:bg-[#e9b200] hover:show-lg transform hover:translate-y-1`}
             >
-              Back to home
+              {t('resume.backHome')}
             </Link>
           </div>
         </div>

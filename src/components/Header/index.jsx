@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+import LanguageSwitcher from '../LanguageSwitcher';
 import '../Header/DiagonalDrawer.css';
 import Drawer from './DiagonalDrawer';
 
 export default function Header() {
+  const { t } = useTranslation();
   const [selectedIndex1, setSelectedIndex1] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -101,7 +104,7 @@ export default function Header() {
         />
       </div>
       <header
-        className={`${isScrolled ? 'headerShow' : ''} w-full fixed top-0 z-50 transition-all duration-500 print:hidden`}
+        className={`${isScrolled ? 'headerShow' : ''} ${location.pathname === '/my-resume' ? 'page-my-resume' : ''} w-full fixed top-0 z-50 transition-all duration-500 print:hidden`}
       >
         <div className="sm:visible xl:invisible relative">
           <div
@@ -121,7 +124,7 @@ export default function Header() {
         </div>
 
         <nav className="invisible xl:visible xl:max-w-4xl 2xl:max-w-[60rem] mx-auto ">
-          <ul className="menu flex font-recoletaBlack flex-row items-center h-24">
+          <ul className="menu flex w-full font-recoletaBlack flex-row items-center h-24">
             <li className="group text-2xl relative font-bold mr-20">
               {selectedIndex1 === 0 ? (
                 <span className="menu-effect transform opacity-100 -rotate-12 group-hover:-rotate-12 group-hover:opacity-100"></span>
@@ -135,7 +138,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Home
+                {t('nav.home')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -151,7 +154,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Experience
+                {t('nav.experience')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -167,7 +170,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                About Me
+                {t('nav.aboutMe')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -183,8 +186,11 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Contact Me
+                {t('nav.contactMe')}
               </NavigationLink>
+            </li>
+            <li className="flex items-center ml-auto pl-8">
+              <LanguageSwitcher />
             </li>
           </ul>
         </nav>

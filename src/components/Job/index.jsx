@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Job({
   fromYear,
@@ -11,6 +13,8 @@ export default function Job({
   responsibilities,
   achievements,
 }) {
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
       <div className="date">
@@ -38,7 +42,9 @@ export default function Job({
           <span className="company__location">{companyCity}</span>
         </div>
         <div className="responsibilities">
-          <h3 className="responsibilities-title">Responsibilities:</h3>
+          <h3 className="responsibilities-title">
+            {t('job.responsibilities')}
+          </h3>
           <ul className="responsibilities-list">
             {responsibilities.map((item, index) => (
               <li key={index} className="list__item">
@@ -48,7 +54,7 @@ export default function Job({
           </ul>
         </div>
         <div className="achievements">
-          <h3 className="achievements-title">Achievements:</h3>
+          <h3 className="achievements-title">{t('job.achievements')}</h3>
           <ul className="achievements-list">
             {achievements.map((item, index) => (
               <li key={index} className="list__item">

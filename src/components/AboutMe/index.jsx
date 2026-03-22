@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import { dataInfo } from '../../info';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { usePortfolioData } from '../../info';
 
 import './aboutme.css';
 
-const { about } = dataInfo;
-
 export default function AboutMe() {
+  const { t, i18n } = useTranslation();
+  const dataInfo = usePortfolioData();
+  const { about } = dataInfo;
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [isFaded, setIsFaded] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [mapData, setMapData] = useState(about.skills[0]);
+
+  // Re-bind detail panel to the same skill index when locale changes (useState init only runs once).
+  useEffect(() => {
+    const skill = about.skills[selectedIndex];
+    if (skill) setMapData(skill);
+  }, [i18n.language]);
 
   const myFunctions = data => {
     setIsFlipped(false);
@@ -48,7 +58,7 @@ export default function AboutMe() {
       >
         <div className="container m-auto">
           <h1 className="text-[240px] w-[80%] overflow-hidden absolute lg:left-40 md:left-30 top-[-50px]  text-[#EAF7FC]">
-            About Me
+            {t('about.watermark')}
           </h1>
           <h1 className="relative font-extrabold text-5xl  text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
             {about.title}
@@ -139,7 +149,7 @@ export default function AboutMe() {
                 <p
                   className={`text-[#47626D]  text-lg sm:text-base lg:text-xl transition duration-500 transform opacity-100 undefined undefined`}
                 >
-                  My skills in
+                  {t('about.skillsIn')}
                 </p>
                 <h2 className="font-recoletaBold text-[#47626D] text-3xl sm:text-2xl md:text-3xl mb-6 w-44 md:w-64 lg:w-72 transition duration-500 transform opacity-100 undefined undefined">
                   {mapData?.title}

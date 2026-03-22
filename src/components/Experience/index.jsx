@@ -1,13 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { dataInfo } from '../../info';
+
+import { usePortfolioData } from '../../info';
 import Job from '../Job';
 import './experience.css';
 
-const { title, description, jobs } = dataInfo.experience;
-const firstTwoJobs = jobs.slice(0, 2);
-
 export default function Experience() {
+  const { t } = useTranslation();
+  const dataInfo = usePortfolioData();
+  const { title, description, jobs } = dataInfo.experience;
+  const firstTwoJobs = jobs.slice(0, 2);
+
   return (
     <React.Fragment>
       <div
@@ -21,7 +25,7 @@ export default function Experience() {
       >
         <div className="container m-auto">
           <p className="text-[240px] w-[80%] overflow-hidden absolute lg:left-40 md:left-30 top-[-50px]  text-[#F7FBFD]">
-            Experience
+            {t('experience.watermark')}
           </p>
           <h1 className="relative font-extrabold text-5xl text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
             {title}
@@ -41,10 +45,10 @@ export default function Experience() {
           </section>
           <div className="px-5 md:px-24">
             <Link
-              to="/my-resume/#my-resume"
+              to="/my-resume"
               className={`cursor-pointer inline-block bg-[#e9b200] transition-all duration-300 ease-in-out rounded-lg text-white py-3 px-5 font-bold mt-8 uppercase md:py-2 lg:py-3 lg:px-8 md:text-xs lg:text-base md:mt-5 xl:mt-10 hover:bg-[#47AEDE] hover:show-lg transform hover:translate-y-1`}
             >
-              View my full resume
+              {t('experience.viewFullResume')}
             </Link>
           </div>
         </div>

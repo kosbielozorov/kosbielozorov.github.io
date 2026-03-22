@@ -1,10 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Education({ certification, company, year, city }) {
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
       <div>
-        <span className="education__description">Certification | </span>
+        <span className="education__description">
+          {t('education.certification')}
+        </span>
         {certification}
       </div>
       <div>
