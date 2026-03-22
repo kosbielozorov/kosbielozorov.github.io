@@ -59,11 +59,17 @@ body {
   border-style: solid;
 }
 
-.menu li:nth-last-child(-n + 2) .menu-effect {
+.menu li:nth-last-child(-n + 3) .menu-effect {
   background-color: #e9b200;
 }
 
 .headerShow ul.menu .menu-effect {
+  background-color: #48afde;
+}
+
+/* Resume page: menu tick uses brand blue on hover and when active */
+header.page-my-resume ul.menu li.group:hover .menu-effect,
+header.page-my-resume ul.menu .menu-effect.opacity-100 {
   background-color: #48afde;
 }
 
