@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "home": "Головна",
+    "experience": "Досвід",
+    "aboutMe": "Про мене",
+    "contactMe": "Контакти"
+  },
+  "hero": {
+    "hiThere": "Вітаю!",
+    "imName": "Я — {{name}}",
+    "experience": "Досвід",
+    "myResume": "Моє резюме"
+  },
+  "experience": {
+    "watermark": "Досвід",
+    "viewFullResume": "Повне резюме"
+  },
+  "about": {
+    "watermark": "Про мене",
+    "skillsIn": "Мої навички в"
+  },
+  "contact": {
+    "watermark": "Контакти",
+    "gitHub": "GitHub",
+    "linkedIn": "LinkedIn",
+    "gmail": "Gmail",
+    "telegram": "Telegram"
+  },
+  "drawer": {
+    "followMe": "Стежте за мною"
+  },
+  "cta": {
+    "backToTop": "Нагору"
+  },
+  "job": {
+    "responsibilities": "Обовʼязки:",
+    "achievements": "Досягнення:"
+  },
+  "education": {
+    "certification": "Сертифікат | "
+  },
+  "resume": {
+    "title": "Моє резюме",
+    "skills": "Навички",
+    "technicalSkills": "технічні навички",
+    "programsTools": "програми та інструменти",
+    "softSkills": "гнучкі навички",
+    "languages": "Мови",
+    "summary": "Підсумок",
+    "experience": "Досвід",
+    "education": "Освіта",
+    "download": "Завантажити резюме",
+    "backHome": "На головну",
+    "downloadTitle": "Натисніть, щоб завантажити резюме",
+    "backHomeTitle": "Повернутися на головну",
+    "altPhoto": "Фото Костянтина Бєлозорова",
+    "profileImageAlt": "фото профілю"
+  },
+  "langSwitcher": {
+    "en": "EN",
+    "uk": "UA"
+  },
+  "notFound": {
+    "pageTitle": "404 | Сторінку не знайдено",
+    "heading": "Сторінку не знайдено",
+    "description": "Такої сторінки немає або посилання застаріло.",
+    "backHome": "На головну"
+  }
+}

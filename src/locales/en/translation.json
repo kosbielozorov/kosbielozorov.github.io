@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "home": "Home",
+    "experience": "Experience",
+    "aboutMe": "About Me",
+    "contactMe": "Contact Me"
+  },
+  "hero": {
+    "hiThere": "Hi There!",
+    "imName": "I'm {{name}}",
+    "experience": "Experience",
+    "myResume": "My resume"
+  },
+  "experience": {
+    "watermark": "Experience",
+    "viewFullResume": "View my full resume"
+  },
+  "about": {
+    "watermark": "About Me",
+    "skillsIn": "My skills in"
+  },
+  "contact": {
+    "watermark": "Contact me",
+    "gitHub": "GitHub",
+    "linkedIn": "LinkedIn",
+    "gmail": "Gmail",
+    "telegram": "Telegram"
+  },
+  "drawer": {
+    "followMe": "Follow me Around"
+  },
+  "cta": {
+    "backToTop": "Back to top"
+  },
+  "job": {
+    "responsibilities": "Responsibilities:",
+    "achievements": "Achievements:"
+  },
+  "education": {
+    "certification": "Certification | "
+  },
+  "resume": {
+    "title": "My resume",
+    "skills": "Skills",
+    "technicalSkills": "technical skills",
+    "programsTools": "programs & tools",
+    "softSkills": "soft skills",
+    "languages": "Languages",
+    "summary": "Summary",
+    "experience": "Experience",
+    "education": "Education",
+    "download": "Download my resume",
+    "backHome": "Back to home",
+    "downloadTitle": "Click to download my resume",
+    "backHomeTitle": "Click to return to home page",
+    "altPhoto": "Kostiantyn Bielozorov photo",
+    "profileImageAlt": "my profile photo"
+  },
+  "langSwitcher": {
+    "en": "EN",
+    "uk": "UA"
+  },
+  "notFound": {
+    "pageTitle": "404 | Page not found",
+    "heading": "Page not found",
+    "description": "This page does not exist or the link is outdated.",
+    "backHome": "Back to home"
+  }
+}
