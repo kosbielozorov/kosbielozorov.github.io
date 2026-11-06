@@ -14,11 +14,48 @@ export default function Job({
   achievements,
 }) {
   const { t } = useTranslation();
+  const start = [fromMonth, fromYear].filter(Boolean).join(' ');
+  const end = [toMonth, toYear].filter(Boolean).join(' ');
 
   return (
     <React.Fragment>
-      <div className="date">
-        <p className="end">{`${toMonth} ${toYear}`}</p>
+      {/* Text first in DOM so parsers read "title → company → dates"; the badge is decorative. */}
+      <div className="info">
+        <h3 className="item__title">{position}</h3>
+        <div className="company">
+          <span className="company__name">{companyName}</span>
+          <span> – </span>
+          <span className="company__location">{companyCity}</span>
+        </div>
+        <p className="job__period">
+          {start} – {end}
+        </p>
+        {/* Achievements first: recruiters scan only the top bullets of each role. */}
+        <div className="achievements">
+          <h4 className="achievements-title">{t('job.achievements')}</h4>
+          <ul className="achievements-list">
+            {achievements.map((item, index) => (
+              <li key={index} className="list__item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="responsibilities">
+          <h4 className="responsibilities-title">
+            {t('job.responsibilities')}
+          </h4>
+          <ul className="responsibilities-list">
+            {responsibilities.map((item, index) => (
+              <li key={index} className="list__item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="date" aria-hidden="true">
+        <p className="end">{end}</p>
         <span className="date-delimiter">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -33,36 +70,6 @@ export default function Job({
         <p className="start">
           {fromMonth} <span>{fromYear}</span>
         </p>
-      </div>
-      <div className="info">
-        <h3 className="item__title">{position}</h3>
-        <div className="company">
-          <span className="company__name">{companyName}</span>
-          <span> - </span>
-          <span className="company__location">{companyCity}</span>
-        </div>
-        <div className="responsibilities">
-          <h3 className="responsibilities-title">
-            {t('job.responsibilities')}
-          </h3>
-          <ul className="responsibilities-list">
-            {responsibilities.map((item, index) => (
-              <li key={index} className="list__item">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="achievements">
-          <h3 className="achievements-title">{t('job.achievements')}</h3>
-          <ul className="achievements-list">
-            {achievements.map((item, index) => (
-              <li key={index} className="list__item">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </React.Fragment>
   );

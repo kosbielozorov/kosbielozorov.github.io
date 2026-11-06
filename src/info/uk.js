@@ -11,8 +11,8 @@ export const portfolioData = {
         url: 'https://www.linkedin.com/in/k-bielozorov/',
       },
       telegram: {
-        name: 'kostya_bels',
-        url: 'tg://resolve?domain=kostya_belozyorov',
+        name: 'Kostya',
+        url: 'tg://resolve?domain=kostya_bels',
       },
       github: {
         name: 'Kostiantyn Bielozorov',
@@ -201,7 +201,7 @@ export const portfolioData = {
       },
       {
         count: 6,
-        title: 'Софт-навички та інструменти',
+        title: 'Програми та інструменти',
         img: '/images/sixth.svg',
         array: [
           'Git',

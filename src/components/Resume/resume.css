@@ -166,44 +166,49 @@
   }
 }
 
-/* Experience section */
-.left-column {
+/* Layout: DOM order is profile → main (summary, experience, education) → aside
+   (skills, languages), so parsers and print read a single logical column.
+   On wide screens the grid restores the two-column look. */
+.resume-grid {
+  display: flex;
+  flex-direction: column;
+
   @media (min-width: 1024px) {
-    width: 40%;
-  }
-
-  @media (min-width: 1110px) {
-    width: 40%;
-  }
-
-  @media print {
-    width: 40%;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 2rem;
   }
 }
 
-.left-column h3 {
+.resume-profile {
+  @media (min-width: 1024px) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.resume-aside {
+  @media (min-width: 1024px) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+.resume-main {
+  @media (min-width: 1024px) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    padding-left: 2rem;
+    border-left: 1px solid #d4d4d4;
+  }
+}
+
+.resume-aside h3 {
   text-transform: uppercase;
   color: #48afde;
   font-size: 1.17rem;
   font-weight: bold;
-}
-
-.right-column {
-  @media (min-width: 1110px) {
-    width: 67%;
-    padding-left: 2rem;
-    border-left: 1px solid #d4d4d4;
-  }
-
-  @media ((min-width: 1280px) and (max-width: 1535px)) {
-    width: 60%;
-  }
-
-  @media print {
-    width: 67%;
-    padding-left: 2rem;
-    border-left: 1px solid #d4d4d4;
-  }
 }
 
 /* Education section */
@@ -259,38 +264,270 @@
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 8mm 10mm;
+  }
+
   #resume {
+    min-height: 0;
     padding: 0;
-    margin: -150px;
+    font-size: 9pt;
+    line-height: 1.25;
+    color: #222;
   }
 
-  #resume .container > h1,
-  #back-to-home {
-    display: none;
-  }
-
-  .container {
-    width: 1680px;
+  #resume .container {
+    width: auto;
+    max-width: none;
     margin: 0;
     padding: 0;
   }
 
-  .experience {
-    display: flex !important;
-    flex-direction: row !important;
+  .resume-page-title {
+    display: none;
   }
 
-  .left-column {
-    width: 35% !important;
-    margin-right: 2rem;
+  /* One column, in DOM order, so the PDF text layer reads top to bottom. */
+  #resume .resume-grid {
+    display: block;
+    padding: 0;
   }
 
-  .right-column {
-    width: 65% !important;
+  #resume .resume-main {
+    padding: 0;
+    border: none;
   }
 
-  /* Ensure proper page breaks */
-  .experience__list-item {
+  /* Header: photo + "Name Surname" on one line + title */
+  #resume .header__wrapper {
+    align-items: center;
+  }
+
+  #resume .header__foto {
+    width: 44px;
+  }
+
+  #resume .header__name {
+    font-size: 17pt;
+    margin-left: 0.6rem;
+  }
+
+  #resume .header__name br {
+    display: none;
+  }
+
+  #resume .position-description {
+    font-size: 10.5pt;
+    margin: 0.15rem 0 0.25rem;
+  }
+
+  /* Contacts in one wrapped row, separated by "|" (kept in the PDF text layer) */
+  #resume .summary {
+    border: none;
+    padding: 0;
+  }
+
+  #resume .summary__contacts {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  #resume .summary__contacts .contacts-item {
+    margin: 0;
+  }
+
+  #resume .summary__contacts .contacts-item:not(:last-child)::after {
+    content: '|';
+    margin: 0 0.4rem;
+    color: #aaa;
+  }
+
+  #resume .contacts-item .icon {
+    display: none;
+  }
+
+  /* Section headings */
+  #resume .skills h2,
+  #resume .summary__title,
+  #resume .experience__title,
+  #resume .education__title,
+  #resume .languages__title {
+    font-size: 11.5pt;
+    margin: 0.3rem 0 0.15rem;
+    padding: 0.15rem 0 0;
+    break-after: avoid;
+  }
+
+  #resume .skills,
+  #resume .education,
+  #resume .languages,
+  #resume .summary-right {
+    border-top: 1px solid #d4d4d4;
+    margin: 0;
+    padding: 0;
+  }
+
+  #resume .summary__description {
+    margin: 0;
+    color: #222;
+  }
+
+  /* Experience */
+  #resume .experience__list {
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  #resume .experience__list-item .info {
+    width: 100%;
+  }
+
+  /* Visually separate jobs: divider + spacing, and a stronger job title. */
+  #resume .experience__list-item + .experience__list-item {
+    margin-top: 0.3rem;
+    padding-top: 0.3rem;
+    border-top: 1px solid #dcdcdc;
+  }
+
+  #resume .item__title {
+    padding: 0.15rem 0 0;
+    font-size: 10.5pt;
+    color: #1f2937;
+    break-after: avoid;
+  }
+
+  #resume .experience__list-item .company__name {
+    color: #48afde;
+  }
+
+  #resume .experience__list-item .company,
+  #resume .experience__list-item .job__period {
+    font-size: 9.5pt;
+  }
+
+  #resume .company,
+  #resume .job__period {
+    display: inline;
+    margin: 0;
+  }
+
+  #resume .company::after {
+    content: ' | ';
+  }
+
+  #resume .responsibilities,
+  #resume .achievements {
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  #resume .responsibilities-title,
+  #resume .achievements-title {
+    margin: 0.15rem 0 0;
+    font-size: 9pt;
+    break-after: avoid;
+  }
+
+  #resume .responsibilities-list,
+  #resume .achievements-list {
+    padding-inline-start: 1.1rem;
+    font-weight: 400;
+  }
+
+  #resume .list__item {
     break-inside: avoid;
+  }
+
+  /* Responsibilities as one paragraph ("Responsibilities: a; b; c") to save
+     space; achievements stay as bullets since they matter most. */
+  #resume .responsibilities-title {
+    display: inline;
+  }
+
+  #resume .responsibilities-title::after {
+    content: ' ';
+  }
+
+  #resume .responsibilities-list,
+  #resume .responsibilities-list .list__item {
+    display: inline;
+    padding: 0;
+  }
+
+  #resume .responsibilities-list .list__item:not(:last-child)::after {
+    content: '; ';
+  }
+
+  /* Education: one line per item */
+  #resume .education__list {
+    padding: 0;
+  }
+
+  #resume .education__list-item {
+    margin-bottom: 0.15rem;
+  }
+
+  #resume .education__list-item > div {
+    display: inline;
+  }
+
+  #resume .education__list-item > div:first-child::after {
+    content: ' — ';
+  }
+
+  #resume .education__list-item svg {
+    display: none;
+  }
+
+  /* Skills: "LABEL: a, b, c" instead of a two-column checklist */
+  #resume .skills > div {
+    margin: 0.15rem 0;
+  }
+
+  #resume .resume-aside h3 {
+    display: inline;
+    font-size: 9pt;
+    margin: 0;
+  }
+
+  #resume .resume-aside h3::after {
+    content: ': ';
+  }
+
+  #resume .technologies__list,
+  #resume .programs__list,
+  #resume .soft__list {
+    display: inline;
+  }
+
+  #resume .technologies__list-item,
+  #resume .programs__list-item,
+  #resume .soft__list-item,
+  #resume .soft__list-item:not(:last-child) {
+    display: inline;
+    width: auto;
+    margin: 0;
+  }
+
+  #resume .technologies__list-item:not(:last-child)::after,
+  #resume .programs__list-item:not(:last-child)::after,
+  #resume .soft__list-item:not(:last-child)::after {
+    content: ', ';
+  }
+
+  #resume .skills .icon {
+    display: none;
+  }
+
+  /* Languages inline */
+  #resume .languages__list,
+  #resume .languages__list-item {
+    display: inline;
+  }
+
+  #resume .languages__list-item:not(:last-child)::after {
+    content: '; ';
   }
 }
