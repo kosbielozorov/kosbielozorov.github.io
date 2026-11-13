@@ -9,9 +9,10 @@
   live GitHub Pages deployment (`DEV_BASE_APP_URL` is the local Vite server).
 - Out of scope: content typos in the English skills — `Inbacket/MailPit` (→ `Inbucket/MailPit`) and
   `Black/Grey White box testing` (→ `Black/Grey/White box testing`); a content fix in
-  `../src/info/en.js`, texts are not pinned by tests (O-4, O-5, 2026-11-12).
+  `../src/info/en.js`, texts are not pinned by tests (O-4, O-5, 2026-11-12); fixed 2026-11-13.
 - Out of scope: the university degree labelled `Certification | …` like the courses — a content
-  wording issue in `../src/info/`, not tested (O-7, 2026-11-12).
+  wording issue in `../src/info/`, not tested (O-7, 2026-11-12); brief:
+  `specs/known-defects/CONTENT-1-typos.md` (waits for the owner's wording).
 
 - Out of scope: "Back to home" checked in Ukrainian too — the same link and `href`, only the text is
   translated, and texts are not pinned by tests (Q-1, 2026-11-13).
@@ -151,9 +152,3 @@
 **Expected:**
 
 - No console errors and no failed requests, in both languages (O-14; confirmed by the site owner, 2026-11-12).
-
-## Known defects
-
-- F-1 / `@bug-RESUME-1` (2026-11-12): scenario 1.3 — the Ukrainian PDF is byte-identical to the English one (English text, `Title "Vite + React"`, created 2025-01-28).
-- F-2 / `@bug-RESUME-2` (2026-11-12): scenario 1.7 — at 375 px in Ukrainian the name heading overflows; the page is 392 px wide.
-- F-3 / `@bug-RESUME-3` (2026-11-12): scenario 1.6 — two `meta description` tags; the static English one from `index.html` comes first.

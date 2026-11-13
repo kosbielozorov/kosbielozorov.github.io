@@ -136,13 +136,11 @@
 .header__name {
   margin-left: 1rem;
   /* color: #48afde; */
-  font-size: 1.5em;
+  /* Scales with the screen on phones so the long Ukrainian surname fits beside the photo;
+     2em from ~470 px up, as before. */
+  font-size: clamp(1.25em, 6.8vw, 2em);
   font-weight: 600;
   text-transform: uppercase;
-
-  @media (min-width: 360px) {
-    font-size: 2em;
-  }
 
   @media (min-width: 1110px) {
     font-size: 2.2em;

@@ -138,12 +138,10 @@ for (const {
       },
     );
 
-    // Pinned product defect RESUME-3 (specs/resume-page.md → Known defects): the static English
-    // description from index.html stays next to the page's own. Turns red once fixed.
-    test.fail(
+    test(
       `has a single meta description in ${language}`,
       {
-        tag: ['@unlinked', '@bug-RESUME-3'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/resume-page.md#1.6' },
         ],
@@ -208,12 +206,10 @@ test.describe('Resume page — language and navigation', () => {
     },
   );
 
-  // Pinned product defect RESUME-1 (specs/resume-page.md → Known defects): the Ukrainian PDF is a
-  // copy of the English one. Turns red once a Ukrainian resume is published.
-  test.fail(
+  test(
     'the Ukrainian PDF differs from the English one',
     {
-      tag: ['@unlinked', '@bug-RESUME-1'],
+      tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/resume-page.md#1.3' }],
     },
     async ({ pageManager: { resumePage } }) => {
@@ -250,12 +246,10 @@ test.describe('Resume page on a phone', () => {
   test.describe('in Ukrainian', () => {
     test.use({ locale: 'uk-UA' });
 
-    // Pinned product defect RESUME-2 (specs/resume-page.md → Known defects): the Ukrainian name
-    // heading overflows a 375 px screen. Turns red once fixed.
-    test.fail(
+    test(
       'fits the screen in Ukrainian',
       {
-        tag: ['@unlinked', '@bug-RESUME-2'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/resume-page.md#1.7' },
         ],

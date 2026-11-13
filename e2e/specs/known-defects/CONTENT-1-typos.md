@@ -1,4 +1,4 @@
-# CONTENT-1 — Typos and a wrong label in the English resume data
+# CONTENT-1 — The university degree is labelled as a certificate
 
 - **Severity:** low — visible to every English reader of the resume and the home
   page.
@@ -6,17 +6,12 @@
   (`e2e/specs/resume-page.md`, O-4, O-5, O-7 — out of scope for tests: texts are
   content, not pinned).
 - **Pinned test:** none. This is a content edit; the e2e tests must stay green.
+- **Paths:** relative to the site repository root; e2e commands run from `e2e/`.
 
 ## Fix
 
-All in `src/info/en.js` (the Ukrainian data `src/info/uk.js` is already right
-for 1 and 2):
-
-| #   | Line (approx.) | Now                                              | Should be                        |
-| --- | -------------- | ------------------------------------------------ | -------------------------------- |
-| 1   | 210            | `'Inbacket / MailPit'` (home → Soft and Tools)   | `'Inbucket / MailPit'`           |
-| 2   | 259            | `'Inbacket/MailPit'` (resume → programs & tools) | `'Inbucket/MailPit'`             |
-| 3   | 228            | `'Black/Grey White box testing'`                 | `'Black/Grey/White box testing'` |
+Items 1–3 (`Inbacket` → `Inbucket` twice, `Black/Grey White` → `Black/Grey/White` in
+`src/info/en.js`) were fixed on 2026-11-13. Left:
 
 **4 — needs the owner's wording first.** The university degree (Bila Tserkva
 National Agrarian University, 2000–2005,
@@ -31,8 +26,9 @@ before changing it.
 
 ## Done when
 
-- `grep -rn "Inbacket\|Black/Grey White" src/` finds nothing.
 - Item 4: done only with the owner's wording, in both languages.
 - `npm run lint` and `npm run build` pass; from `e2e/`, the `resume-page` tests
   stay green
   (`npx playwright test tests/ui/resume-page.test.ts --project=chromium`).
+
+Change the site, never the expected value in a test. Prove it: from `e2e/`, `npx playwright test tests/ui/resume-page.test.ts --project=chromium` and `npm run verify`; from the repo root, `npm run lint` and `npm run build`. Do not commit or push without the owner's OK.
