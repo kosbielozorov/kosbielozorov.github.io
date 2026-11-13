@@ -86,7 +86,7 @@ not committed. Format: `Q-1: <question> → out of scope`.
 Done when `check` reports every gap closed and `npm run gaps` reports `0 gap(s), 0 other error(s)`.
 
 **4. Run.** The exact command, the result, and per failure its class from contract **Healing**
-(`test` / `product` / `data` / `environment`) with the evidence. `product` → an `F-n` line, a pin, and a line under the spec's **Known defects** (committed);
+(`test` / `product` / `data` / `environment`) with the evidence. `product` → an `F-n` line, a pin, a line under the spec's **Known defects** and its brief in `specs/known-defects/` (both committed);
 `environment` → a `B-n` line and status `blocked`. A blocked run is never a pass.
 
 **5. Review.** The `test-code-reviewer` report, recorded by the runner (the reviewer itself is

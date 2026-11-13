@@ -56,7 +56,7 @@ Create `specs/<feature>.md` using this structure:
 
 ## Known defects
 
-- F-n / `@bug-<id>` (<date>): scenarios <N.M> — <what the app does instead of the requirement>
+- F-n / `@bug-<id>` (<date>): scenarios <N.M> — <what the app does instead of the requirement> → `specs/known-defects/<id>-<slug>.md`
 ```
 
 ### Characterization flow (legacy app, no requirement)
@@ -104,4 +104,4 @@ If the user wants the plan **challenged** first (grill / audit / strategy stress
 - Do **not** invent real `@S` / `@T` ids — resolve via `testomatio-mcp`, or mark the scenario `@unlinked` (the tests then carry `@unlinked`; Framework contract → **Test ids**).
 - **Trace every requirement clause.** Split the requirement into clauses (one checkable statement each). Every clause must map to an **Expected** line, to **Out of scope** (with the reason), or to a `Q-n`. A clause with none is a missing Expected line. When run from `automate-feature`, this trace is shown at Gate 1.
 - **Expected** lines are the oracle: take them from the requirement, never from the current app. Unclear expected outcome → a `Q-n`; do not guess (Framework contract → **Map and oracle**). In the characterization flow the requirement is a **confirmed observation** — an observation alone never becomes an Expected line.
-- **Every question ends in this file** (the handoff in `.work/` is not committed): answered as a requirement → an **Expected** line or scenario citing `Q-n`; out of scope → a line under **Out of scope** with the reason; not decided yet → a line under **Open questions** with an owner. Remove the line from **Open questions** when it is decided. **Known defects** lists every pinned product defect (`test.fail()` + `@bug-<id>`); remove the line when the bug is fixed and the pin removed. Empty sections may be dropped.
+- **Every question ends in this file** (the handoff in `.work/` is not committed): answered as a requirement → an **Expected** line or scenario citing `Q-n`; out of scope → a line under **Out of scope** with the reason; not decided yet → a line under **Open questions** with an owner. Remove the line from **Open questions** when it is decided. **Known defects** lists every pinned product defect (`test.fail()` + `@bug-<id>`), each linking its defect brief `specs/known-defects/<id>-<slug>.md` (from `ai/templates/known-defect.template.md`: expected, actual, repro, cause, suggested fix, done when — enough for a human or an AI agent to fix it); remove the line and delete the brief when the bug is fixed and the pin removed. Empty sections may be dropped.

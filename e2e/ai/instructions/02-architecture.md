@@ -116,12 +116,12 @@ name)` (`BaseController`) **[lint: `contract/characterization`]**; no screenshot
 
 **First classify the failure** with concrete evidence (trace, error, live re-check — skill `trace-triage`):
 
-| Class           | Meaning                                                             | Action                                                                                                                                     |
-| --------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **test**        | Locator, POM method, fixture or test code no longer matches the app | Heal in the order below                                                                                                                    |
-| **product**     | The app behaves differently from the requirement (**oracle**)       | Do **not** heal. Report it; ask the user for the bug id; pin with `test.fail()` + `@bug-<id>` in `tag: []`. Expected value stays unchanged |
-| **data**        | Test data collides, is missing, or is not parallel-safe             | Fix the data / fixture, not the assertion                                                                                                  |
-| **environment** | App, API, network or credentials unavailable                        | Report as `blocked`. A blocked run is never "passed"; do not add retries or timeouts to mask it                                            |
+| Class           | Meaning                                                             | Action                                                                                                                                                                                           |
+| --------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **test**        | Locator, POM method, fixture or test code no longer matches the app | Heal in the order below                                                                                                                                                                          |
+| **product**     | The app behaves differently from the requirement (**oracle**)       | Do **not** heal. Report it; ask the user for the bug id; pin with `test.fail()` + `@bug-<id>` in `tag: []`, write its brief `specs/known-defects/<id>-<slug>.md`. Expected value stays unchanged |
+| **data**        | Test data collides, is missing, or is not parallel-safe             | Fix the data / fixture, not the assertion                                                                                                                                                        |
+| **environment** | App, API, network or credentials unavailable                        | Report as `blocked`. A blocked run is never "passed"; do not add retries or timeouts to mask it                                                                                                  |
 
 Unsure between **test** and **product** → ask the user; do not pick the one that makes the run green.
 

@@ -69,7 +69,7 @@ Cursor and Claude load the same tree via symlinks (`.cursor/skills/*`, `.claude/
 
 Skill `automate-feature` runs the whole chain with three approval gates. Work on one feature that spans several steps (scenarios → tests and gaps → implementation → run → review) keeps its state in `.work/<feature>/handoff.md`, not in chat: `npm run handoff -- init <feature>`, then `npm run handoff -- check <feature>` after each step. Format, gates and ids: `08-handoff.md`.
 
-**Legacy app without requirements:** skill `characterize-feature` maps the app (`specs/app-map.md`), records what a feature does as observations, pins the zone with temporary `@characterization` scaffolding, and has you triage every observation at Gate 1. Confirmed observations become the spec's Expected lines; then `automate-feature` continues from step 2 on the same handoff (`Flow: characterization`).
+**Legacy app without requirements:** skill `characterize-feature` maps the app (`specs/app-map.md`) and ranks its zones (impact × exposure, dependents; zone `Z-0 Smoke` — the whole app shallowly — first), records what a feature does as observations, pins the zone with temporary `@characterization` scaffolding, and has you triage every observation at Gate 1. Confirmed observations become the spec's Expected lines; then `automate-feature` continues from step 2 on the same handoff (`Flow: characterization`).
 
 ## Test first: `npm run gaps`
 

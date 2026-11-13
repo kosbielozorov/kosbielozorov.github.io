@@ -47,6 +47,9 @@ Read first: `ai/project.md` (env, **Legacy sources**), `ai/instructions/02-archi
 - **No framework code before Gate 1.** Scaffolding before Gate 1 is page level only, through the
   generic `pageManager.anyPage`; new Page Objects / controllers come only through the gap plan of
   `automate-feature`, after Gate 1.
+- **Breadth before depth.** Zone **Z-0 Smoke** (the entry page, every route, the global navigation)
+  is the first zone covered; no other zone is recommended at Gate A until Z-0 is `covered`, unless
+  the human skips it there (see **Ranking**).
 - Gates, evidence, blocked items, ids, questions, commits: exactly as in `automate-feature` →
   **Rules**. You number the questions (`Q-n`) and the observations (`O-n`).
 
@@ -78,6 +81,34 @@ Asked for a dry run (rehearsal), or no permission to write under `specs/` / `tes
   Go-live as in `ai/instructions/08-handoff.md` → **Dry run**, plus: the app map moves to
   `specs/app-map.md` and the scaffolding to `tests/characterization/`, then step 3.2 runs for real.
 
+## Ranking
+
+Zones are covered in this order, and Gate A shows it as a table so the human can see why:
+
+1. **Z-0 Smoke** first — breadth before depth. Its scope is fixed and shallow: the entry page (the
+   first screen after sign-in for an app with one) shows its main parts; every route of the app map
+   opens — no error page, no console error, no failed same-origin request; each item of the global
+   navigation reaches its target. Nothing deeper: the content of a page belongs to its own zone. It
+   goes through the normal flow (observe → triage → Gate 1 → tests), tests tagged `@smoke`. Existing
+   `@smoke` tests that hold it → `covered` / `partial` instead of new work.
+2. Then by **risk = impact × exposure**: a zone every visitor passes (entry page, global navigation,
+   sign-in, language) is at least `medium`; a zone that is the only way to reach others is at least
+   as risky as its riskiest dependent.
+3. Ties: higher exposure first, then more dependents, then cross-cutting zones before the pages that
+   use them.
+
+Never rank by the impact of a page alone: "content only" on the page every visitor sees first is
+not low risk.
+
+```text
+| Zone              | Impact            | Exposure      | Dependents | Risk   | Status     |
+| ----------------- | ----------------- | ------------- | ---------- | ------ | ---------- |
+| Z-0 Smoke         | nothing reachable | every visitor | all        | high   | unexplored |
+| Z-4 Navigation    | pages hidden      | every visitor | Z-1, Z-3   | high   | unexplored |
+| Z-1 Checkout      | money             | most          | —          | high   | unexplored |
+| Z-3 Home page     | first impression  | every visitor | —          | medium | unexplored |
+```
+
 ## 0. Baseline
 
 `npm run verify`, as in `automate-feature` step 0.4. No handoff yet — the feature is named after the
@@ -92,15 +123,22 @@ zone the user picks at Gate A.
    Read only — no writes before Gate A. Third-party hosts (analytics, tracking, CDNs) are not the
    app: list them once under **Third-party hosts** in the app map, never as observations.
 3. Zones, as the template says: high risk (money, permissions, stored data) → one feature per zone;
-   medium / low → grouped by area; **~15 zones at most**. Per zone: entry points, risk, status
-   `unexplored`. A zone partly held by functional tests already → `partial` with a `- Covered:` line
-   (run `ui-coverage-reviewer` / `api-coverage-reviewer` when tests exist). Rank zones by risk.
-4. **Gate A.** Show the zones ranked by risk and the zone you recommend. For that zone ask:
+   medium / low → grouped by area; **~15 zones at most**, plus **Z-0 Smoke**. Per zone: entry points,
+   risk (impact, exposure, dependents), status `unexplored`. A zone partly held by functional tests
+   already → `partial` with a `- Covered:` line (run `ui-coverage-reviewer` /
+   `api-coverage-reviewer` when tests exist; existing `@smoke` tests count for Z-0). Rank the zones
+   as in **Ranking**.
+4. **Gate A.** Show the ranking table (**Ranking**) and the zone you recommend — Z-0 while it is not
+   `covered`. For that zone ask:
    - **the zone** — a group zone picked here is split first: the feature becomes its own `Z-n`;
    - **access**, when part of the zone is behind a sign-in: a saved session (storage state from
      `auth.setup.ts`, run by the human), the human signs in in the browser pane, or no access → the
      protected part is a `B-n` and out of scope. Record it under **Access** in the app map;
    - **the writes** the exploration needs, each with why → **Approved writes** (`W-n`).
+
+   The human may skip Z-0 (e.g. a smoke suite exists elsewhere): record it in Z-0's `- Notes:` and in
+   **Approvals**, then recommend the next zone.
+
 5. After the answer: `npm run handoff -- init <feature>` (kebab-case, after the zone); section 0:
    `- Flow: characterization`, requirement source `none — characterization (Z-n, O-n in the spec)`,
    the Mode; record Gate A in **Approvals**; status as in **Status line**.
@@ -152,12 +190,12 @@ zone the user picks at Gate A.
    wrong inputs) share one question, the others get one each. Four answers; apply the answer the
    same turn to **every** `O-n` it covers — each keeps its own triage cell:
 
-   | Answer                         | Apply                                                                                                                      |
-   | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-   | **Intended** (+ who confirms)  | **Expected** line in its scenario: `… (O-n; confirmed by <who>, <date>)`; triage `intended → N.M`                          |
-   | **Bug, correct value known**   | **Expected** line with the **correct** value and its confirmation; `F-n` + **Known defects**; triage `suspected bug → F-n` |
-   | **Bug, correct value unknown** | **Open questions** line with an owner; no Expected line, no functional test; triage `suspected bug → Q-n`                  |
-   | **Not relevant**               | **Out of scope** line with the reason; triage `out of scope`                                                               |
+   | Answer                         | Apply                                                                                                                                                        |
+   | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+   | **Intended** (+ who confirms)  | **Expected** line in its scenario: `… (O-n; confirmed by <who>, <date>)`; triage `intended → N.M`                                                            |
+   | **Bug, correct value known**   | **Expected** line with the **correct** value and its confirmation; `F-n` + **Known defects** + brief in `specs/known-defects/`; triage `suspected bug → F-n` |
+   | **Bug, correct value unknown** | **Open questions** line with an owner; no Expected line, no functional test; triage `suspected bug → Q-n`                                                    |
+   | **Not relevant**               | **Out of scope** line with the reason; triage `out of scope`                                                                                                 |
 
    A cross-zone contradiction is asked as such: "zone A says X, zone B does Y — which one is
    intended?" One answer may then also mean a `Q-n` or `F-n` for the other zone's spec.
@@ -183,5 +221,5 @@ never the app map, and never use `anyPage`.
    Scenarios still open (`Q-n` with an owner) → keep the scaffolding; status stays `scaffolded`.
 2. `npm run characterization:check` and `npm run verify`.
 3. Final output as in `automate-feature`, plus: zone status, observations by triage
-   (intended / bug / open / out of scope), scaffolding kept or deleted, the next zone by risk from
-   the app map.
+   (intended / bug / open / out of scope), scaffolding kept or deleted, the next zone from the
+   ranking table (**Ranking**), re-ranked if this zone showed new dependents or exposure.

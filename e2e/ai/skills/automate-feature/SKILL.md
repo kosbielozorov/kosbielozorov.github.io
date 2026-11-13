@@ -120,7 +120,9 @@ rules: `ai/instructions/08-handoff.md`. Code rules: `ai/instructions/02-architec
 2. On failure: `trace-triage`, then classify per contract **Healing**:
    - `test` → heal (POM → shared constants → test), re-run;
    - `product` → `F-n` line, ask the user for the bug id, pin with `test.fail()` + `@bug-<id>`, and
-     add a line under the spec's **Known defects**; the expected value stays;
+     add a line under the spec's **Known defects** linking a defect brief
+     `specs/known-defects/<id>-<slug>.md` (`ai/templates/known-defect.template.md`); the expected
+     value stays;
    - `data` → fix data / fixture;
    - `environment` → `B-n` line, status `blocked`.
 3. Section 4: the exact command, the result, each failure with its class and evidence.

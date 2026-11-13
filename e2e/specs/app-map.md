@@ -22,15 +22,31 @@ stored in the browser only (`localStorage.i18nextLng`).
 ## Zones
 
 Granularity: a small static site (3 routes, 2 languages) — one zone per page plus the cross-cutting
-parts (navigation, language, head metadata). Risk is business value for a portfolio: the resume and
-the contacts are what a visitor comes for.
+parts (navigation, language, head metadata). Risk is impact × exposure, then dependents
+(`characterize-feature` → **Ranking**); re-ranked 2026-11-13: the first ranking weighed impact
+alone, so the home page every visitor sees first was "content only" and was left for later.
+
+Order: Z-0 Smoke → Z-4 Navigation → Z-3 Home page → Z-2 Language switching → Z-5 Head metadata →
+Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
+
+### Z-0 Smoke
+
+- Entry points: `/` (the entry page, en and uk); every route — `/`, `/my-resume`, an unknown path
+  (404 page); each item of the header menu and of the drawer → its target
+- Risk: high — impact: nothing else is reachable when it breaks; exposure: every visitor;
+  dependents: all zones
+- Status: unexplored
+- Spec: —
+- Scaffolding: —
+- Notes: `/my-resume` opening and its "Back to home" are already held by
+  `tests/ui/resume-page.test.ts` (Z-1); no `@smoke` tests yet
 
 ### Z-1 Resume page
 
 - Entry points: `/my-resume`; PDF download `/download/qa-engineer-k.bielozorov-{en,ua}.pdf`;
   contact links (mail, phone, LinkedIn, GitHub, Telegram); "Back to home"
-- Risk: high — the main artifact for a recruiter: the PDF must download in the visitor's language,
-  the contacts must be right
+- Risk: high — impact: the main artifact for a recruiter: the PDF must download in the visitor's
+  language, the contacts must be right; exposure: most (reached from the home page); dependents: —
 - Status: covered
 - Spec: `specs/resume-page.md`
 - Scaffolding: —
@@ -40,7 +56,8 @@ the contacts are what a visitor comes for.
 
 - Entry points: the `EN | UA` group in the header and in the drawer; `localStorage.i18nextLng`;
   browser language detection; `<html lang>`; every text of every page
-- Risk: high — the whole site exists twice; a wrong or mixed language is visible on every page
+- Risk: high — impact: the whole site exists twice; a wrong or mixed language is visible on every
+  page; exposure: every visitor; dependents: — (cross-cutting: every page's text)
 - Status: unexplored
 - Spec: —
 - Scaffolding: —
@@ -49,7 +66,8 @@ the contacts are what a visitor comes for.
 
 - Entry points: `/` — sections `#home`, `#experience`, `#about-me` (skills tabs), `#contact-me`;
   links to `/my-resume`
-- Risk: medium — the landing page; content only
+- Risk: high — impact: the first impression — who the owner is, experience, skills, contacts;
+  exposure: every visitor (the entry page); dependents: Z-1 (the resume is reached from here)
 - Status: unexplored
 - Spec: —
 - Scaffolding: —
@@ -61,7 +79,8 @@ the contacts are what a visitor comes for.
 - Entry points: header menu (`/#home`, `/#experience`, `/#about-me`, `/#contact-me`), the diagonal
   drawer (mobile / narrow screens), cross-page anchors from `/my-resume` and the 404 page, sticky
   header on scroll
-- Risk: medium — a broken anchor hides a section
+- Risk: high — impact: a broken anchor or menu hides a section or a page; exposure: every visitor;
+  dependents: Z-3 sections, Z-1 (from the drawer and the 404 page)
 - Status: unexplored
 - Spec: —
 - Scaffolding: —
@@ -70,7 +89,8 @@ the contacts are what a visitor comes for.
 
 - Entry points: `<title>`, `meta description`, Open Graph / Twitter tags, `canonical`, `robots` on
   every route and language
-- Risk: medium — what search engines and link previews show
+- Risk: medium — impact: what search engines and link previews show; exposure: every visitor
+  arriving from a search or a shared link; dependents: —
 - Status: unexplored
 - Spec: —
 - Scaffolding: —
@@ -81,7 +101,7 @@ the contacts are what a visitor comes for.
 
 - Entry points: any unknown path → 404 page, "Back to home" → `/`; on GitHub Pages `404.html` is the
   SPA shell (`vite.config.js`), so `/my-resume` on the live site answers HTTP 404 with the app
-- Risk: low — an edge path
+- Risk: low — impact: a lost visitor gets no way back; exposure: few (an edge path); dependents: —
 - Status: unexplored
 - Spec: —
 - Scaffolding: —
@@ -89,7 +109,8 @@ the contacts are what a visitor comes for.
 ### Z-7 Footer and call to action
 
 - Entry points: footer, the call-to-action block on every page
-- Risk: low — presentation
+- Risk: medium — impact: presentation, the call to contact; exposure: every visitor (every page);
+  dependents: —
 - Status: unexplored
 - Spec: —
 - Scaffolding: —

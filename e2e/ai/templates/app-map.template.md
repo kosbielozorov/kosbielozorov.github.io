@@ -27,10 +27,33 @@ Granularity: high risk (money, permissions, stored data) → one feature per zon
 grouped by area. Keep the map at **~15 zones** at most. A group picked at Gate A is split first: the
 picked feature becomes a new zone (next free id), the group keeps the rest.
 
+Risk is **impact × exposure**, then **dependents** (skill `characterize-feature` → **Ranking**):
+
+- **impact** — what breaks for whom (money, permissions, stored data, or another reason in words);
+- **exposure** — who passes through it: `every visitor` (the entry page, global navigation, sign-in),
+  `most`, `few`. A zone every visitor passes is at least `medium`;
+- **dependents** — zones reached only through this one. A zone is at least as risky as its riskiest
+  dependent: a broken menu hides every page behind it.
+
+**Z-0 Smoke** comes first: breadth before depth — the whole app shallowly, before any zone deeply.
+
+### Z-0 Smoke
+
+- Entry points: the entry page (or the first screen after sign-in); every route of this map; the
+  global navigation (each item → its target)
+- Risk: high — impact: nothing else is reachable when it breaks; exposure: every visitor;
+  dependents: all zones
+- Status: <unexplored | observed | scaffolded | partial | covered>
+- Covered: <only when partial / covered by existing `@smoke` tests: which entry points → where>
+- Spec: <`specs/smoke.md` once observed, else —>
+- Scaffolding: <`tests/characterization/smoke.test.ts` while it exists, else —>
+- Notes: <skipped at Gate A by <who>, <YYYY-MM-DD>: <why> — only when the human chose to skip it>
+
 ### Z-1 <Zone name>
 
 - Entry points: <pages `/path`, forms, API `METHOD /path`, exported handlers>
-- Risk: <high | medium | low> — <money | permissions | stored data | other>: <why>
+- Risk: <high | medium | low> — impact: <money | permissions | stored data | other: why>; exposure:
+  <every visitor | most | few>; dependents: <Z-n reached only through this zone | —>
 - Status: <unexplored | observed | scaffolded | partial | covered>
 - Covered: <only when partial: entry points held by functional tests → `specs/<feature>.md`>
 - Spec: <`specs/<feature>.md` once observed, else —>

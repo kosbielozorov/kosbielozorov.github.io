@@ -8,7 +8,9 @@
  *   - a zone whose status is `covered` still has scaffolding → warning: delete it (D7), functional
  *     tests now hold that zone;
  *   - a zone marked `scaffolded` with no scaffolding test → warning;
- *   - a zone marked `partial` without a `- Covered:` line → warning.
+ *   - a zone marked `partial` without a `- Covered:` line → warning;
+ *   - no zone `Z-0` (Smoke — breadth before depth) → warning;
+ *   - a zone whose `- Risk:` line has no `exposure:` → warning (the ranking needs it).
  *
  * Exit code: 0 when there are no errors (warnings allowed); 1 otherwise. No app map and no
  * scaffolding → nothing to check (the requirement flow does not use them).
@@ -53,6 +55,15 @@ for (const [id, z] of zones)
     warnings.push(
       `zone ${id} is "scaffolded" but no test under tests/characterization/ cites it`,
     );
+if (zones.size && !zones.has('Z-0'))
+  warnings.push(
+    'specs/app-map.md has no zone Z-0 (Smoke) — the whole app shallowly comes first (characterize-feature → Ranking)',
+  );
+for (const [id, z] of zones)
+  if (!z.exposure)
+    warnings.push(
+      `zone ${id}: "- Risk:" has no "exposure:" — rank by impact × exposure (characterize-feature → Ranking)`,
+    );
 for (const [id, z] of zones)
   if (z.status === 'partial' && !z.covered)
     warnings.push(
@@ -79,7 +90,13 @@ function readZones() {
         errors.push(
           `specs/app-map.md: zone ${heading[1]} is defined twice — never reuse a zone id`,
         );
-      current = { name: heading[2], status: null, covered: false };
+      current = {
+        name: heading[2],
+        status: null,
+        covered: false,
+        exposure: false,
+        bullet: '',
+      };
       result.set(heading[1], current);
       continue;
     }
@@ -93,11 +110,19 @@ function readZones() {
   return result;
 }
 
-/** One `- Status:` / `- Covered:` line of the current zone. */
+/**
+ * One line of the current zone. A bullet wrapped onto the next lines is read with its continuation,
+ * so `- Status:` / `- Covered:` / `- Risk:` match however the line was wrapped.
+ */
 function readZoneLine(line, zone) {
-  const status = STATUS.exec(line);
+  if (line.startsWith('- ')) zone.bullet = line;
+  else if (line && zone.bullet) zone.bullet += ` ${line}`;
+  else zone.bullet = '';
+  const bullet = zone.bullet;
+  const status = STATUS.exec(bullet);
   if (status) zone.status = status[1];
-  if (/^- Covered:\s*\S/.test(line)) zone.covered = true;
+  if (/^- Covered:\s*\S/.test(bullet)) zone.covered = true;
+  if (/^- Risk:.*\bexposure:/.test(bullet)) zone.exposure = true;
 }
 
 /** Scaffolding test files (relative path) → the zones they cite. */
