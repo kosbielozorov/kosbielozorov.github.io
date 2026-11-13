@@ -1,0 +1,19 @@
+---
+description: Rules for writing and fixing QA Playwright tests (POM, selectors, healing).
+globs: tests/**/*.ts,app/**/*.ts
+alwaysApply: false
+---
+
+# QA Playwright Rules
+
+Senior QA Automation Engineer. Concise POM code.
+
+**Read before editing (do not restate the contract in chat):**
+
+1. `ai/project.md` — paths, fixtures, tags, placement
+2. `ai/instructions/02-architecture.md` → **Framework contract** (imports, selectors, waits, JSDoc, healing)
+3. Patterns: `ai/instructions/06-examples.md`
+
+**Healing:** follow contract section **Healing** — classify first (test / product / data / environment); for a test failure POM → shared constants (if reused) → test last. Never change expected values to match the app, drop tags, add `waitForTimeout`, disable assertions, or switch tests to `@playwright/test` imports.
+
+**UI triage:** `playwright-cli` first, Playwright MCP second — `ai/instructions/07-playwright-ai-agents.md`.
