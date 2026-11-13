@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -56,9 +56,29 @@ export default function Header() {
     }
   }, [location]);
 
+  const toggleRef = useRef(null);
+  const wasOpen = useRef(false);
+
   const openDrawer = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    // Escape closes the open drawer; closing it returns the focus to the toggle.
+    if (isOpen) {
+      wasOpen.current = true;
+      const onKeyDown = event => {
+        if (event.key === 'Escape') setIsOpen(false);
+      };
+      document.addEventListener('keydown', onKeyDown);
+      return () => document.removeEventListener('keydown', onKeyDown);
+    }
+    if (wasOpen.current) {
+      wasOpen.current = false;
+      toggleRef.current?.focus({ preventScroll: true });
+    }
+    return undefined;
+  }, [isOpen]);
 
   const NavigationLink = ({
     to,
@@ -95,7 +115,12 @@ export default function Header() {
 
   return (
     <React.Fragment>
-      <div className={`diagonal-drawer ${isOpen ? 'open' : ''}`}>
+      <div
+        id="site-drawer"
+        className={`diagonal-drawer ${isOpen ? 'open' : ''}`}
+        // The closed drawer is only moved off screen; inert keeps its controls out of the Tab order.
+        inert={isOpen ? undefined : ''}
+      >
         <Drawer
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -107,8 +132,13 @@ export default function Header() {
         className={`${isScrolled ? 'headerShow' : ''} ${location.pathname === '/my-resume' ? 'page-my-resume' : ''} w-full fixed top-0 z-50 transition-all duration-500 print:hidden`}
       >
         <div className="sm:visible xl:invisible relative">
-          <div
+          <button
+            type="button"
+            ref={toggleRef}
             onClick={openDrawer}
+            aria-label={t('nav.openMenu')}
+            aria-expanded={isOpen}
+            aria-controls="site-drawer"
             className="z-30 absolute cursor-pointer w-14 h-14 lg:w-24 lg:h-24 bg-[#48AFDE] flex justify-center items-center rounded-br-3xl"
           >
             <div className="relative w-7 lg:w-10 h-7 lg:h-10 flex justify-center items-center">
@@ -116,11 +146,11 @@ export default function Header() {
                 height={100}
                 width={100}
                 src="/images/drawer.png"
-                alt="drawer item"
+                alt=""
                 className="w-[150px] h-10"
               />
             </div>
-          </div>
+          </button>
         </div>
 
         <nav className="invisible xl:visible xl:max-w-4xl 2xl:max-w-[60rem] mx-auto ">

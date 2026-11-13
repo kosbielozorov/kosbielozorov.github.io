@@ -237,12 +237,10 @@ test.describe('Keyboard navigation', () => {
       test(
         `the drawer toggle is a named button that ${key} opens`,
         {
-          tag: ['@smoke', '@keyboard', '@unlinked', '@bug-NAV-1'],
+          tag: ['@smoke', '@keyboard', '@unlinked'],
           annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
         },
         async ({ pageManager: { homePage } }) => {
-          /* Pinned product defect NAV-1 (specs/known-defects/NAV-1-drawer-toggle-not-a-button.md). */
-          test.fail();
           await homePage.open();
 
           await homePage.menu.expectDrawerToggleIsNamedButton();
@@ -260,12 +258,10 @@ test.describe('Keyboard navigation', () => {
       test(
         `the closed drawer takes no Tab stop on a ${screen} screen`,
         {
-          tag: ['@smoke', '@keyboard', '@unlinked', '@bug-NAV-2'],
+          tag: ['@smoke', '@keyboard', '@unlinked'],
           annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
         },
         async ({ pageManager: { homePage } }) => {
-          /* Pinned product defect NAV-2 (specs/known-defects/NAV-2-closed-drawer-takes-focus.md). */
-          test.fail();
           await homePage.open();
 
           await homePage.menu.expectFirstTabStopVisible();
@@ -281,12 +277,10 @@ test.describe('Drawer social links on a narrow screen', () => {
   test(
     'the drawer social links are named and point where the Contact Me links point',
     {
-      tag: ['@smoke', '@unlinked', '@bug-NAV-3'],
+      tag: ['@smoke', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect NAV-3 (specs/known-defects/NAV-3-drawer-icon-links-unnamed.md). */
-      test.fail();
       await homePage.open();
       await homePage.menu.openDrawer();
 

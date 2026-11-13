@@ -5,7 +5,7 @@ import { expect, type Locator } from '@playwright/test';
 const MAX_TAB_STOPS_TO_TOGGLE = 25;
 /** Upper bound on a page's Tab stops when walking all of them. */
 const MAX_TAB_STOPS_ON_PAGE = 120;
-/** The image alt the toggle carries today — the defect NAV-1 names it as no real name. */
+/** The toggle's old placeholder name (its image alt before NAV-1 was fixed) — not a real name. */
 const PLACEHOLDER_TOGGLE_NAME = /^drawer item$/i;
 
 /** Where the keyboard focus is: inside the drawer, and whether it has wrapped back to the page. */
@@ -21,7 +21,7 @@ interface FocusStop {
  * `specs/app-map.md`).
  */
 export class SiteMenu extends Component {
-  /** The drawer toggle's image — stable before and after the NAV-1 fix, whatever wraps it. */
+  /** The drawer toggle's image — the toggle is found through it, whatever wraps it. */
   private readonly toggleImage: Locator = this.page.locator(
     'img[src$="/drawer.png"]',
   );
@@ -39,8 +39,7 @@ export class SiteMenu extends Component {
     'img[src$="/drawer.png"]',
   );
   /**
-   * The toggle as a button. Today there is none (known defect NAV-1: the toggle is a `div`); after
-   * the fix it is the header's button holding the image.
+   * The toggle: the header's button holding the image.
    */
   private readonly drawerToggleButton: Locator = this.header
     .getByRole('button')
@@ -207,7 +206,6 @@ export class SiteMenu extends Component {
     links: Readonly<Record<string, string>>,
   ): Promise<void> {
     for (const [name, href] of Object.entries(links)) {
-      /* The drawer link first: while NAV-3 is pinned, its failure must be the drawer's. */
       const drawerLink = this.drawer.getByRole('link', { name, exact: true });
       await expect(drawerLink, `Drawer link "${name}"`).toBeVisible();
       await expect(drawerLink, `Drawer link "${name}" target`).toHaveAttribute(

@@ -1,5 +1,5 @@
 // import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { usePortfolioData } from '../../info';
@@ -16,6 +16,13 @@ export default function DiagonalDrawer({
   const { github, linkedin, telegram } = dataInfo.first.socials;
   const email = dataInfo.first.email;
 
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    // Opening the drawer moves the focus into it.
+    if (isOpen) closeRef.current?.focus({ preventScroll: true });
+  }, [isOpen]);
+
   // const route = useRouter();
   // const pathname = usePathname();
   return (
@@ -24,8 +31,11 @@ export default function DiagonalDrawer({
         <div
           className={`z-50  cursor-pointer fixed w-14 h-14 lg:w-24 lg:h-24 bg-[#48AFDE] flex justify-center items-center rounded-br-3xl`}
         >
-          <div
+          <button
+            type="button"
+            ref={closeRef}
             onClick={() => setIsOpen(false)}
+            aria-label={t('nav.closeMenu')}
             className="relative w-7 lg:w-10 h-7 lg:h-10 flex justify-center items-center"
           >
             {isOpen ? (
@@ -59,7 +69,7 @@ export default function DiagonalDrawer({
                 />
               </svg>
             )}
-          </div>
+          </button>
         </div>
       </div>
 
@@ -156,9 +166,11 @@ export default function DiagonalDrawer({
               <div className="flex flex-row sm:flex-col lg:flex-row justify-center">
                 <a
                   href={github.url}
+                  aria-label="GitHub"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     stroke="currentColor"
                     fill="currentColor"
                     strokeWidth="0"
@@ -173,9 +185,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={linkedin.url}
+                  aria-label="LinkedIn"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     stroke="currentColor"
                     fill="currentColor"
                     strokeWidth="0"
@@ -190,9 +204,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={`mailto:${email}`}
+                  aria-label="Gmail"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
                     y="0px"
@@ -208,9 +224,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={telegram.url}
+                  aria-label="Telegram"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
                     y="0px"

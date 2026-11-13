@@ -139,9 +139,3 @@
 ## Open questions
 
 - Q-1: On `/` should a header-menu click put `#<section>` into the URL, as it does from the other pages (O-5)? To research and decide — asked 2026-11-13, owner the site owner
-
-## Known defects
-
-- F-1 / `@bug-NAV-1` (2026-11-13): scenario 1.6 — the drawer toggle is a `div`: not focusable, no button role, image alt `drawer item`; the menu cannot be opened from the keyboard on narrow screens → `specs/known-defects/NAV-1-drawer-toggle-not-a-button.md`
-- F-2 / `@bug-NAV-2` (2026-11-13): scenario 1.6 — the closed, off-screen drawer takes the first 10 Tab stops; focus is invisible → `specs/known-defects/NAV-2-closed-drawer-takes-focus.md`
-- F-3 / `@bug-NAV-3` (2026-11-13): scenario 1.6 — the drawer's GitHub, LinkedIn, e-mail and Telegram icon links have no accessible name → `specs/known-defects/NAV-3-drawer-icon-links-unnamed.md`

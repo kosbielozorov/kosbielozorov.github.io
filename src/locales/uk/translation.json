@@ -3,7 +3,9 @@
     "home": "Головна",
     "experience": "Досвід",
     "aboutMe": "Про мене",
-    "contactMe": "Контакти"
+    "contactMe": "Контакти",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню"
   },
   "hero": {
     "hiThere": "Вітаю!",

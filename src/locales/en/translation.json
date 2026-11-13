@@ -3,7 +3,9 @@
     "home": "Home",
     "experience": "Experience",
     "aboutMe": "About Me",
-    "contactMe": "Contact Me"
+    "contactMe": "Contact Me",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "hiThere": "Hi There!",
