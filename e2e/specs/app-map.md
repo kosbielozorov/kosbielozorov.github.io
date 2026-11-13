@@ -26,7 +26,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 (`characterize-feature` → **Ranking**); re-ranked 2026-11-13: the first ranking weighed impact
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
-Order: Z-0 Smoke → Z-4 Navigation → Z-3 Home page → Z-2 Language switching → Z-5 Head metadata →
+Order: Z-0 Smoke (covered) → Z-4 Navigation → Z-3 Home page → Z-2 Language switching → Z-5 Head metadata →
 Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
@@ -35,9 +35,10 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
   (404 page); each item of the header menu and of the drawer → its target
 - Risk: high — impact: nothing else is reachable when it breaks; exposure: every visitor;
   dependents: all zones
-- Status: unexplored
-- Spec: —
+- Status: covered
+- Spec: `specs/smoke.md`
 - Scaffolding: —
+- Tests: `tests/ui/smoke.test.ts` (`@smoke`; Tab-order tests `@keyboard` run in Chromium only; Firefox not run — B-1, environment)
 - Notes: `/my-resume` opening and its "Back to home" are already held by
   `tests/ui/resume-page.test.ts` (Z-1); no `@smoke` tests yet
 
@@ -72,7 +73,7 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
 - Spec: —
 - Scaffolding: —
 - Notes: Telegram links here use `tg://resolve?domain=…`; the resume's `https://t.me/…` was confirmed as
-  correct (`specs/resume-page.md` O-6) — ask at this zone's triage whether `tg://` is a bug
+  correct (`specs/resume-page.md` O-6) — ask at this zone's triage whether `tg://` is a bug; the page has no `main` landmark and five `h1` (`specs/smoke.md` O-6) — triage here
 
 ### Z-4 Navigation
 

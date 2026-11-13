@@ -98,6 +98,9 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      /* WebKit on macOS moves Tab focus to form fields only (no "full keyboard access"), so Tab-order
+       * tests (`@keyboard`) prove nothing there; Chromium runs them. */
+      grepInvert: /@keyboard/,
     },
   ],
 });

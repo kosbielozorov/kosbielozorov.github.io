@@ -1,4 +1,5 @@
 import { expect, type Locator } from '@playwright/test';
+import { SiteMenu } from '@components/SiteMenu.component';
 import { BasePage } from '@pages/BasePage';
 
 /** Name and position of the resume profile, in the page's language. */
@@ -34,6 +35,9 @@ const CONTACT_LABELS: Record<keyof ResumeContactLinks, RegExp> = {
  */
 export class ResumePage extends BasePage {
   public readonly pagePath = '/my-resume';
+
+  /** The header menu and the drawer. */
+  public readonly menu = new SiteMenu(this.page);
 
   private readonly main: Locator = this.page.getByRole('main');
   private readonly name: Locator = this.main.getByRole('heading', {
@@ -266,6 +270,29 @@ export class ResumePage extends BasePage {
         { message: 'Stored language' },
       )
       .toBe(language);
+  }
+
+  /**
+   * Asserts the name heading's text.
+   *
+   * @param {string} name - Full name in the page's language, e.g. `Kostiantyn Bielozorov`.
+   * @returns {Promise<void>} Resolves once the page's `h1` reads `name`.
+   */
+  async expectName(name: string): Promise<void> {
+    await expect(this.name, 'Resume name').toHaveText(name);
+  }
+
+  /**
+   * Asserts the page is scrolled to its top (it scrolls there smoothly after a navigation).
+   *
+   * @returns {Promise<void>} Resolves once `window.scrollY` is 0.
+   */
+  async expectAtTop(): Promise<void> {
+    await expect
+      .poll(() => this.page.evaluate(() => window.scrollY), {
+        message: 'The resume page should be scrolled to its top',
+      })
+      .toBe(0);
   }
 
   /**

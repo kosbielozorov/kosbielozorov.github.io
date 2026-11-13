@@ -100,6 +100,7 @@ export abstract class BasePage extends Component {
     });
     return {
       expectNone: async () => {
+        /* Problems after `load` are not seen (lint forbids `networkidle`) — a known limit. */
         await this.page.waitForLoadState('load');
         expect(problems, 'No console errors or failed requests').toEqual([]);
       },
