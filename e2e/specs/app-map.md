@@ -26,7 +26,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 (`characterize-feature` → **Ranking**); re-ranked 2026-11-13: the first ranking weighed impact
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
-Order: Z-0 Smoke (covered) → Z-4 Navigation → Z-3 Home page → Z-2 Language switching → Z-5 Head metadata →
+Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page → Z-2 Language switching → Z-5 Head metadata →
 Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
@@ -82,9 +82,10 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
   header on scroll
 - Risk: high — impact: a broken anchor or menu hides a section or a page; exposure: every visitor;
   dependents: Z-3 sections, Z-1 (from the drawer and the 404 page)
-- Status: unexplored
-- Spec: —
+- Status: covered
+- Spec: `specs/navigation.md`
 - Scaffolding: —
+- Tests: `tests/ui/navigation.test.ts` (with `tests/ui/smoke.test.ts` 1.3, 1.4, 1.6; Tab-order tests `@keyboard` run in Chromium only; Firefox not run — B-1, environment)
 
 ### Z-5 Head metadata (SEO / sharing)
 

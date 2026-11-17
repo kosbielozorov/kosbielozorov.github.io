@@ -283,19 +283,6 @@ export class ResumePage extends BasePage {
   }
 
   /**
-   * Asserts the page is scrolled to its top (it scrolls there smoothly after a navigation).
-   *
-   * @returns {Promise<void>} Resolves once `window.scrollY` is 0.
-   */
-  async expectAtTop(): Promise<void> {
-    await expect
-      .poll(() => this.page.evaluate(() => window.scrollY), {
-        message: 'The resume page should be scrolled to its top',
-      })
-      .toBe(0);
-  }
-
-  /**
    * Clicks "Back to home".
    *
    * @returns {Promise<void>} Resolves once the link is clicked.

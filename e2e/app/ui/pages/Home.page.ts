@@ -1,4 +1,5 @@
 import { expect, type Locator } from '@playwright/test';
+import { BackToTop } from '@components/BackToTop.component';
 import { SiteMenu } from '@components/SiteMenu.component';
 import { BasePage } from '@pages/BasePage';
 
@@ -14,6 +15,8 @@ export class HomePage extends BasePage {
 
   /** The header menu and the drawer. */
   public readonly menu = new SiteMenu(this.page);
+
+  private readonly backToTop = new BackToTop(this.page);
 
   private readonly heroHeading: Locator = this.page
     .locator('#home')
@@ -104,5 +107,15 @@ export class HomePage extends BasePage {
    */
   async openResume(link: string): Promise<void> {
     await this.page.getByRole('link', { name: link, exact: true }).click();
+  }
+
+  /**
+   * Uses the back-to-top button from the keyboard: Tab to it, Enter.
+   *
+   * @param {string} name - The button's accessible name in the page's language, e.g. `Back to top`.
+   * @returns {Promise<void>} Resolves once Enter is pressed on the button.
+   */
+  async useBackToTopWithKeyboard(name: string): Promise<void> {
+    await this.backToTop.useWithKeyboard(name);
   }
 }

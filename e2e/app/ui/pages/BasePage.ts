@@ -1,6 +1,9 @@
 import { expect } from '@playwright/test';
 import { Component } from '../components/Base.component';
 
+/** Pixels a scroll must pass before the page counts as scrolled — more than the 96 px header. */
+const SCROLLED_PAST = 200;
+
 export abstract class BasePage extends Component {
   /**
    * Path to the page can be relative to the baseUrl defined in playwright.config.ts
@@ -54,6 +57,52 @@ export abstract class BasePage extends Component {
    */
   async expectUrl(path: string): Promise<void> {
     await expect(this.page, `Should be on ${path}`).toHaveURL(path);
+  }
+
+  /**
+   * Scrolls the page down with the mouse wheel and waits until it has moved past the header's
+   * height, or as far as a short page allows (smooth scrolling takes a moment).
+   *
+   * @param {number} [distance=1500] - Pixels to scroll.
+   * @returns {Promise<void>} Resolves once `window.scrollY` reaches {@link SCROLLED_PAST} or the
+   *   bottom of a shorter page.
+   */
+  async scrollDown(distance = 1500): Promise<void> {
+    await this.page.mouse.wheel(0, distance);
+    await expect
+      .poll(
+        () =>
+          this.page.evaluate(past => {
+            const room =
+              document.documentElement.scrollHeight - window.innerHeight;
+            return window.scrollY > 0 && window.scrollY >= Math.min(past, room);
+          }, SCROLLED_PAST),
+        { message: 'The page should have scrolled down' },
+      )
+      .toBe(true);
+  }
+
+  /**
+   * Asserts the page is scrolled to its top (pages scroll there smoothly).
+   *
+   * @returns {Promise<void>} Resolves once `window.scrollY` is 0.
+   */
+  async expectAtTop(): Promise<void> {
+    await expect
+      .poll(() => this.page.evaluate(() => window.scrollY), {
+        message: 'The page should be scrolled to its top',
+      })
+      .toBe(0);
+  }
+
+  /**
+   * Presses the browser's Back.
+   *
+   * @returns {Promise<void>} Resolves once the browser has navigated back (a same-document step in
+   *   this single-page app, or a page load).
+   */
+  async goBack(): Promise<void> {
+    await this.page.goBack();
   }
 
   /**
