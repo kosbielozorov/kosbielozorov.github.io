@@ -317,7 +317,8 @@ test.describe('Header menu from the keyboard', () => {
     async ({ pageManager: { homePage } }) => {
       await homePage.open();
 
-      await homePage.menu.expectTabOrder([...MENU, 'EN', 'UA']);
+      /* The language buttons by the code they show — their full names may grow (LANG-3). */
+      await homePage.menu.expectTabOrder([...MENU, /\bEN\b/, /\bUA\b/]);
     },
   );
 

@@ -26,7 +26,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 (`characterize-feature` → **Ranking**); re-ranked 2026-11-13: the first ranking weighed impact
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
-Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching → Z-5 Head metadata →
+Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata →
 Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
@@ -59,9 +59,10 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
   browser language detection; `<html lang>`; every text of every page
 - Risk: high — impact: the whole site exists twice; a wrong or mixed language is visible on every
   page; exposure: every visitor; dependents: — (cross-cutting: every page's text)
-- Status: unexplored
-- Spec: —
+- Status: covered
+- Spec: `specs/language-switching.md`
 - Scaffolding: —
+- Tests: `tests/ui/language-switching.test.ts` (with `tests/ui/resume-page.test.ts` 1.4; run in Chromium so far — the other browsers once all tests are written)
 
 ### Z-3 Home page
 

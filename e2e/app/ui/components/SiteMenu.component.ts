@@ -1,4 +1,5 @@
 import { Component } from '@components/Base.component';
+import { LanguageSwitcher } from '@components/LanguageSwitcher.component';
 import { expect, type Locator } from '@playwright/test';
 
 /** Tab presses allowed before giving up on reaching the drawer toggle from the keyboard. */
@@ -59,6 +60,20 @@ export class SiteMenu extends Component {
    * (`specs/smoke.md` 1.6). Only on `/`.
    */
   private readonly contactSection: Locator = this.page.locator('#contact-me');
+
+  /**
+   * The header's `EN | UA` switcher. Found including hidden: on narrow screens the header menu is
+   * hidden but its switcher still holds the state.
+   */
+  public readonly languages = new LanguageSwitcher(
+    this.header
+      .getByRole('navigation', { includeHidden: true })
+      .getByRole('group', { includeHidden: true }),
+  );
+  /** The drawer's `EN | UA` switcher (the closed drawer is `inert`, hence including hidden). */
+  public readonly drawerLanguages = new LanguageSwitcher(
+    this.drawer.getByRole('group', { includeHidden: true }),
+  );
 
   /**
    * Asserts the site header is shown.
@@ -361,6 +376,33 @@ export class SiteMenu extends Component {
   }
 
   /**
+   * Asserts the open drawer's close button has this name (it follows the page's language).
+   *
+   * @param {string} name - The expected accessible name, e.g. `Close menu`.
+   * @returns {Promise<void>} Resolves once that button is visible in the drawer.
+   */
+  async expectCloseButtonNamed(name: string): Promise<void> {
+    await expect(
+      this.drawer.getByRole('button', { name, exact: true }),
+      `Drawer close button "${name}"`,
+    ).toBeVisible();
+  }
+
+  /**
+   * Asserts the drawer shows exactly these items, in this order (it follows the page's language).
+   *
+   * @param {readonly string[]} items - Item texts in the page's language (the drawer capitalises
+   *   them with CSS only).
+   * @returns {Promise<void>} Resolves once the drawer's links match `items`.
+   */
+  async expectDrawerItems(items: readonly string[]): Promise<void> {
+    await expect(
+      this.drawerNavigation.getByRole('link'),
+      'Drawer items',
+    ).toHaveText([...items]);
+  }
+
+  /**
    * Asserts the keyboard focus is on the drawer toggle ("Open menu").
    *
    * @returns {Promise<void>} Resolves once the toggle is focused.
@@ -436,10 +478,11 @@ export class SiteMenu extends Component {
    * accessible name and draws a keyboard focus indicator: it matches `:focus-visible` and has an
    * outline (not `none`, wider than 0) or a box shadow.
    *
-   * @param {readonly string[]} names - Accessible names in the expected Tab order.
+   * @param {readonly (string | RegExp)[]} names - Accessible names (or patterns) in the expected
+   *   Tab order.
    * @returns {Promise<void>} Resolves once every Tab stop matched.
    */
-  async expectTabOrder(names: readonly string[]): Promise<void> {
+  async expectTabOrder(names: readonly (string | RegExp)[]): Promise<void> {
     const focused = this.page.locator(':focus');
     for (const name of names) {
       await this.page.keyboard.press('Tab');

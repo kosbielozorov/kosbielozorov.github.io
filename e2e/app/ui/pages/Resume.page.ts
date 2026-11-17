@@ -55,14 +55,6 @@ export class ResumePage extends BasePage {
   /** The download link's text is translated; its `download` attribute is not. */
   private readonly downloadLink: Locator = this.main.locator('a[download]');
   private readonly backToHomeLink: Locator = this.main.locator('#back-to-home');
-  /**
-   * The header menu's switcher. The banner also holds the drawer's switcher (first in the DOM,
-   * off screen on desktop), so the menu's is the last one.
-   */
-  private readonly languageSwitcher: Locator = this.page
-    .getByRole('banner')
-    .getByRole('group', { name: 'Language' })
-    .last();
 
   /**
    * Asserts the resume page has finished loading.
@@ -252,24 +244,7 @@ export class ResumePage extends BasePage {
    * @returns {Promise<void>} Resolves once the button is clicked.
    */
   async switchLanguage(language: 'EN' | 'UA'): Promise<void> {
-    await this.languageSwitcher
-      .getByRole('button', { name: language, exact: true })
-      .click();
-  }
-
-  /**
-   * Asserts the language stored for the next visit.
-   *
-   * @param {'en' | 'uk'} language - Expected value of `localStorage.i18nextLng`.
-   * @returns {Promise<void>} Resolves once the stored value equals `language`.
-   */
-  async expectStoredLanguage(language: 'en' | 'uk'): Promise<void> {
-    await expect
-      .poll(
-        () => this.page.evaluate(() => localStorage.getItem('i18nextLng')),
-        { message: 'Stored language' },
-      )
-      .toBe(language);
+    await this.menu.languages.choose(language);
   }
 
   /**

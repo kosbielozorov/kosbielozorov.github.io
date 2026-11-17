@@ -96,6 +96,62 @@ export abstract class BasePage extends Component {
   }
 
   /**
+   * Asserts the document's language — `<html lang>`.
+   *
+   * @param {'en' | 'uk'} language - The expected language code.
+   * @returns {Promise<void>} Resolves once `<html lang>` is that code.
+   */
+  async expectLanguage(language: 'en' | 'uk'): Promise<void> {
+    await expect(
+      this.page.locator('html'),
+      'Document language',
+    ).toHaveAttribute('lang', language);
+  }
+
+  /**
+   * Asserts the exact value stored for the next visit (`localStorage.i18nextLng`).
+   *
+   * @param {string} value - The expected value, e.g. `uk` after a switch or `uk-UA` after a first
+   *   visit from a Ukrainian browser.
+   * @returns {Promise<void>} Resolves once the stored value is `value`.
+   */
+  async expectStoredLanguage(value: string): Promise<void> {
+    await expect
+      .poll(
+        () => this.page.evaluate(() => localStorage.getItem('i18nextLng')),
+        {
+          message: 'Stored language',
+        },
+      )
+      .toBe(value);
+  }
+
+  /**
+   * Asserts the document title.
+   *
+   * @param {string} title - The whole expected title.
+   * @returns {Promise<void>} Resolves once the title is `title`.
+   */
+  async expectTitle(title: string): Promise<void> {
+    await expect(this.page, 'Document title').toHaveTitle(title);
+  }
+
+  /**
+   * Stores a language choice before the next page load, as if chosen on an earlier visit. Applied
+   * once per tab, so a later switch is not overwritten.
+   *
+   * @param {string} value - The value for `localStorage.i18nextLng`, e.g. `uk`.
+   * @returns {Promise<void>} Resolves once the seed is registered for the next load.
+   */
+  async storeLanguageBeforeLoad(value: string): Promise<void> {
+    await this.page.addInitScript(stored => {
+      if (sessionStorage.getItem('language-seeded')) return;
+      localStorage.setItem('i18nextLng', stored);
+      sessionStorage.setItem('language-seeded', '1');
+    }, value);
+  }
+
+  /**
    * Presses the browser's Back.
    *
    * @returns {Promise<void>} Resolves once the browser has navigated back (a same-document step in
