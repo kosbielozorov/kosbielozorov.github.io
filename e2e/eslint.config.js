@@ -406,11 +406,90 @@ const characterizationRule = {
   },
 };
 
+const FIXTURES_FILE = path.join(
+  import.meta.dirname,
+  'app',
+  'fixtures',
+  'index.ts',
+);
+
+/** Names of the `opened<Page>` fixtures declared in the primary fixture file. */
+function openedFixtures() {
+  const source = readFileCached(FIXTURES_FILE) ?? '';
+  return new Set(
+    [...source.matchAll(/^\s*(opened[A-Z]\w*)\s*:\s*async\b/gm)].map(m => m[1]),
+  );
+}
+
+/** `homePage` for `await homePage.open()` or `await pageManager.homePage.open()`; else `null`. */
+function bareOpenTarget(statement) {
+  const call =
+    statement?.type === 'ExpressionStatement' &&
+    statement.expression.type === 'AwaitExpression'
+      ? statement.expression.argument
+      : null;
+  if (
+    call?.type !== 'CallExpression' ||
+    call.arguments.length > 0 ||
+    call.callee.type !== 'MemberExpression' ||
+    call.callee.property.type !== 'Identifier' ||
+    call.callee.property.name !== 'open'
+  )
+    return null;
+  const target = call.callee.object;
+  if (target.type === 'Identifier') return target.name;
+  if (
+    target.type === 'MemberExpression' &&
+    target.object.type === 'Identifier' &&
+    target.object.name === 'pageManager' &&
+    target.property.type === 'Identifier'
+  )
+    return target.property.name;
+  return null;
+}
+
+/**
+ * Opened-page fixture — ai/instructions/02-architecture.md → Imports and fixtures.
+ * Once `opened<Page>` exists in the primary fixture file, a test does not start with a bare
+ * `await <page>.open()`: it takes `{ opened<Page>: <page> }`. An `open()` after another statement
+ * (setup before the load) or with an argument (another path) is left alone. The fixture itself is
+ * added only when three or more tests need it (YAGNI) — a judgement for the reviewer, not lint.
+ */
+const openedPageFixtureRule = {
+  meta: { type: 'suggestion', schema: [] },
+  create(context) {
+    const fixtures = openedFixtures();
+    return {
+      CallExpression(node) {
+        if (fixtures.size === 0 || !isTestDeclaration(node.callee)) return;
+        const body = node.arguments.at(-1);
+        if (
+          !['ArrowFunctionExpression', 'FunctionExpression'].includes(
+            body?.type,
+          ) ||
+          body.body.type !== 'BlockStatement'
+        )
+          return;
+        const [first] = body.body.body;
+        const target = bareOpenTarget(first);
+        if (target === null) return;
+        const fixture = `opened${target[0].toUpperCase()}${target.slice(1)}`;
+        if (fixtures.has(fixture))
+          context.report({
+            node: first,
+            message: `Take the \`${fixture}\` fixture (\`{ ${fixture}: ${target} }\`) instead of opening \`${target}\` as the first step. ${CONTRACT_DOC}`,
+          });
+      },
+    };
+  },
+};
+
 const contractPlugin = {
   rules: {
     'test-id-tag': testIdTagRule,
     'test-source': testSourceRule,
     characterization: characterizationRule,
+    'opened-page-fixture': openedPageFixtureRule,
   },
 };
 
@@ -443,6 +522,7 @@ export const TEST_CONTRACT_RULES = {
   'contract/test-id-tag': 'error',
   'contract/test-source': 'error',
   'contract/characterization': 'error',
+  'contract/opened-page-fixture': 'error',
 };
 
 export default [

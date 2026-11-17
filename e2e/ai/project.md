@@ -63,12 +63,15 @@ covered by the generated `specs/framework-catalog.md` (`npm run catalog:generate
 
 ### Built-in fixtures (current)
 
-| Fixture              | Type                 | Starts on / notes                         |
-| -------------------- | -------------------- | ----------------------------------------- |
-| `pageManager`        | `PageManager`        | No automatic login; uses provided `page`. |
-| `controllersManager` | `ControllersManager` | API layer; uses Playwright `request`.     |
+| Fixture              | Type                 | Starts on / notes                                                                                                                                                                           |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pageManager`        | `PageManager`        | No automatic login; uses provided `page`.                                                                                                                                                   |
+| `controllersManager` | `ControllersManager` | API layer; uses Playwright `request`.                                                                                                                                                       |
+| `openedHomePage`     | `HomePage`           | Opens `/` first. For a test that sets something up before the load (`watchProblems`, `fixClockAt`, `storeLanguageBeforeLoad`) or opens another path, use `pageManager.homePage` + `open()`. |
+| `openedResumePage`   | `ResumePage`         | Opens `/my-resume` first — same rule.                                                                                                                                                       |
+| `openedNotFoundPage` | `NotFoundPage`       | Opens an unknown path first — same rule.                                                                                                                                                    |
 
-Prefer `pageManager` for UI and `controllersManager` for API. Destructure Page Objects from `PageManager` once pages are registered (e.g. `pageManager: { homePage }`). Additional fixtures — add in `app/fixtures/index.ts` and document them here.
+Prefer `pageManager` for UI and `controllersManager` for API. Destructure Page Objects from `PageManager` once pages are registered (e.g. `pageManager: { homePage }`). Additional fixtures — add in `app/fixtures/index.ts` and document them here. `opened<Page>` (a page already opened) is added only once three or more tests start by opening that page (Framework contract → Imports and fixtures); `contract/opened-page-fixture` then keeps tests on it.
 
 ## Import path rules
 

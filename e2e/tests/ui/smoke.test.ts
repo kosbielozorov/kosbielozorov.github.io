@@ -125,8 +125,10 @@ for (const {
                 { type: 'source', description: 'specs/smoke.md#1.5' },
               ],
             },
-            async ({ pageManager: { homePage, resumePage } }) => {
-              await homePage.open();
+            async ({
+              openedHomePage: homePage,
+              pageManager: { resumePage },
+            }) => {
               await homePage.markDocument();
 
               await homePage.openResume(link);
@@ -149,8 +151,7 @@ for (const {
             tag: ['@smoke', '@unlinked'],
             annotation: [{ type: 'source', description: 'specs/smoke.md#1.3' }],
           },
-          async ({ pageManager: { homePage } }) => {
-            await homePage.open();
+          async ({ openedHomePage: homePage }) => {
             await homePage.menu.expectItems(menu);
 
             await homePage.menu.goTo(item);
@@ -221,9 +222,7 @@ test(
     tag: ['@smoke', '@unlinked'],
     annotation: [{ type: 'source', description: 'specs/smoke.md#1.2' }],
   },
-  async ({ pageManager: { homePage } }) => {
-    await homePage.open();
-
+  async ({ openedHomePage: homePage }) => {
     await homePage.expectMainParts(SECTIONS);
   },
 );
@@ -240,9 +239,7 @@ test.describe('Keyboard navigation', () => {
           tag: ['@smoke', '@keyboard', '@unlinked'],
           annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.menu.expectDrawerToggleIsNamedButton();
           await homePage.menu.openDrawerWithKeyboard(key);
 
@@ -261,9 +258,7 @@ test.describe('Keyboard navigation', () => {
           tag: ['@smoke', '@keyboard', '@unlinked'],
           annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.menu.expectFirstTabStopVisible();
           await homePage.menu.expectClosedDrawerOutOfTabOrder();
         },
@@ -280,8 +275,7 @@ test.describe('Drawer social links on a narrow screen', () => {
       tag: ['@smoke', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/smoke.md#1.6' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.openDrawer();
 
       await homePage.menu.expectDrawerSocialLinks(SOCIAL_LINKS);
@@ -295,9 +289,7 @@ test(
     tag: ['@smoke', '@unlinked'],
     annotation: [{ type: 'source', description: 'specs/smoke.md#1.7' }],
   },
-  async ({ pageManager: { notFoundPage, homePage } }) => {
-    await notFoundPage.open();
-
+  async ({ openedNotFoundPage: notFoundPage, pageManager: { homePage } }) => {
     await notFoundPage.backToHome();
 
     await homePage.expectUrl('/');

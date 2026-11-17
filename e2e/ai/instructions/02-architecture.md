@@ -6,7 +6,7 @@ These rules apply to all tests and generated code. Other instruction files, rule
 
 Project paths, fixture names, and file placement: `../project.md`.
 
-**Enforced by ESLint, not by good intentions.** `npm run lint:contract` fails on: importing `test`/`expect` from `@playwright/test` in `*.test.ts`, raw selectors in tests, XPath, `page.waitForTimeout()` in tests, `toHaveClass(/regex/)`, a test without exactly one of `@T<id>` / `@unlinked` in `tag: []` (see **Test ids**), and a test without exactly one valid `source` annotation (see **Map and oracle**). Full gate before commit: `npm run verify`.
+**Enforced by ESLint, not by good intentions.** `npm run lint:contract` fails on: importing `test`/`expect` from `@playwright/test` in `*.test.ts`, raw selectors in tests, XPath, `page.waitForTimeout()` in tests, `toHaveClass(/regex/)`, a test without exactly one of `@T<id>` / `@unlinked` in `tag: []` (see **Test ids**), and a test without exactly one valid `source` annotation (see **Map and oracle**), and a test that opens a page by hand although its `opened<Page>` fixture exists (see **Imports and fixtures**). Full gate before commit: `npm run verify`.
 
 ### Imports and fixtures
 
@@ -14,6 +14,8 @@ Project paths, fixture names, and file placement: `../project.md`.
 - **Always** import from fixtures via the `@fixtures` path alias: `import { test, expect } from '@fixtures';` — works from any file depth, no relative `../` counting. Same for shared constants via `@constants`. Both are declared in `tsconfig.json` → `compilerOptions.paths`; see project binding.
 - Exception: the UI setup project `tests/ui/auth.setup.ts` (when introduced) may import from `@playwright/test`.
 - In Page Objects and shared helpers, importing from `@playwright/test` is allowed where needed for types or APIs.
+- **Opened-page fixture — only when it is needed (YAGNI).** Registering a page does **not** add a fixture. Once **three or more** tests start by opening the same page with a bare `await <page>.open()`, add `opened<Page>` to the primary fixture file (`opened<Page>: async ({ pageManager: { <page> } }, use) => { await <page>.open(); await use(<page>); }`), document it in the binding, and switch those tests to `async ({ opened<Page>: <page> }) => …`.
+- **Once `opened<Page>` exists, use it.** A test whose first statement is a bare `await <page>.open()` while `opened<Page>` exists fails `contract/opened-page-fixture`. Keep an explicit `open()` when something must happen **before** the load (`watchProblems()`, a fixed clock, stored state), when `open()` takes an argument (another path), or when the page opens mid-test.
 
 ### Selectors and locators
 

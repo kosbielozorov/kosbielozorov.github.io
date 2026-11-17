@@ -50,9 +50,7 @@ for (const { browser, language } of FIRST_VISITS)
           { type: 'source', description: 'specs/language-switching.md#1.1' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectHeading(HOME_HEADING[language]);
         await homePage.expectLanguage(language);
         /* Exactly what the browser reports — WebKit reports a bare `uk` locale as `uk-UA`. */
@@ -72,9 +70,7 @@ test.describe(`First visit with the browser in ${UNSUPPORTED.browser}`, () => {
         { type: 'source', description: 'specs/language-switching.md#1.1' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.expectHeading(HOME_HEADING[UNSUPPORTED.language]);
       await homePage.expectLanguage(UNSUPPORTED.language);
       await homePage.expectStoredLanguage(UNSUPPORTED.stored);
@@ -116,8 +112,7 @@ test.describe('Switching in the header', () => {
         { type: 'source', description: 'specs/language-switching.md#1.3' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.markDocument();
 
       await homePage.menu.languages.choose('UA');
@@ -139,8 +134,7 @@ test.describe('Switching in the header', () => {
         { type: 'source', description: 'specs/language-switching.md#1.3' },
       ],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.markDocument();
 
       await resumePage.menu.languages.choose('UA');
@@ -162,8 +156,7 @@ test.describe('Switching in the header', () => {
         { type: 'source', description: 'specs/language-switching.md#1.3' },
       ],
     },
-    async ({ pageManager: { notFoundPage } }) => {
-      await notFoundPage.open();
+    async ({ openedNotFoundPage: notFoundPage }) => {
       await notFoundPage.markDocument();
 
       await notFoundPage.menu.languages.choose('UA');
@@ -185,8 +178,7 @@ test.describe('Switching in the header', () => {
         { type: 'source', description: 'specs/language-switching.md#1.3' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.languages.choose('UA');
 
       await homePage.reload();
@@ -204,8 +196,10 @@ test.describe('Switching in the header', () => {
         { type: 'source', description: 'specs/language-switching.md#1.3' },
       ],
     },
-    async ({ pageManager: { homePage, resumePage, notFoundPage } }) => {
-      await homePage.open();
+    async ({
+      openedHomePage: homePage,
+      pageManager: { resumePage, notFoundPage },
+    }) => {
       await homePage.menu.languages.choose('UA');
 
       await resumePage.open();
@@ -229,8 +223,7 @@ test.describe('Switching in the drawer', () => {
         { type: 'source', description: 'specs/language-switching.md#1.4' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.markDocument();
       await homePage.menu.openDrawer();
 
@@ -264,9 +257,7 @@ test.describe('The switcher for assistive technology', () => {
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.languages.expectPressed('EN');
         await homePage.menu.drawerLanguages.expectPressed('EN');
 
@@ -285,9 +276,7 @@ test.describe('The switcher for assistive technology', () => {
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.languages.expectButtonsNameLanguages();
       },
     );
@@ -304,9 +293,7 @@ test.describe('The switcher for assistive technology', () => {
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.languages.expectGroupLabel('Language');
       },
     );
@@ -323,9 +310,7 @@ test.describe('The switcher for assistive technology', () => {
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.languages.expectGroupLabel('Мова');
       },
     );

@@ -79,6 +79,7 @@ test.describe('Feature @S<suiteId> @smoke', { tag: ['@S<suiteId>', '@smoke'] }, 
 
 - Use **fixtures from the binding** (`pageManager`, `controllersManager`).
 - Destructure Page Objects from the fixture/`PageManager` named in the binding.
+- A test that starts on a page: if the binding lists `opened<Page>`, take it (`{ opened<Page>: <page> }`) instead of a first-step `await <page>.open()`. No such fixture yet → open by hand; when this test makes it the **third** one opening that page first, add the fixture (see **Creating fixtures**). Contract → **Imports and fixtures**.
 - Tags in **title and** `tag: []`. One `source` annotation per test: `specs/<feature>.md#<N.M>` (the scenario) or its own `@T<id>` (Framework contract → **Map and oracle**). Data: parallel-safe (e.g. Faker) per contract / `03-writing-tests.md`.
 
 ## Generating API tests
@@ -96,6 +97,8 @@ Only if binding has API controllers / schemas. Otherwise say API layer is out of
 ## Creating fixtures
 
 Extend `test` in the primary fixture file from the binding. Setup → `await use(value)` → cleanup if needed. Mirror existing fixture patterns in that file.
+
+Add a fixture when tests need it, not ahead of them (YAGNI). The common case is `opened<Page>`: create it once three or more tests start with a bare `await <page>.open()`, move those tests onto it in the same change, and add a row to the binding's fixtures table. From then on `contract/opened-page-fixture` keeps new tests on it.
 
 ## File placement & imports
 

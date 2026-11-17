@@ -91,7 +91,9 @@ rules: `ai/instructions/08-handoff.md`. Code rules: `ai/instructions/02-architec
 2. Write the tests **first** with `playwright-test-creator` → **Test first, then gaps**, as drafts in
    `.work/<feature>/*.test.ts`: fixtures and POM / controller calls only, the business names the
    test wants. One `source` annotation per test → its scenario (`specs/<feature>.md#<N.M>`). Ids:
-   real `@T` only if known, else `@unlinked`.
+   real `@T` only if known, else `@unlinked`. A test that starts on a page takes its `opened<Page>`
+   fixture when one exists. If the drafts bring the tests that open a page first to three or more,
+   plan the fixture as a `FIXTURE opened<Page>` gap (Framework contract → Imports and fixtures).
 3. **Before** running `gaps`, write section 2: `**Tests:**` (the draft paths) and the `**Gap plan:**`
    (`- G-n KIND key` per missing member).
 4. `npm run handoff -- check <feature>` — contract lint on the drafts, then the gap comparison.

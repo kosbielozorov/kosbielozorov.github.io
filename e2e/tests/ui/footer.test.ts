@@ -80,8 +80,7 @@ test.describe('Back-to-top button', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/footer.md#1.2' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.backToTop.expectAbsent(BACK_TO_TOP);
       await homePage.scrollDown(A_LITTLE);
       await homePage.backToTop.expectShown(BACK_TO_TOP);
@@ -99,8 +98,7 @@ test.describe('Back-to-top button', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/footer.md#1.2' }],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.backToTop.expectAbsent(BACK_TO_TOP);
       await resumePage.scrollDown(A_LITTLE);
       await resumePage.backToTop.expectShown(BACK_TO_TOP);
@@ -118,8 +116,7 @@ test.describe('Back-to-top button', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/footer.md#1.2' }],
     },
-    async ({ pageManager: { notFoundPage } }) => {
-      await notFoundPage.open();
+    async ({ openedNotFoundPage: notFoundPage }) => {
       await notFoundPage.backToTop.expectAbsent(BACK_TO_TOP);
       await notFoundPage.scrollDown(A_LITTLE);
       await notFoundPage.backToTop.expectShown(BACK_TO_TOP);
@@ -140,8 +137,7 @@ test.describe('Back-to-top button', () => {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/footer.md#1.3' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectReducedMotion();
         await homePage.scrollDown();
 

@@ -57,9 +57,7 @@ for (const {
           { type: 'source', description: 'specs/resume-page.md#1.1' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectProfileShown(profile);
         await resumePage.expectSections(sections);
       },
@@ -73,9 +71,7 @@ for (const {
           { type: 'source', description: 'specs/resume-page.md#1.2' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectContactLinks({
           email: 'mailto:k.bielozorov@gmail.com',
           phone: 'tel:+380987949507',
@@ -94,9 +90,7 @@ for (const {
           { type: 'source', description: 'specs/resume-page.md#1.3' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectResumeDownload(pdf);
       },
     );
@@ -109,9 +103,7 @@ for (const {
           { type: 'source', description: 'specs/resume-page.md#1.6' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectResumeTitle({ ...profile, suffix: titleSuffix });
         await resumePage.expectShareMetadata({
           canonical: RESUME_URL,
@@ -146,9 +138,7 @@ for (const {
           { type: 'source', description: 'specs/resume-page.md#1.6' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectSingleMetaDescription(profile.name);
       },
     );
@@ -163,9 +153,8 @@ test.describe('Resume page — language and navigation', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/resume-page.md#1.4' }],
     },
-    async ({ pageManager: { resumePage } }) => {
+    async ({ openedResumePage: resumePage }) => {
       const [english, ukrainian] = LANGUAGES;
-      await resumePage.open();
       await resumePage.markDocument();
 
       await resumePage.switchLanguage('UA');
@@ -198,8 +187,7 @@ test.describe('Resume page — language and navigation', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/resume-page.md#1.5' }],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.backToHome();
 
       await resumePage.expectUrl('/#home');
@@ -212,8 +200,7 @@ test.describe('Resume page — language and navigation', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/resume-page.md#1.3' }],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
+    async ({ openedResumePage: resumePage }) => {
       const englishPdf = await resumePage.resumePdf();
       await resumePage.switchLanguage('UA');
       await resumePage.expectResumeLink(PDF.uk);
@@ -236,9 +223,7 @@ test.describe('Resume page on a phone', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/resume-page.md#1.7' }],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
-
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.expectNoHorizontalScroll();
     },
   );
@@ -254,9 +239,7 @@ test.describe('Resume page on a phone', () => {
           { type: 'source', description: 'specs/resume-page.md#1.7' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.expectNoHorizontalScroll();
       },
     );

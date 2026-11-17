@@ -79,9 +79,7 @@ for (const {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.1' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectPosition(position);
         await homePage.expectPhoto();
       },
@@ -93,9 +91,7 @@ for (const {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.1' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.goToExperience(experience);
 
         await homePage.expectUrl('/#experience');
@@ -109,9 +105,7 @@ for (const {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.2' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectJobs(RECENT_JOBS[code]);
       },
     );
@@ -122,9 +116,7 @@ for (const {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.3' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.skills.expectSkills(skills);
         await homePage.skills.expectShown(skillsIn, skills[0], 1);
       },
@@ -142,8 +134,7 @@ for (const {
             { type: 'source', description: 'specs/home-page.md#1.3' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
+        async ({ openedHomePage: homePage }) => {
           await homePage.skills.choose(other);
           await homePage.skills.expectShown(skillsIn, other, otherIndex + 1);
 
@@ -160,9 +151,7 @@ for (const {
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.6' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectContactLinks(CONTACT_LINKS);
       },
     );
@@ -177,9 +166,7 @@ test.describe('Skills on a narrow screen', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/home-page.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.skills.expectNextCycle(ENGLISH.skillsIn, ENGLISH.skills);
     },
   );
@@ -190,9 +177,7 @@ test.describe('Skills on a narrow screen', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/home-page.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.skills.previous();
 
       await homePage.skills.expectShown(ENGLISH.skillsIn, ENGLISH.skills[5], 6);
@@ -205,8 +190,7 @@ test.describe('Skills on a narrow screen', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/home-page.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.skills.next();
       await homePage.skills.next();
       await homePage.skills.expectShown(ENGLISH.skillsIn, ENGLISH.skills[2], 3);
@@ -234,9 +218,7 @@ test.describe('Skills from the keyboard', () => {
             { type: 'source', description: 'specs/home-page.md#1.5' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.skills.chooseWithKeyboard(ENGLISH.skills[2], key);
 
           await homePage.skills.expectShown(
@@ -260,9 +242,7 @@ test.describe('Skills from the keyboard', () => {
             { type: 'source', description: 'specs/home-page.md#1.5' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.skills.expectArrowsNamed();
           await homePage.skills.nextWithKeyboard(key);
 
@@ -287,9 +267,7 @@ for (const { language, locale, heading, watermark } of LANGUAGES)
         tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.7' }],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.expectOneMainWithSections(SECTIONS);
         await homePage.expectSingleH1(heading);
         await homePage.expectSectionHeadingsBelowH1(SECTIONS.slice(1));
@@ -307,9 +285,7 @@ test.describe('Skill icons', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/home-page.md#1.7' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.skills.expectDecorativeIcons();
     },
   );

@@ -58,9 +58,7 @@ for (const { language, locale, content } of LANGUAGES)
           { type: 'source', description: 'specs/not-found-page.md#1.1' },
         ],
       },
-      async ({ pageManager: { notFoundPage } }) => {
-        await notFoundPage.open();
-
+      async ({ openedNotFoundPage: notFoundPage }) => {
         await notFoundPage.expectContent(content);
       },
     );
@@ -140,8 +138,7 @@ test.describe('Which paths lead to the not-found page', () => {
         { type: 'source', description: 'specs/not-found-page.md#1.4' },
       ],
     },
-    async ({ pageManager: { homePage, notFoundPage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage, pageManager: { notFoundPage } }) => {
       await homePage.scrollDown();
       await homePage.markDocument();
 

@@ -45,9 +45,7 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
           { type: 'source', description: 'specs/head-metadata.md#1.1' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.head.expectTag('description', profile.summary);
         await homePage.head.expectTag('og:title', homeTitle);
         await homePage.head.expectTag('og:description', profile.summary);
@@ -66,9 +64,7 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
           { type: 'source', description: 'specs/head-metadata.md#1.2' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.head.expectTag('og:title', resumeTitle);
         await resumePage.head.expectTag('og:description', profile.summary);
         await resumePage.head.expectTag(
@@ -101,9 +97,7 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
           { type: 'source', description: 'specs/head-metadata.md#1.3' },
         ],
       },
-      async ({ pageManager: { notFoundPage } }) => {
-        await notFoundPage.open();
-
+      async ({ openedNotFoundPage: notFoundPage }) => {
         await notFoundPage.head.expectTag('description', notFound);
         await notFoundPage.head.expectTag('robots', 'noindex');
         await notFoundPage.head.expectNoTagsWithPrefixes([
@@ -123,8 +117,7 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
           { type: 'source', description: 'specs/head-metadata.md#1.4' },
         ],
       },
-      async ({ pageManager: { homePage, resumePage } }) => {
-        await homePage.open();
+      async ({ openedHomePage: homePage, pageManager: { resumePage } }) => {
         await homePage.head.expectTag('description', profile.summary);
         await homePage.head.expectTag('og:title', homeTitle);
         await homePage.head.expectTag('og:description', profile.summary);
@@ -147,9 +140,7 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
           { type: 'source', description: 'specs/head-metadata.md#1.2' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.head.expectTag('twitter:card', 'summary');
         await resumePage.head.expectTag('twitter:title', resumeTitle);
         await resumePage.head.expectTag('twitter:description', profile.summary);
@@ -169,9 +160,7 @@ test.describe('Canonical, preview image, preview without JavaScript, manifest', 
         { type: 'source', description: 'specs/head-metadata.md#1.1' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.head.expectLink('canonical', `${SITE}/`);
       await homePage.head.expectTag('og:url', `${SITE}/`);
     },
@@ -185,9 +174,7 @@ test.describe('Canonical, preview image, preview without JavaScript, manifest', 
         { type: 'source', description: 'specs/head-metadata.md#1.1' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.head.expectImageTag('og:image', SITE);
       await homePage.head.expectImageTag('twitter:image', SITE);
     },
@@ -201,9 +188,7 @@ test.describe('Canonical, preview image, preview without JavaScript, manifest', 
         { type: 'source', description: 'specs/head-metadata.md#1.2' },
       ],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
-
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.head.expectImageTag('og:image', SITE);
       await resumePage.head.expectImageTag('twitter:image', SITE);
     },
@@ -253,9 +238,7 @@ test.describe('Icons on every route', () => {
         { type: 'source', description: 'specs/head-metadata.md#1.5' },
       ],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.head.expectIcons();
     },
   );
@@ -268,9 +251,7 @@ test.describe('Icons on every route', () => {
         { type: 'source', description: 'specs/head-metadata.md#1.5' },
       ],
     },
-    async ({ pageManager: { resumePage } }) => {
-      await resumePage.open();
-
+    async ({ openedResumePage: resumePage }) => {
       await resumePage.head.expectIcons();
     },
   );
@@ -283,9 +264,7 @@ test.describe('Icons on every route', () => {
         { type: 'source', description: 'specs/head-metadata.md#1.5' },
       ],
     },
-    async ({ pageManager: { notFoundPage } }) => {
-      await notFoundPage.open();
-
+    async ({ openedNotFoundPage: notFoundPage }) => {
       await notFoundPage.head.expectIcons();
     },
   );

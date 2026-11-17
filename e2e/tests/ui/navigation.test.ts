@@ -38,9 +38,7 @@ for (const [screen, viewport] of [
           { type: 'source', description: 'specs/navigation.md#1.1' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.scrollDown();
 
         await homePage.menu.expectHeaderAtTop();
@@ -55,9 +53,7 @@ for (const [screen, viewport] of [
           { type: 'source', description: 'specs/navigation.md#1.1' },
         ],
       },
-      async ({ pageManager: { resumePage } }) => {
-        await resumePage.open();
-
+      async ({ openedResumePage: resumePage }) => {
         await resumePage.scrollDown();
 
         await resumePage.menu.expectHeaderAtTop();
@@ -72,9 +68,7 @@ for (const [screen, viewport] of [
           { type: 'source', description: 'specs/navigation.md#1.1' },
         ],
       },
-      async ({ pageManager: { notFoundPage } }) => {
-        await notFoundPage.open();
-
+      async ({ openedNotFoundPage: notFoundPage }) => {
         await notFoundPage.scrollDown();
 
         await notFoundPage.menu.expectHeaderAtTop();
@@ -91,9 +85,7 @@ test.describe('Marked menu item', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.2' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.expectMarked('Home');
     },
   );
@@ -107,9 +99,7 @@ test.describe('Marked menu item', () => {
           { type: 'source', description: 'specs/navigation.md#1.2' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.goTo(item);
 
         await homePage.menu.expectMarked(item);
@@ -140,9 +130,7 @@ test.describe('Marked menu item', () => {
       tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.2' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.goTo('About Me');
 
       await homePage.menu.expectCurrentAnnounced('About Me');
@@ -162,9 +150,7 @@ test.describe('Header menu or drawer by width', () => {
           { type: 'source', description: 'specs/navigation.md#1.3' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
-
+      async ({ openedHomePage: homePage }) => {
         await homePage.menu.expectItems(MENU);
         await homePage.menu.expectDrawerToggleHidden();
       },
@@ -183,9 +169,7 @@ test.describe('Header menu or drawer by width', () => {
             { type: 'source', description: 'specs/navigation.md#1.3' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.menu.expectHidden();
           await homePage.menu.expectDrawerToggleShown();
         },
@@ -204,9 +188,7 @@ test.describe('Header menu or drawer by width', () => {
             { type: 'source', description: 'specs/navigation.md#1.3' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.expectNoHorizontalScroll();
         },
       );
@@ -224,9 +206,7 @@ test.describe('Header menu or drawer by width', () => {
             { type: 'source', description: 'specs/navigation.md#1.3' },
           ],
         },
-        async ({ pageManager: { homePage } }) => {
-          await homePage.open();
-
+        async ({ openedHomePage: homePage }) => {
           await homePage.expectNoHorizontalScroll();
         },
       );
@@ -243,9 +223,7 @@ test.describe('Drawer from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.openDrawerWithKeyboard('Enter');
 
       await homePage.menu.expectDrawerOpen();
@@ -260,8 +238,7 @@ test.describe('Drawer from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.openDrawerWithKeyboard('Enter');
 
       await homePage.menu.closeDrawerWithEscape();
@@ -278,8 +255,7 @@ test.describe('Drawer from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.openDrawerWithKeyboard('Enter');
 
       await homePage.menu.closeDrawerWithCloseButton('Close menu');
@@ -296,8 +272,7 @@ test.describe('Drawer from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.4' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.openDrawerWithKeyboard('Enter');
 
       await homePage.menu.expectFocusTrappedInDrawer();
@@ -314,9 +289,7 @@ test.describe('Header menu from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.5' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       /* The language buttons by the code they show — their full names may grow (LANG-3). */
       await homePage.menu.expectTabOrder([...MENU, /\bEN\b/, /\bUA\b/]);
     },
@@ -328,9 +301,7 @@ test.describe('Header menu from the keyboard', () => {
       tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.5' }],
     },
-    async ({ pageManager: { homePage } }) => {
-      await homePage.open();
-
+    async ({ openedHomePage: homePage }) => {
       await homePage.menu.goToWithKeyboard('About Me');
 
       await homePage.expectSectionAtTop('about-me');
@@ -344,8 +315,7 @@ test(
     tag: ['@unlinked'],
     annotation: [{ type: 'source', description: 'specs/navigation.md#1.6' }],
   },
-  async ({ pageManager: { resumePage, homePage } }) => {
-    await resumePage.open();
+  async ({ openedResumePage: resumePage, pageManager: { homePage } }) => {
     await resumePage.menu.goTo('Experience');
     await homePage.expectUrl('/#experience');
 
@@ -381,8 +351,7 @@ for (const { language, locale, heading, name } of [
           { type: 'source', description: 'specs/navigation.md#1.7' },
         ],
       },
-      async ({ pageManager: { homePage } }) => {
-        await homePage.open();
+      async ({ openedHomePage: homePage }) => {
         /* The page is in the language under test, so a missing button is the defect, not the language. */
         await homePage.expectHeading(heading);
         await homePage.scrollDown();

@@ -61,6 +61,11 @@ For each changed test, check and cite file:line for every finding:
 - **Layering.** Actions and locators via POM / controller methods; status codes and error messages via
   `expectResponseStatusCode()` / `expectResponseErrorMessage(s)()`; no method that already exists was
   re-implemented (check `specs/framework-catalog.md` after `npm run catalog:generate`).
+- **Opened-page fixture (YAGNI both ways).** Lint already flags a bare first-step `open()` when
+  `opened<Page>` exists. You check the other two cases: three or more tests (in the suite, after
+  this change) start with a bare `await <page>.open()` and no `opened<Page>` exists → propose the
+  fixture (non-blocking); a new `opened<Page>` fixture used by fewer than three tests → premature,
+  remove it (non-blocking).
 - **Pinned defects.** A `test.fail()` names its `@bug-<id>` in `tag: []` and keeps the original
   expected value.
 - **Titles.** Describe the business outcome, not the clicks.
