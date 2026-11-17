@@ -229,14 +229,12 @@ test.describe('Skills from the keyboard', () => {
       test(
         `a skill card is a button that ${key} chooses, and the chosen card is announced`,
         {
-          tag: ['@keyboard', '@unlinked', '@bug-HOME-1'],
+          tag: ['@keyboard', '@unlinked'],
           annotation: [
             { type: 'source', description: 'specs/home-page.md#1.5' },
           ],
         },
         async ({ pageManager: { homePage } }) => {
-          /* Pinned product defect HOME-1 (specs/known-defects/HOME-1-skill-cards-not-keyboard.md). */
-          test.fail();
           await homePage.open();
 
           await homePage.skills.chooseWithKeyboard(ENGLISH.skills[2], key);
@@ -257,14 +255,12 @@ test.describe('Skills from the keyboard', () => {
       test(
         `the arrows are named buttons and ${key} on "next" moves on`,
         {
-          tag: ['@keyboard', '@unlinked', '@bug-HOME-2'],
+          tag: ['@keyboard', '@unlinked'],
           annotation: [
             { type: 'source', description: 'specs/home-page.md#1.5' },
           ],
         },
         async ({ pageManager: { homePage } }) => {
-          /* Pinned product defect HOME-2 (specs/known-defects/HOME-2-skill-arrows-not-keyboard.md). */
-          test.fail();
           await homePage.open();
 
           await homePage.skills.expectArrowsNamed();
@@ -288,12 +284,10 @@ for (const { language, locale, heading, watermark } of LANGUAGES)
     test(
       `one main landmark, a single h1, section headings below it and a hidden background text in ${language}`,
       {
-        tag: ['@unlinked', '@bug-HOME-4'],
+        tag: ['@unlinked'],
         annotation: [{ type: 'source', description: 'specs/home-page.md#1.7' }],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect HOME-4 (specs/known-defects/HOME-4-no-main-five-h1.md). */
-        test.fail();
         await homePage.open();
 
         await homePage.expectOneMainWithSections(SECTIONS);
@@ -310,12 +304,10 @@ test.describe('Skill icons', () => {
   test(
     'the skill icons are decorative',
     {
-      tag: ['@unlinked', '@bug-HOME-3'],
+      tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/home-page.md#1.7' }],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect HOME-3 (specs/known-defects/HOME-3-skill-icons-wrong-alt.md). */
-      test.fail();
       await homePage.open();
 
       await homePage.skills.expectDecorativeIcons();

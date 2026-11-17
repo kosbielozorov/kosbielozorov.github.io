@@ -27,9 +27,9 @@ export default function Experience() {
           <p className="text-[240px] w-[80%] overflow-hidden absolute lg:left-40 md:left-30 top-[-50px]  text-[#F7FBFD]">
             {t('experience.watermark')}
           </p>
-          <h1 className="relative font-extrabold text-5xl text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
+          <h2 className="relative font-extrabold text-5xl text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
             {title}
-          </h1>
+          </h2>
           <p className="relative w-full font-[300]  font-recoleta text-[#223740] text-2xl mb-10 px-5 md:px-24">
             {description}
           </p>

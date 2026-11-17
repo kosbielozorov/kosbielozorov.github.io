@@ -20,7 +20,9 @@
   },
   "about": {
     "watermark": "Про мене",
-    "skillsIn": "Мої навички в"
+    "skillsIn": "Мої навички в",
+    "prevSkill": "Попередня навичка",
+    "nextSkill": "Наступна навичка"
   },
   "contact": {
     "watermark": "Контакти",

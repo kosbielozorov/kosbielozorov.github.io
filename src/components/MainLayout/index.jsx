@@ -45,10 +45,12 @@ function MainLayout() {
         />
       </Helmet>
       <Header />
-      <Home />
-      <Experience />
-      <AboutMe />
-      <ContactMe />
+      <main>
+        <Home />
+        <Experience />
+        <AboutMe />
+        <ContactMe />
+      </main>
       <Footer />
       <CallToAction />
     </>

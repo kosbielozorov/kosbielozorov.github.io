@@ -10,8 +10,8 @@ const MAX_TAB_STOPS_ON_PAGE = 120;
  * `specs/home-page.md` 1.3–1.5, 1.7 (zone Z-3 of `specs/app-map.md`).
  */
 export class Skills extends Component {
-  /** A card is the control holding a skill's `h4` title — `<a>` today (HOME-1), `<button>` once fixed. */
-  private readonly cards: Locator = this.page.locator(':is(a, button):has(h4)');
+  /** A card is the button holding a skill's `h4` title. */
+  private readonly cards: Locator = this.page.locator('button:has(h4)');
   private readonly cardTitles: Locator = this.cards.getByRole('heading', {
     level: 4,
   });
@@ -22,10 +22,8 @@ export class Skills extends Component {
   });
   /** The flip card showing the chosen skill's number, e.g. `*1`. */
   private readonly number: Locator = this.panel.locator('.card-inner');
-  /** The arrows: the panel's controls holding an icon — "previous" first, "next" last. */
-  private readonly arrows: Locator = this.panel.locator(
-    ':is(a, button):has(svg)',
-  );
+  /** The arrows: the panel's buttons holding an icon — "previous" first, "next" last. */
+  private readonly arrows: Locator = this.panel.locator('button:has(svg)');
 
   /**
    * Asserts the skills panel is shown.

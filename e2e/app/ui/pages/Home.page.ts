@@ -70,7 +70,7 @@ export class HomePage extends BasePage {
       const section = this.page.locator(`#${id}`);
       await expect(section, `Section #${id}`).toBeVisible();
       await expect(
-        /* Any level: the section headings are `h1` today and `h2` once HOME-4 is fixed. */
+        /* Any level: the Home heading is the page's `h1`, the other sections' are `h2`. */
         section.getByRole('heading').first(),
         `Heading of section #${id}`,
       ).toHaveText(/\S/);
@@ -275,10 +275,12 @@ export class HomePage extends BasePage {
 
   /**
    * Asserts a decorative background text of the About Me section is hidden from assistive
-   * technology: every element showing exactly this text is inside an `aria-hidden` element.
+   * technology: the text is there, no element other than a heading shows it unhidden, and at most
+   * one heading does — in Ukrainian the section heading reads the same as the background text
+   * ("Про мене"), and that heading must stay exposed.
    *
    * @param {string} text - The background text in the page's language, e.g. `About Me`.
-   * @returns {Promise<void>} Resolves once no exposed element shows that text.
+   * @returns {Promise<void>} Resolves once only the section's own heading (if any) exposes that text.
    */
   async expectBackgroundTextHidden(text: string): Promise<void> {
     const shown = this.page
@@ -286,16 +288,24 @@ export class HomePage extends BasePage {
       .getByText(text, { exact: true });
     /* The text must be there — hidden, not missing (a typo or another translation would pass). */
     await expect(shown.first(), `Background "${text}"`).toBeAttached();
+    const exposed = (headings: boolean) =>
+      shown.evaluateAll(
+        (elements, wantHeadings) =>
+          elements.filter(
+            element =>
+              !element.closest('[aria-hidden="true"]') &&
+              /^H[1-6]$/.test(element.tagName) === wantHeadings,
+          ).length,
+        headings,
+      );
     await expect
-      .poll(
-        () =>
-          shown.evaluateAll(elements =>
-            elements
-              .filter(element => !element.closest('[aria-hidden="true"]'))
-              .map(element => element.tagName),
-          ),
-        { message: `Background "${text}" should be hidden` },
-      )
-      .toEqual([]);
+      .poll(() => exposed(false), {
+        message: `Background "${text}" should be hidden`,
+      })
+      .toBe(0);
+    expect(
+      await exposed(true),
+      `At most the section heading may read "${text}"`,
+    ).toBeLessThanOrEqual(1);
   }
 }

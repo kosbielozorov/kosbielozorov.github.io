@@ -20,7 +20,9 @@
   },
   "about": {
     "watermark": "About Me",
-    "skillsIn": "My skills in"
+    "skillsIn": "My skills in",
+    "prevSkill": "Previous skill",
+    "nextSkill": "Next skill"
   },
   "contact": {
     "watermark": "Contact me",

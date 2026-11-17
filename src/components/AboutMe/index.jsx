@@ -57,12 +57,15 @@ export default function AboutMe() {
         className="bg-[#E0F3FD] pt-[250px] pb-[100px] lg:pb-[600px] relative lg:h-[800px]"
       >
         <div className="container m-auto">
-          <h1 className="text-[240px] w-[80%] overflow-hidden absolute lg:left-40 md:left-30 top-[-50px]  text-[#EAF7FC]">
+          <p
+            aria-hidden="true"
+            className="text-[240px] w-[80%] overflow-hidden absolute lg:left-40 md:left-30 top-[-50px]  text-[#EAF7FC]"
+          >
             {t('about.watermark')}
-          </h1>
-          <h1 className="relative font-extrabold text-5xl  text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
+          </p>
+          <h2 className="relative font-extrabold text-5xl  text-[#48AFDE] mb-5 -mt-40  md:px-24 px-5">
             {about.title}
-          </h1>
+          </h2>
 
           <h4 className="relative w-full font-[300] md:w-3/4 lg:w-2/3 xl:w-1/2 font-recoleta text-[#223740] text-2xl mb-10 px-5 md:px-24">
             {about.shortDesc}
@@ -102,8 +105,10 @@ export default function AboutMe() {
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6 mr-0 lg:mr-10">
               {/* console.log('selected: ', selectedIndex); */}
               {about.skills.map((item, index) => (
-                <a
+                <button
+                  type="button"
                   key={index}
+                  aria-pressed={selectedIndex === index}
                   onClick={() => handleCardClick(item, index)}
                   style={{ boxShadow: '#48AFDE -5px  10px 20px 0px' }}
                   className={`relative cursor-pointer transition-all transform duration-300 group rounded-xl center p-6 lg:p-10 flex flex-col justify-center  items-center ${
@@ -113,12 +118,7 @@ export default function AboutMe() {
                   }`}
                 >
                   <div className="w-16 h-16 sm:w-10 sm:h-10  lg:w-16 lg:h-16">
-                    <img
-                      height={100}
-                      width={100}
-                      src={item.img}
-                      alt="internet issues"
-                    />
+                    <img height={100} width={100} src={item.img} alt="" />
                   </div>
                   <h4
                     className={`text-center text-sm lg:text-xl  font-recoletaBold transition-colors duration-500 group-hover:text-white text-[#47626D] mt-3 ${
@@ -137,7 +137,7 @@ export default function AboutMe() {
                   >
                     {item.count}
                   </div>
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -177,7 +177,9 @@ export default function AboutMe() {
               </div>
 
               <div className="absolute right-10 -bottom-5 flex">
-                <a
+                <button
+                  type="button"
+                  aria-label={t('about.prevSkill')}
                   onClick={HandlePrev}
                   className="w-12 h-12 rounded-xl mr-1 transform transition duration-500  cursor-pointer  hover:-translate-y-1 hover:shadow-lg -rotate flex justify-center items-center bg-[#47626D]"
                 >
@@ -196,8 +198,10 @@ export default function AboutMe() {
                       d="M15 19l-7-7 7-7"
                     ></path>
                   </svg>
-                </a>
-                <a
+                </button>
+                <button
+                  type="button"
+                  aria-label={t('about.nextSkill')}
                   onClick={HandleNext}
                   className="w-12 h-12 rounded-xl mr-1 transform transition duration-500  cursor-pointer  hover:-translate-y-1 hover:shadow-lg -rotate flex justify-center items-center bg-[#47626D]"
                 >
@@ -216,7 +220,7 @@ export default function AboutMe() {
                       d="M9 5l7 7-7 7"
                     ></path>
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </div>
