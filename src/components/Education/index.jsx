@@ -1,14 +1,24 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function Education({ certification, company, year, city }) {
+/** `type` 'degree' for a university degree, a certificate (a course) otherwise. */
+export default function Education({
+  type,
+  certification,
+  company,
+  year,
+  city,
+}) {
   const { t } = useTranslation();
 
   return (
     <React.Fragment>
       <div>
         <span className="education__description">
-          {t('education.certification')}
+          {t(
+            type === 'degree' ? 'education.degree' : 'education.certification',
+          )}
         </span>
         {certification}
       </div>

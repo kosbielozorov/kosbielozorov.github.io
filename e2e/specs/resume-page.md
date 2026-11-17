@@ -11,8 +11,8 @@
   `Black/Grey White box testing` (→ `Black/Grey/White box testing`); a content fix in
   `../src/info/en.js`, texts are not pinned by tests (O-4, O-5, 2026-11-12); fixed 2026-11-13.
 - Out of scope: the university degree labelled `Certification | …` like the courses — a content
-  wording issue in `../src/info/`, not tested (O-7, 2026-11-12); brief:
-  `specs/known-defects/CONTENT-1-typos.md` (waits for the owner's wording).
+  wording issue in `../src/info/`, not tested (O-7, 2026-11-12); fixed 2026-11-17 with the owner's
+  wording: the degree reads "Degree | …" (uk "Освіта | …"), the courses keep "Certification".
 
 - Out of scope: "Back to home" checked in Ukrainian too — the same link and `href`, only the text is
   translated, and texts are not pinned by tests (Q-1, 2026-11-13).

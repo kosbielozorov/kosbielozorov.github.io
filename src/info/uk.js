@@ -281,6 +281,7 @@ export const portfolioData = {
       city: 'Київ',
     },
     {
+      type: 'degree',
       certification: 'Менеджмент організацій | спеціаліст',
       company: 'Білоцерківський національний аграрний університет',
       year: '2000 - 2005',

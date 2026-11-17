@@ -42,7 +42,8 @@
     "achievements": "Досягнення:"
   },
   "education": {
-    "certification": "Сертифікат | "
+    "certification": "Сертифікат | ",
+    "degree": "Освіта | "
   },
   "resume": {
     "title": "Моє резюме",

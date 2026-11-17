@@ -281,6 +281,7 @@ export const portfolioData = {
       city: 'Kyiv',
     },
     {
+      type: 'degree',
       certification: 'Management of organizations | Specialist',
       company: 'Bila Tserkva National Agrarian University',
       year: '2000 - 2005',

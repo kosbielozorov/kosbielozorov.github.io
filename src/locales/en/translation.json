@@ -42,7 +42,8 @@
     "achievements": "Achievements:"
   },
   "education": {
-    "certification": "Certification | "
+    "certification": "Certification | ",
+    "degree": "Degree | "
   },
   "resume": {
     "title": "My resume",
