@@ -1,4 +1,5 @@
 import { expect, type Locator } from '@playwright/test';
+import { HeadMetadata } from '@components/HeadMetadata.component';
 import { SiteMenu } from '@components/SiteMenu.component';
 import { BasePage } from '@pages/BasePage';
 
@@ -38,6 +39,9 @@ export class ResumePage extends BasePage {
 
   /** The header menu and the drawer. */
   public readonly menu = new SiteMenu(this.page);
+
+  /** The document head: meta tags, links, JSON-LD. */
+  public readonly head = new HeadMetadata(this.page);
 
   private readonly main: Locator = this.page.getByRole('main');
   private readonly name: Locator = this.main.getByRole('heading', {

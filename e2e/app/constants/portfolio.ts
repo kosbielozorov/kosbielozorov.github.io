@@ -41,3 +41,34 @@ export const RECENT_JOBS: Readonly<Record<'en' | 'uk', readonly ShownJob[]>> = {
   en: jobsOf(en as { experience: { jobs: Job[] } }),
   uk: jobsOf(uk as { experience: { jobs: Job[] } }),
 };
+
+/** The owner's profile as the site's data gives it, per language — for texts the tests do not pin. */
+export interface Profile {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  position: string;
+  summary: string;
+  currentCompany: string;
+}
+
+interface ProfileData {
+  first: { name: string; secondName: string; position: string };
+  summary: { description: string };
+  experience: { jobs: { companyName: string }[] };
+}
+
+const profileOf = (data: ProfileData): Profile => ({
+  firstName: data.first.name,
+  lastName: data.first.secondName,
+  fullName: `${data.first.name} ${data.first.secondName}`,
+  position: data.first.position,
+  summary: data.summary.description,
+  currentCompany: data.experience.jobs[0].companyName,
+});
+
+/** The profile per language. */
+export const PROFILE: Readonly<Record<'en' | 'uk', Profile>> = {
+  en: profileOf(en as ProfileData),
+  uk: profileOf(uk as ProfileData),
+};

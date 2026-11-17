@@ -26,7 +26,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 (`characterize-feature` → **Ranking**); re-ranked 2026-11-13: the first ranking weighed impact
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
-Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata →
+Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata (covered) →
 Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
@@ -95,9 +95,10 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
   every route and language
 - Risk: medium — impact: what search engines and link previews show; exposure: every visitor
   arriving from a search or a shared link; dependents: —
-- Status: unexplored
-- Spec: —
-- Scaffolding: —
+- Status: covered
+- Spec: `specs/head-metadata.md`
+- Scaffolding: — (not applicable: `<head>` is outside the accessibility tree and API shapes)
+- Tests: `tests/ui/head-metadata.test.ts` (with `tests/ui/resume-page.test.ts` 1.6 and `tests/ui/language-switching.test.ts` 1.3 for the titles; run in Chromium so far)
 - Notes: two `meta description` tags on every page — the static English one from `index.html`
   first; confirmed as a bug on the resume page (`specs/resume-page.md` F-3)
 

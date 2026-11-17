@@ -1,6 +1,7 @@
 import { expect, type Locator } from '@playwright/test';
 import { BackToTop } from '@components/BackToTop.component';
 import { Skills } from '@components/Skills.component';
+import { HeadMetadata } from '@components/HeadMetadata.component';
 import { SiteMenu } from '@components/SiteMenu.component';
 import type { ShownJob } from '@constants/portfolio';
 import { BasePage } from '@pages/BasePage';
@@ -17,6 +18,9 @@ export class HomePage extends BasePage {
 
   /** The header menu and the drawer. */
   public readonly menu = new SiteMenu(this.page);
+
+  /** The document head: meta tags, links, JSON-LD. */
+  public readonly head = new HeadMetadata(this.page);
 
   /** The About Me skills: cards, panel, arrows. */
   public readonly skills = new Skills(this.page);
