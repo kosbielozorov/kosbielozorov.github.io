@@ -80,7 +80,3 @@
 **Expected:**
 
 - Navigating to an unknown path inside the app (no reload) shows the not-found page at its top (O-5; confirmed by the site owner, 2026-11-17).
-
-## Known defects
-
-- F-1 / `@bug-NF-1` (2026-11-17): scenario 1.2 — `/index.html` shows the not-found page → `specs/known-defects/NF-1-index-html-not-found.md`

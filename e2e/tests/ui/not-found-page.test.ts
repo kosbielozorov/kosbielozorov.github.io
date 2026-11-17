@@ -88,14 +88,12 @@ test.describe('Which paths lead to the not-found page', () => {
   test(
     '/index.html shows the home page',
     {
-      tag: ['@unlinked', '@bug-NF-1'],
+      tag: ['@unlinked'],
       annotation: [
         { type: 'source', description: 'specs/not-found-page.md#1.2' },
       ],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect NF-1 (specs/known-defects/NF-1-index-html-not-found.md). */
-      test.fail();
       await homePage.open('/index.html');
 
       await homePage.expectHeading(HOME_HEADING);
