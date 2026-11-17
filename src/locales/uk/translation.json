@@ -5,7 +5,8 @@
     "aboutMe": "Про мене",
     "contactMe": "Контакти",
     "openMenu": "Відкрити меню",
-    "closeMenu": "Закрити меню"
+    "closeMenu": "Закрити меню",
+    "menu": "Меню"
   },
   "hero": {
     "hiThere": "Вітаю!",

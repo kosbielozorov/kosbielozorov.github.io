@@ -17,7 +17,7 @@ const ITEMS = MENU.map((item, index) => ({ item, section: SECTIONS[index] }));
 
 /** Header-menu widths and drawer widths around the 1280 px switch. */
 const DRAWER_WIDTHS = [1279, 1024, 768, 640] as const;
-/** Widths checked for sideways scrolling; 640 and 700 scroll today (NAV-4). */
+/** Widths checked for sideways scrolling. */
 const FITTING_WIDTHS = [768, 1024, 1279, 1280] as const;
 const OVERFLOWING_WIDTHS = [640, 700] as const;
 
@@ -137,12 +137,10 @@ test.describe('Marked menu item', () => {
   test(
     'the marked item is announced as current',
     {
-      tag: ['@unlinked', '@bug-NAV-6'],
+      tag: ['@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.2' }],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect NAV-6 (specs/known-defects/NAV-6-current-item-not-announced.md). */
-      test.fail();
       await homePage.open();
 
       await homePage.menu.goTo('About Me');
@@ -221,14 +219,12 @@ test.describe('Header menu or drawer by width', () => {
       test(
         `the home page does not scroll sideways at ${width} px`,
         {
-          tag: ['@unlinked', '@bug-NAV-4'],
+          tag: ['@unlinked'],
           annotation: [
             { type: 'source', description: 'specs/navigation.md#1.3' },
           ],
         },
         async ({ pageManager: { homePage } }) => {
-          /* Pinned product defect NAV-4 (specs/known-defects/NAV-4-home-scrolls-sideways-at-tablet-widths.md). */
-          test.fail();
           await homePage.open();
 
           await homePage.expectNoHorizontalScroll();
@@ -297,12 +293,10 @@ test.describe('Drawer from the keyboard', () => {
   test(
     'Tab and Shift+Tab keep the focus inside the open drawer',
     {
-      tag: ['@keyboard', '@unlinked', '@bug-NAV-5'],
+      tag: ['@keyboard', '@unlinked'],
       annotation: [{ type: 'source', description: 'specs/navigation.md#1.4' }],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect NAV-5 (specs/known-defects/NAV-5-open-drawer-lets-focus-out.md). */
-      test.fail();
       await homePage.open();
       await homePage.menu.openDrawerWithKeyboard('Enter');
 
@@ -381,14 +375,12 @@ for (const { language, locale, heading, name } of [
     test(
       `the back-to-top button is a named button that Enter uses in ${language}`,
       {
-        tag: ['@keyboard', '@unlinked', '@bug-NAV-7'],
+        tag: ['@keyboard', '@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/navigation.md#1.7' },
         ],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect NAV-7 (specs/known-defects/NAV-7-back-to-top-not-a-button.md). */
-        test.fail();
         await homePage.open();
         /* The page is in the language under test, so a missing button is the defect, not the language. */
         await homePage.expectHeading(heading);

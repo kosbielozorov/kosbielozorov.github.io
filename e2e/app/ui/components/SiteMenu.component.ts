@@ -13,12 +13,6 @@ const PLACEHOLDER_TOGGLE_NAME = /^drawer item$/i;
 const DRAWER_TAB_WALK = 15;
 /** The drawer's container — it has no landmark of its own apart from its header. */
 const DRAWER = '.diagonal-drawer';
-/**
- * The class the app gives the marked header-menu item (`text-black`; the others are yellow). Not a
- * colour check: the class is what the app sets for "this one is current", and `:hover` does not
- * change it.
- */
-const MARKED_ITEM_CLASS = /(^|\s)text-black(\s|$)/;
 
 /** Where the keyboard focus is: inside the drawer, and whether it has wrapped back to the page. */
 interface FocusStop {
@@ -46,7 +40,7 @@ export class SiteMenu extends Component {
     .filter({ has: this.toggleImage });
   private readonly headerNavigation: Locator =
     this.header.getByRole('navigation');
-  /** Clicking the image reaches the toggle's handler, whether a `div` (today) or a `<button>`. */
+  /** Clicking the image reaches the toggle button's handler. */
   private readonly drawerToggleImage: Locator = this.header.locator(
     'img[src$="/drawer.png"]',
   );
@@ -300,17 +294,9 @@ export class SiteMenu extends Component {
    * @returns {Promise<void>} Resolves once only `item` carries the marked state.
    */
   async expectMarked(item: string): Promise<void> {
-    await this.expectOnlyItem(
-      item,
-      link =>
-        expect(link, `"${item}" should be marked`).toHaveClass(
-          MARKED_ITEM_CLASS,
-        ),
-      link =>
-        expect(link, `Only "${item}" should be marked`).not.toHaveClass(
-          MARKED_ITEM_CLASS,
-        ),
-    );
+    /* The app marks the current item with `aria-current` (what a screen reader reads) as well as
+     * colour; the attribute is the stable signal. */
+    await this.expectCurrentAnnounced(item);
   }
 
   /**

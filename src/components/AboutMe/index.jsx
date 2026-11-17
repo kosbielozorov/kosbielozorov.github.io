@@ -166,7 +166,7 @@ export default function AboutMe() {
                 </ul>
               </section>
               <div
-                className={`absolute perspective-500 -top-7 sm:top-30 right-0 sm:-right-20 card ${isFlipped ? 'flipped' : ''}`}
+                className={`absolute perspective-500 -top-7 sm:top-30 right-0 md:-right-20 card ${isFlipped ? 'flipped' : ''}`}
               >
                 <div className="card-inner">
                   <div className="rounded-2xl cursor-pointer  text-7xl  xl:text-7xl font-recoletaBlack text-white bg-[#47626D]  p-5 xl:p-8 w-28 h-28 xl:w-32 xl:h-32  transform transition duration-500 transform-preserve -rotate-6 transform-preserve">

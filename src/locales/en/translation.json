@@ -5,7 +5,8 @@
     "aboutMe": "About Me",
     "contactMe": "Contact Me",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "menu": "Menu"
   },
   "hero": {
     "hiThere": "Hi There!",

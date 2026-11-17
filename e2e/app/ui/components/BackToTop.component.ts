@@ -21,7 +21,7 @@ export class BackToTop extends Component {
 
   /**
    * Asserts the back-to-top control is shown, found by its tooltip in either language
-   * (`cta.backToTop`) — it has no role today (NAV-7).
+   * (`cta.backToTop`).
    *
    * @param {string} [message='Back-to-top should be shown'] - Optional custom assertion message.
    * @returns {Promise<void>} Resolves once the control is visible.

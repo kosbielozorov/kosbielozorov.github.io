@@ -64,14 +64,32 @@ export default function Header() {
   };
 
   useEffect(() => {
-    // Escape closes the open drawer; closing it returns the focus to the toggle.
+    // The open drawer is modal: everything outside it is inert, Escape closes it, and closing it
+    // returns the focus to the toggle.
     if (isOpen) {
       wasOpen.current = true;
+      const drawer = document.getElementById('site-drawer');
+      const madeInert = [];
+      for (
+        let node = drawer;
+        node && node !== document.body;
+        node = node.parentElement
+      ) {
+        for (const sibling of node.parentElement?.children ?? []) {
+          if (sibling !== node && !sibling.hasAttribute('inert')) {
+            sibling.setAttribute('inert', '');
+            madeInert.push(sibling);
+          }
+        }
+      }
       const onKeyDown = event => {
         if (event.key === 'Escape') setIsOpen(false);
       };
       document.addEventListener('keydown', onKeyDown);
-      return () => document.removeEventListener('keydown', onKeyDown);
+      return () => {
+        document.removeEventListener('keydown', onKeyDown);
+        madeInert.forEach(element => element.removeAttribute('inert'));
+      };
     }
     if (wasOpen.current) {
       wasOpen.current = false;
@@ -105,6 +123,7 @@ export default function Header() {
     return (
       <Link
         className={`menu-item ${selectedIndex === index ? 'text-black' : 'text-[#e9b200]'} group-hover:text-black`}
+        aria-current={selectedIndex === index ? 'location' : undefined}
         to={to}
         onClick={handleClick}
       >
@@ -118,6 +137,9 @@ export default function Header() {
       <div
         id="site-drawer"
         className={`diagonal-drawer ${isOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-modal={isOpen ? 'true' : undefined}
+        aria-label={t('nav.menu')}
         // The closed drawer is only moved off screen; inert keeps its controls out of the Tab order.
         inert={isOpen ? undefined : ''}
       >

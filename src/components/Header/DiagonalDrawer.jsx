@@ -85,6 +85,9 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#home"
+                      aria-current={
+                        selectedIndex1 === 0 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(0);
                         setIsOpen(false);
@@ -104,6 +107,9 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#experience"
+                      aria-current={
+                        selectedIndex1 === 1 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(1);
                         setIsOpen(false);
@@ -123,6 +129,9 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#about-me"
+                      aria-current={
+                        selectedIndex1 === 2 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(2);
                         setIsOpen(false);
@@ -142,6 +151,9 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#contact-me"
+                      aria-current={
+                        selectedIndex1 === 3 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(3);
                         setIsOpen(false);

@@ -134,10 +134,3 @@
 ## Open questions
 
 - Q-1: Should the marked header-menu item follow scrolling (the section on screen), not only clicks and the loaded `#section` (O-3)? — asked 2026-11-13, owner the site owner
-
-## Known defects
-
-- F-1 / `@bug-NAV-4` (2026-11-13): scenario 1.3 — between ~620 and ~760 px the home page scrolls sideways (66 px at 640) — the About Me flip card → `specs/known-defects/NAV-4-home-scrolls-sideways-at-tablet-widths.md`
-- F-2 / `@bug-NAV-5` (2026-11-13): scenario 1.4 — Tab leaves the open drawer for controls hidden behind it → `specs/known-defects/NAV-5-open-drawer-lets-focus-out.md`
-- F-3 / `@bug-NAV-6` (2026-11-13): scenario 1.2 — the current menu item is marked only visually, no `aria-current` → `specs/known-defects/NAV-6-current-item-not-announced.md`
-- F-4 / `@bug-NAV-7` (2026-11-13): scenario 1.7 — the back-to-top button is a `div`: no role, not focusable → `specs/known-defects/NAV-7-back-to-top-not-a-button.md`
