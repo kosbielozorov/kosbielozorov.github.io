@@ -29,12 +29,16 @@
   "author": "Kostiantyn Bielozorov",
   "license": "ISC",
   "type": "module",
+  "overrides": {
+    "glob": "^14.0.6",
+    "minimatch": "^11.0.9"
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.3.0",
-    "@playwright/test": "^1.62.1",
-    "@testomatio/reporter": "^2.13.0",
+    "@playwright/test": "^1.65.1",
+    "@testomatio/reporter": "^2.23.0",
     "@types/node": "^26.1.2",
     "dotenv": "^17.4.2",
     "eslint": "^10.8.0",
