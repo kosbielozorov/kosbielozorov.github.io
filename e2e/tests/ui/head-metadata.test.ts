@@ -142,14 +142,12 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
     test(
       `the resume page has Twitter tags in ${language}`,
       {
-        tag: ['@unlinked', '@bug-META-4'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/head-metadata.md#1.2' },
         ],
       },
       async ({ pageManager: { resumePage } }) => {
-        /* Pinned product defect META-4 (specs/known-defects/META-4-resume-no-twitter-tags.md). */
-        test.fail();
         await resumePage.open();
 
         await resumePage.head.expectTag('twitter:card', 'summary');
@@ -160,20 +158,18 @@ for (const { language, code, locale, resume, notFound } of LANGUAGES) {
   });
 }
 
-test.describe('Head metadata defects', () => {
+test.describe('Canonical, preview image, preview without JavaScript, manifest', () => {
   test.use({ locale: ENGLISH.locale });
 
   test(
     'the home page has a canonical URL',
     {
-      tag: ['@unlinked', '@bug-META-3'],
+      tag: ['@unlinked'],
       annotation: [
         { type: 'source', description: 'specs/head-metadata.md#1.1' },
       ],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect META-3 (specs/known-defects/META-3-home-no-canonical.md). */
-      test.fail();
       await homePage.open();
 
       await homePage.head.expectLink('canonical', `${SITE}/`);
@@ -184,14 +180,12 @@ test.describe('Head metadata defects', () => {
   test(
     'the home page has a preview image',
     {
-      tag: ['@unlinked', '@bug-META-2'],
+      tag: ['@unlinked'],
       annotation: [
         { type: 'source', description: 'specs/head-metadata.md#1.1' },
       ],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect META-2 (specs/known-defects/META-2-no-preview-image.md). */
-      test.fail();
       await homePage.open();
 
       await homePage.head.expectImageTag('og:image', SITE);
@@ -202,14 +196,12 @@ test.describe('Head metadata defects', () => {
   test(
     'the resume page has a preview image',
     {
-      tag: ['@unlinked', '@bug-META-2'],
+      tag: ['@unlinked'],
       annotation: [
         { type: 'source', description: 'specs/head-metadata.md#1.2' },
       ],
     },
     async ({ pageManager: { resumePage } }) => {
-      /* Pinned product defect META-2 (specs/known-defects/META-2-no-preview-image.md). */
-      test.fail();
       await resumePage.open();
 
       await resumePage.head.expectImageTag('og:image', SITE);
@@ -221,15 +213,12 @@ test.describe('Head metadata defects', () => {
     test(
       `the HTML of ${path} has preview tags without JavaScript`,
       {
-        tag: ['@unlinked', '@bug-META-1'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/head-metadata.md#1.4' },
         ],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect META-1 (specs/known-defects/META-1-no-preview-tags-without-javascript.md). */
-        test.fail();
-
         await homePage.head.expectStaticTags(path, [
           'og:title',
           'og:description',
@@ -242,15 +231,12 @@ test.describe('Head metadata defects', () => {
   test(
     'the web manifest names the site',
     {
-      tag: ['@unlinked', '@bug-META-5'],
+      tag: ['@unlinked'],
       annotation: [
         { type: 'source', description: 'specs/head-metadata.md#1.5' },
       ],
     },
     async ({ pageManager: { homePage } }) => {
-      /* Pinned product defect META-5 (specs/known-defects/META-5-manifest-without-name.md). */
-      test.fail();
-
       await homePage.head.expectManifestNamed();
     },
   );

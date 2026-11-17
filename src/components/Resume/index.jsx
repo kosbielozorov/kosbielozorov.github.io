@@ -14,6 +14,8 @@ import './resume.css';
 
 const SITE_URL = 'https://kosbielozorov.github.io';
 const RESUME_URL = `${SITE_URL}/my-resume`;
+/** The preview picture for link previews (absolute: preview bots do not resolve relative URLs). */
+const PREVIEW_IMAGE = `${SITE_URL}/images/kos.jpg`;
 
 /** Extracts the Telegram username from `tg://resolve?domain=x` or `https://t.me/x`. */
 function getTelegramHandle(url = '') {
@@ -72,7 +74,7 @@ export default function Resume() {
     email: `mailto:${email}`,
     telephone: phone.replace(/[^\d+]/g, ''),
     url: RESUME_URL,
-    image: `${SITE_URL}/images/kos.jpg`,
+    image: PREVIEW_IMAGE,
     sameAs: [linkedin.url, github.url, telegramUrl],
     ...(currentJob && {
       worksFor: { '@type': 'Organization', name: currentJob.companyName },
@@ -93,6 +95,12 @@ export default function Resume() {
         <meta property="og:url" content={RESUME_URL} />
         <meta property="profile:first_name" content={name} />
         <meta property="profile:last_name" content={secondName} />
+        <meta property="og:image" content={PREVIEW_IMAGE} />
+        <meta property="og:image:alt" content={fullName} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={PREVIEW_IMAGE} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       <main
