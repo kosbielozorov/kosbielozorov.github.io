@@ -1,5 +1,7 @@
 import { expect, type Locator } from '@playwright/test';
+import { BackToTop } from '@components/BackToTop.component';
 import { HeadMetadata } from '@components/HeadMetadata.component';
+import { SiteFooter } from '@components/SiteFooter.component';
 import { SiteMenu } from '@components/SiteMenu.component';
 import { BasePage } from '@pages/BasePage';
 
@@ -42,6 +44,12 @@ export class ResumePage extends BasePage {
 
   /** The document head: meta tags, links, JSON-LD. */
   public readonly head = new HeadMetadata(this.page);
+
+  /** The site footer. */
+  public readonly footer = new SiteFooter(this.page);
+
+  /** The back-to-top button (after scrolling). */
+  public readonly backToTop = new BackToTop(this.page);
 
   private readonly main: Locator = this.page.getByRole('main');
   private readonly name: Locator = this.main.getByRole('heading', {

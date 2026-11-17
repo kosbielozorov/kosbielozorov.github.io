@@ -27,7 +27,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
 Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata (covered) →
-Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covered).
+Z-7 Footer and call to action (covered) → Z-6 Not-found page (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
 
@@ -116,6 +116,7 @@ Z-7 Footer and call to action → Z-6 Not-found page (Z-1 Resume page — covere
 - Entry points: footer, the call-to-action block on every page
 - Risk: medium — impact: presentation, the call to contact; exposure: every visitor (every page);
   dependents: —
-- Status: unexplored
-- Spec: —
+- Status: covered
+- Spec: `specs/footer.md`
 - Scaffolding: —
+- Tests: `tests/ui/footer.test.ts` (with `tests/ui/navigation.test.ts` 1.7 for the back-to-top button from the keyboard; run in Chromium so far)

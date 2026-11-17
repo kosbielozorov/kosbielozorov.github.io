@@ -61,22 +61,38 @@ export abstract class BasePage extends Component {
 
   /**
    * Scrolls the page down with the mouse wheel and waits until it has moved past the header's
-   * height, or as far as a short page allows (smooth scrolling takes a moment).
+   * height (or `distance`, if smaller, or as far as a short page allows) and the smooth scroll has
+   * ended (the browser's `scrollend`; at most 2 s — when nothing scrolls, that is a 2 s wait).
    *
    * @param {number} [distance=1500] - Pixels to scroll.
-   * @returns {Promise<void>} Resolves once `window.scrollY` reaches {@link SCROLLED_PAST} or the
-   *   bottom of a shorter page.
+   * @returns {Promise<void>} Resolves once the page has scrolled by
+   *   `min(distance, SCROLLED_PAST, room)` and stopped moving.
    */
   async scrollDown(distance = 1500): Promise<void> {
+    /* Smooth scrolling keeps animating after scrollY stops changing (on a short page it sits at the
+     * bottom while the animation runs): wait for the browser's `scrollend`, or 2 s at most. */
+    const ended = this.page.evaluate(
+      () =>
+        new Promise<void>(resolve => {
+          window.addEventListener('scrollend', () => resolve(), { once: true });
+          setTimeout(resolve, 2000);
+        }),
+    );
     await this.page.mouse.wheel(0, distance);
+    await ended;
     await expect
       .poll(
         () =>
-          this.page.evaluate(past => {
-            const room =
-              document.documentElement.scrollHeight - window.innerHeight;
-            return window.scrollY > 0 && window.scrollY >= Math.min(past, room);
-          }, SCROLLED_PAST),
+          this.page.evaluate(
+            past => {
+              const room =
+                document.documentElement.scrollHeight - window.innerHeight;
+              return (
+                window.scrollY > 0 && window.scrollY >= Math.min(past, room)
+              );
+            },
+            Math.min(distance, SCROLLED_PAST),
+          ),
         { message: 'The page should have scrolled down' },
       )
       .toBe(true);
@@ -149,6 +165,31 @@ export abstract class BasePage extends Component {
       localStorage.setItem('i18nextLng', stored);
       sessionStorage.setItem('language-seeded', '1');
     }, value);
+  }
+
+  /**
+   * Fixes the browser's clock to a date before the page loads, so a date the page shows can be
+   * checked against a known value.
+   *
+   * @param {Date} date - The date the page should see as "now".
+   * @returns {Promise<void>} Resolves once the clock is fixed for this page.
+   */
+  async fixClockAt(date: Date): Promise<void> {
+    await this.page.clock.setFixedTime(date);
+  }
+
+  /**
+   * Asserts the browser reports that the visitor asked for reduced motion.
+   *
+   * @returns {Promise<void>} Resolves once `prefers-reduced-motion: reduce` matches.
+   */
+  async expectReducedMotion(): Promise<void> {
+    expect(
+      await this.page.evaluate(
+        () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      ),
+      'Reduced motion should be requested',
+    ).toBe(true);
   }
 
   /**

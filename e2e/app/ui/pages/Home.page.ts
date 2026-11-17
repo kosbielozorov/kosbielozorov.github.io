@@ -2,6 +2,7 @@ import { expect, type Locator } from '@playwright/test';
 import { BackToTop } from '@components/BackToTop.component';
 import { Skills } from '@components/Skills.component';
 import { HeadMetadata } from '@components/HeadMetadata.component';
+import { SiteFooter } from '@components/SiteFooter.component';
 import { SiteMenu } from '@components/SiteMenu.component';
 import type { ShownJob } from '@constants/portfolio';
 import { BasePage } from '@pages/BasePage';
@@ -22,15 +23,19 @@ export class HomePage extends BasePage {
   /** The document head: meta tags, links, JSON-LD. */
   public readonly head = new HeadMetadata(this.page);
 
+  /** The site footer. */
+  public readonly footer = new SiteFooter(this.page);
+
   /** The About Me skills: cards, panel, arrows. */
   public readonly skills = new Skills(this.page);
 
-  private readonly backToTop = new BackToTop(this.page);
+  /** The back-to-top button (after scrolling). */
+  public readonly backToTop = new BackToTop(this.page);
 
   private readonly heroHeading: Locator = this.page
     .locator('#home')
     .getByRole('heading', { level: 1 });
-  private readonly footer: Locator = this.page.getByRole('contentinfo');
+  private readonly footerLandmark: Locator = this.page.getByRole('contentinfo');
   private readonly homeSection: Locator = this.page.locator('#home');
   private readonly contactSection: Locator = this.page.locator('#contact-me');
 
@@ -80,7 +85,7 @@ export class HomePage extends BasePage {
       ).toHaveText(/\S/);
     }
     await this.menu.expectLoaded();
-    await expect(this.footer, 'Footer should be visible').toBeVisible();
+    await expect(this.footerLandmark, 'Footer should be visible').toBeVisible();
   }
 
   /**

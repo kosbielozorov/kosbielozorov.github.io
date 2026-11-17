@@ -55,4 +55,81 @@ export class BackToTop extends Component {
     ).toBeFocused();
     await this.page.keyboard.press('Enter');
   }
+
+  /**
+   * Asserts the button is not on the page (the page is at its top).
+   *
+   * @param {string} name - Its accessible name in the page's language, e.g. `Back to top`.
+   * @returns {Promise<void>} Resolves once no such button exists.
+   */
+  async expectAbsent(name: string): Promise<void> {
+    await expect(this.button(name), `"${name}" should be absent`).toHaveCount(
+      0,
+    );
+  }
+
+  /**
+   * Asserts the button is shown.
+   *
+   * @param {string} name - Its accessible name in the page's language, e.g. `Back to top`.
+   * @returns {Promise<void>} Resolves once the button is visible.
+   */
+  async expectShown(name: string): Promise<void> {
+    await expect(this.button(name), `"${name}" should be shown`).toBeVisible();
+  }
+
+  /**
+   * Clicks the button with the mouse at its centre. The button keeps bouncing, so it never stands
+   * still for Playwright's stability check (`specs/footer.md` 1.3); the bounce moves it by at most a
+   * quarter of its height, so its centre is always on it. The keyboard path is `useWithKeyboard`
+   * (`specs/navigation.md` 1.7).
+   *
+   * @param {string} name - Its accessible name in the page's language, e.g. `Back to top`.
+   * @returns {Promise<void>} Resolves once the mouse has clicked the button.
+   */
+  async activate(name: string): Promise<void> {
+    const button = this.button(name);
+    await expect(button, `"${name}" should be shown`).toBeVisible();
+    const box = await button.boundingBox();
+    expect(box, `"${name}" should have a position`).not.toBeNull();
+    if (box)
+      await this.page.mouse.click(
+        box.x + box.width / 2,
+        box.y + box.height / 2,
+      );
+  }
+
+  /**
+   * Asserts the button really bounces: the `bounce` animation, endless, running, with a duration —
+   * and its position changes between two moments.
+   *
+   * @param {string} name - Its accessible name in the page's language, e.g. `Back to top`.
+   * @returns {Promise<void>} Resolves once the animation is running and the button moves.
+   */
+  async expectBouncing(name: string): Promise<void> {
+    const button = this.button(name);
+    const animation = await button.evaluate(el => {
+      const style = getComputedStyle(el);
+      return {
+        name: style.animationName,
+        iterations: style.animationIterationCount,
+        state: style.animationPlayState,
+        seconds: parseFloat(style.animationDuration),
+      };
+    });
+    expect(animation, `"${name}" animation`).toMatchObject({
+      name: 'bounce',
+      iterations: 'infinite',
+      state: 'running',
+    });
+    expect(animation.seconds, `"${name}" animation duration`).toBeGreaterThan(
+      0,
+    );
+    const first = await button.evaluate(el => getComputedStyle(el).transform);
+    await expect
+      .poll(() => button.evaluate(el => getComputedStyle(el).transform), {
+        message: `"${name}" should move`,
+      })
+      .not.toBe(first);
+  }
 }
