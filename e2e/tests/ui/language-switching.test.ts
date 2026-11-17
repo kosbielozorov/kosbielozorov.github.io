@@ -221,8 +221,8 @@ test.describe('Switching in the drawer', () => {
       await homePage.menu.expectDrawerItems(UK.menu);
       await homePage.menu.expectDrawerOpen();
       await homePage.menu.expectCloseButtonNamed('Закрити меню');
-      await homePage.menu.drawerLanguages.expectActive('UA');
-      await homePage.menu.languages.expectActive('UA');
+      await homePage.menu.drawerLanguages.expectPressed('UA');
+      await homePage.menu.languages.expectPressed('UA');
     },
   );
 });
@@ -236,14 +236,12 @@ test.describe('The switcher for assistive technology', () => {
     test(
       'the active language is announced as pressed in both switchers, before and after switching',
       {
-        tag: ['@unlinked', '@bug-LANG-1'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect LANG-1 (specs/known-defects/LANG-1-active-language-not-announced.md). */
-        test.fail();
         await homePage.open();
 
         await homePage.menu.languages.expectPressed('EN');
@@ -259,14 +257,12 @@ test.describe('The switcher for assistive technology', () => {
     test(
       'the buttons are named after their languages',
       {
-        tag: ['@unlinked', '@bug-LANG-3'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect LANG-3 (specs/known-defects/LANG-3-buttons-do-not-name-the-language.md). */
-        test.fail();
         await homePage.open();
 
         await homePage.menu.languages.expectButtonsNameLanguages();
@@ -299,14 +295,12 @@ test.describe('The switcher for assistive technology', () => {
     test(
       'the switcher group is labelled "Мова" in Ukrainian',
       {
-        tag: ['@unlinked', '@bug-LANG-2'],
+        tag: ['@unlinked'],
         annotation: [
           { type: 'source', description: 'specs/language-switching.md#1.5' },
         ],
       },
       async ({ pageManager: { homePage } }) => {
-        /* Pinned product defect LANG-2 (specs/known-defects/LANG-2-switcher-label-not-translated.md). */
-        test.fail();
         await homePage.open();
 
         await homePage.menu.languages.expectGroupLabel('Мова');

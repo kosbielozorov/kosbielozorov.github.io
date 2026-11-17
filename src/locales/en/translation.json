@@ -62,6 +62,7 @@
     "profileImageAlt": "my profile photo"
   },
   "langSwitcher": {
+    "label": "Language",
     "en": "EN",
     "uk": "UA"
   },

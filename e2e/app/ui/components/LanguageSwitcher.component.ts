@@ -1,7 +1,7 @@
 import { Component } from '@components/Base.component';
 import { expect, type Locator } from '@playwright/test';
 
-/** The two buttons, by the code they show — it stays visible after LANG-3 adds the language name. */
+/** The two buttons, by the code they show (their accessible names add the language). */
 type LanguageButton = 'EN' | 'UA';
 
 /** The accessible names the buttons must have (`specs/language-switching.md` 1.5, Q-3). */
@@ -22,8 +22,8 @@ const INCLUDE_HIDDEN = { includeHidden: true } as const;
  */
 export class LanguageSwitcher extends Component {
   /**
-   * @param {Locator} group - The switcher's group. Found by its role, not its name: the name is
-   *   being translated (LANG-2).
+   * @param {Locator} group - The switcher's group, found by its role — its name is translated
+   *   ("Language" / "Мова").
    */
   constructor(private readonly group: Locator) {
     super(group.page());
@@ -49,25 +49,6 @@ export class LanguageSwitcher extends Component {
    */
   async choose(language: LanguageButton): Promise<void> {
     await this.button(language).click();
-  }
-
-  /**
-   * Asserts which language the switcher marks as active, the way it shows it today: the active
-   * button carries the `underline` class, the other does not. (Assistive technology gets no state
-   * until LANG-1 is fixed — `expectPressed`.)
-   *
-   * @param {LanguageButton} language - The language that should be marked.
-   * @returns {Promise<void>} Resolves once only that button is marked.
-   */
-  async expectActive(language: LanguageButton): Promise<void> {
-    await expect(
-      this.button(language),
-      `${language} should be marked`,
-    ).toContainClass('underline');
-    await expect(
-      this.button(this.other(language)),
-      `Only ${language} should be marked`,
-    ).not.toContainClass('underline');
   }
 
   /**

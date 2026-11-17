@@ -110,9 +110,3 @@
 - The Ukrainian label is "Мова" (O-2; confirmed by the site owner (Q-2), 2026-11-17).
 - Each button's accessible name says the language — it contains "English" and "Українська"; the buttons may still show `EN` / `UA` (O-3; confirmed by the site owner, 2026-11-17).
 - The names keep the visible code: "English (EN)" and "Українська (UA)" (WCAG 2.5.3, label in name) (O-3; confirmed by the site owner (Q-3), 2026-11-17).
-
-## Known defects
-
-- F-1 / `@bug-LANG-1` (2026-11-17): scenario 1.5 — the switcher buttons do not expose the active language → `specs/known-defects/LANG-1-active-language-not-announced.md`
-- F-2 / `@bug-LANG-2` (2026-11-17): scenario 1.5 — the switcher group is labelled "Language" in Ukrainian too → `specs/known-defects/LANG-2-switcher-label-not-translated.md`
-- F-3 / `@bug-LANG-3` (2026-11-17): scenario 1.5 — the buttons are named "EN" / "UA", not the languages → `specs/known-defects/LANG-3-buttons-do-not-name-the-language.md`

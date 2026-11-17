@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useTranslation } from 'react-i18next';
 
+/** Each language named in itself, with the code the button shows (WCAG 2.5.3: label in name). */
+const LANGUAGE_NAMES = { en: 'English (EN)', uk: 'Українська (UA)' };
+
 export default function LanguageSwitcher({ className = '', onDark = false }) {
   const { i18n, t } = useTranslation();
 
@@ -21,10 +24,13 @@ export default function LanguageSwitcher({ className = '', onDark = false }) {
     <div
       className={`flex items-center gap-1 text-sm font-recoletaBlack uppercase ${className}`}
       role="group"
-      aria-label="Language"
+      aria-label={t('langSwitcher.label')}
     >
       <button
         type="button"
+        lang="en"
+        aria-label={LANGUAGE_NAMES.en}
+        aria-pressed={active('en')}
         onClick={() => i18n.changeLanguage('en')}
         className={active('en') ? activeClass : idleClass}
       >
@@ -35,6 +41,9 @@ export default function LanguageSwitcher({ className = '', onDark = false }) {
       </span>
       <button
         type="button"
+        lang="uk"
+        aria-label={LANGUAGE_NAMES.uk}
+        aria-pressed={active('uk')}
         onClick={() => i18n.changeLanguage('uk')}
         className={active('uk') ? activeClass : idleClass}
       >
