@@ -27,7 +27,7 @@ parts (navigation, language, head metadata). Risk is impact × exposure, then de
 alone, so the home page every visitor sees first was "content only" and was left for later.
 
 Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata (covered) →
-Z-7 Footer and call to action (covered) → Z-6 Not-found page (Z-1 Resume page — covered).
+Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Resume page — covered).
 
 ### Z-0 Smoke
 
@@ -107,9 +107,10 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (Z-1 Resume page 
 - Entry points: any unknown path → 404 page, "Back to home" → `/`; on GitHub Pages `404.html` is the
   SPA shell (`vite.config.js`), so `/my-resume` on the live site answers HTTP 404 with the app
 - Risk: low — impact: a lost visitor gets no way back; exposure: few (an edge path); dependents: —
-- Status: unexplored
-- Spec: —
+- Status: covered
+- Spec: `specs/not-found-page.md`
 - Scaffolding: —
+- Tests: `tests/ui/not-found-page.test.ts` (with `tests/ui/smoke.test.ts` 1.1, 1.3, 1.4, 1.7, `tests/ui/head-metadata.test.ts` 1.3, `tests/ui/footer.test.ts`; run in Chromium so far)
 
 ### Z-7 Footer and call to action
 

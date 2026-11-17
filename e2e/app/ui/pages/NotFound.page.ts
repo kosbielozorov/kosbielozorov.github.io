@@ -6,8 +6,8 @@ import { SiteMenu } from '@components/SiteMenu.component';
 import { BasePage } from '@pages/BasePage';
 
 /**
- * Not-found page — what any unknown path shows: a heading and "Back to home". Requirement:
- * `specs/smoke.md` 1.1, 1.7 (zone Z-0 of `specs/app-map.md`).
+ * Not-found page — what any unknown path shows: "404", a heading, an explanation and "Back to home".
+ * Requirement: `specs/not-found-page.md` (zone Z-6), and `specs/smoke.md` 1.1, 1.7.
  */
 export class NotFoundPage extends BasePage {
   /** Any path the app does not route; this one is never a real page. */
@@ -61,5 +61,29 @@ export class NotFoundPage extends BasePage {
    */
   async backToHome(): Promise<void> {
     await this.backToHomeLink.click();
+  }
+
+  /**
+   * Asserts the page's message inside `main`: its paragraphs and heading are exactly "404", the
+   * heading and the explanation, in this order; its one link reads `link` and leads to `/`.
+   *
+   * @param {{ heading: string; text: string; link: string }} content - The texts in the page's
+   *   language.
+   * @returns {Promise<void>} Resolves once those texts and the link match.
+   */
+  async expectContent(content: {
+    heading: string;
+    text: string;
+    link: string;
+  }): Promise<void> {
+    await expect(
+      this.main.locator(':scope p, :scope h1'),
+      'Not-found message',
+    ).toHaveText(['404', content.heading, content.text]);
+    await expect(this.backToHomeLink, 'Link home').toHaveText(content.link);
+    await expect(this.backToHomeLink, 'Link home target').toHaveAttribute(
+      'href',
+      '/',
+    );
   }
 }

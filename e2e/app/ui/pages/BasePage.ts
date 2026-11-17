@@ -193,6 +193,22 @@ export abstract class BasePage extends Component {
   }
 
   /**
+   * Changes the route inside the app, without a reload: `history.pushState`, then a `popstate` the
+   * router's history listener handles. (A `<Link>` calls the router's `navigate()` instead; no link in
+   * the app leads to an unknown path, so the route change is simulated.)
+   *
+   * @param {string} path - The path to go to, e.g. `/zzz`.
+   * @returns {Promise<void>} Resolves once the URL is `path`.
+   */
+  async navigateInApp(path: string): Promise<void> {
+    await this.page.evaluate(to => {
+      window.history.pushState({}, '', to);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }, path);
+    await expect(this.page, 'In-app navigation').toHaveURL(path);
+  }
+
+  /**
    * Presses the browser's Back.
    *
    * @returns {Promise<void>} Resolves once the browser has navigated back (a same-document step in
