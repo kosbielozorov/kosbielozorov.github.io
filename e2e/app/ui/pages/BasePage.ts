@@ -3,6 +3,8 @@ import { Component } from '../components/Base.component';
 
 /** Pixels a scroll must pass before the page counts as scrolled — more than the 96 px header. */
 const SCROLLED_PAST = 200;
+/** Wheel events sent at most when one moves nothing (a busy WebKit drops one now and then). */
+const WHEEL_TRIES = 3;
 
 export abstract class BasePage extends Component {
   /**
@@ -70,16 +72,24 @@ export abstract class BasePage extends Component {
    */
   async scrollDown(distance = 1500): Promise<void> {
     /* Smooth scrolling keeps animating after scrollY stops changing (on a short page it sits at the
-     * bottom while the animation runs): wait for the browser's `scrollend`, or 2 s at most. */
-    const ended = this.page.evaluate(
-      () =>
-        new Promise<void>(resolve => {
-          window.addEventListener('scrollend', () => resolve(), { once: true });
-          setTimeout(resolve, 2000);
-        }),
-    );
-    await this.page.mouse.wheel(0, distance);
-    await ended;
+     * bottom while the animation runs): wait for the browser's `scrollend`, or 2 s at most. A busy
+     * WebKit now and then drops a wheel event — the page stays at the top — so one that moved nothing
+     * is sent again (three tries). */
+    for (let attempt = 0; attempt < WHEEL_TRIES; attempt++) {
+      const before = await this.page.evaluate(() => window.scrollY);
+      const ended = this.page.evaluate(
+        () =>
+          new Promise<void>(resolve => {
+            window.addEventListener('scrollend', () => resolve(), {
+              once: true,
+            });
+            setTimeout(resolve, 2000);
+          }),
+      );
+      await this.page.mouse.wheel(0, distance);
+      await ended;
+      if ((await this.page.evaluate(() => window.scrollY)) !== before) break;
+    }
     await expect
       .poll(
         () =>
@@ -140,6 +150,17 @@ export abstract class BasePage extends Component {
         },
       )
       .toBe(value);
+  }
+
+  /**
+   * Asserts the stored language is exactly the language the browser reports to the page
+   * (`navigator.language`) — what a first visit stores.
+   *
+   * @returns {Promise<void>} Resolves once `localStorage.i18nextLng` equals `navigator.language`.
+   */
+  async expectStoredBrowserLanguage(): Promise<void> {
+    const browser = await this.page.evaluate(() => navigator.language);
+    await this.expectStoredLanguage(browser);
   }
 
   /**

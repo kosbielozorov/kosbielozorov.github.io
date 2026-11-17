@@ -29,6 +29,8 @@ alone, so the home page every visitor sees first was "content only" and was left
 Order: Z-0 Smoke (covered) → Z-4 Navigation (covered) → Z-3 Home page (covered) → Z-2 Language switching (covered) → Z-5 Head metadata (covered) →
 Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Resume page — covered).
 
+All zones covered (2026-11-17). Run in Chromium, Firefox and WebKit (Playwright 1.65); WebKit leaves out the `@keyboard` Tab-order tests (it does not Tab to links and buttons). B-1 (Firefox would not launch on this machine) no longer reproduces.
+
 ### Z-0 Smoke
 
 - Entry points: `/` (the entry page, en and uk); every route — `/`, `/my-resume`, an unknown path
@@ -38,7 +40,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/smoke.md`
 - Scaffolding: —
-- Tests: `tests/ui/smoke.test.ts` (`@smoke`; Tab-order tests `@keyboard` run in Chromium only; Firefox not run — B-1, environment)
+- Tests: `tests/ui/smoke.test.ts` (`@smoke`; Tab-order tests `@keyboard` not in WebKit)
 - Notes: `/my-resume` opening and its "Back to home" are already held by
   `tests/ui/resume-page.test.ts` (Z-1); no `@smoke` tests yet
 
@@ -51,7 +53,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/resume-page.md`
 - Scaffolding: —
-- Tests: `tests/ui/resume-page.test.ts` (Firefox not run yet — B-1, environment)
+- Tests: `tests/ui/resume-page.test.ts`
 
 ### Z-2 Language switching
 
@@ -62,7 +64,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/language-switching.md`
 - Scaffolding: —
-- Tests: `tests/ui/language-switching.test.ts` (with `tests/ui/resume-page.test.ts` 1.4; run in Chromium so far — the other browsers once all tests are written)
+- Tests: `tests/ui/language-switching.test.ts` (with `tests/ui/resume-page.test.ts` 1.4)
 
 ### Z-3 Home page
 
@@ -73,7 +75,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/home-page.md`
 - Scaffolding: —
-- Tests: `tests/ui/home-page.test.ts` (with `tests/ui/smoke.test.ts` 1.1, 1.2, 1.5; Tab-order tests `@keyboard` run in Chromium only; Firefox not run — B-1, environment)
+- Tests: `tests/ui/home-page.test.ts` (with `tests/ui/smoke.test.ts` 1.1, 1.2, 1.5; Tab-order tests `@keyboard` not in WebKit)
 - Notes: Telegram links here use `tg://resolve?domain=…`; the resume's `https://t.me/…` was confirmed as
   correct (`specs/resume-page.md` O-6); on the home page and in the drawer `tg://` is intended (`specs/home-page.md` O-4, 2026-11-17); the page has no `main` landmark and five `h1` (`specs/smoke.md` O-6) — triaged as a bug (`specs/home-page.md` F-4)
 
@@ -87,7 +89,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/navigation.md`
 - Scaffolding: —
-- Tests: `tests/ui/navigation.test.ts` (with `tests/ui/smoke.test.ts` 1.3, 1.4, 1.6; Tab-order tests `@keyboard` run in Chromium only; Firefox not run — B-1, environment)
+- Tests: `tests/ui/navigation.test.ts` (with `tests/ui/smoke.test.ts` 1.3, 1.4, 1.6; Tab-order tests `@keyboard` not in WebKit)
 
 ### Z-5 Head metadata (SEO / sharing)
 
@@ -98,7 +100,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/head-metadata.md`
 - Scaffolding: — (not applicable: `<head>` is outside the accessibility tree and API shapes)
-- Tests: `tests/ui/head-metadata.test.ts` (with `tests/ui/resume-page.test.ts` 1.6 and `tests/ui/language-switching.test.ts` 1.3 for the titles; run in Chromium so far)
+- Tests: `tests/ui/head-metadata.test.ts` (with `tests/ui/resume-page.test.ts` 1.6 and `tests/ui/language-switching.test.ts` 1.3 for the titles)
 - Notes: two `meta description` tags on every page — the static English one from `index.html`
   first; confirmed as a bug on the resume page (`specs/resume-page.md` F-3)
 
@@ -110,7 +112,7 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/not-found-page.md`
 - Scaffolding: —
-- Tests: `tests/ui/not-found-page.test.ts` (with `tests/ui/smoke.test.ts` 1.1, 1.3, 1.4, 1.7, `tests/ui/head-metadata.test.ts` 1.3, `tests/ui/footer.test.ts`; run in Chromium so far)
+- Tests: `tests/ui/not-found-page.test.ts` (with `tests/ui/smoke.test.ts` 1.1, 1.3, 1.4, 1.7, `tests/ui/head-metadata.test.ts` 1.3, `tests/ui/footer.test.ts`)
 
 ### Z-7 Footer and call to action
 
@@ -120,4 +122,4 @@ Z-7 Footer and call to action (covered) → Z-6 Not-found page (covered) (Z-1 Re
 - Status: covered
 - Spec: `specs/footer.md`
 - Scaffolding: —
-- Tests: `tests/ui/footer.test.ts` (with `tests/ui/navigation.test.ts` 1.7 for the back-to-top button from the keyboard; run in Chromium so far)
+- Tests: `tests/ui/footer.test.ts` (with `tests/ui/navigation.test.ts` 1.7 for the back-to-top button from the keyboard)

@@ -24,11 +24,12 @@ const UK = {
 
 /** First visit, nothing stored: the browser's language → the site's language. */
 const FIRST_VISITS = [
-  { browser: 'uk-UA', language: 'uk', stored: 'uk-UA' },
-  { browser: 'uk', language: 'uk', stored: 'uk' },
-  { browser: 'en-US', language: 'en', stored: 'en-US' },
-  { browser: 'de-DE', language: 'en', stored: 'en' },
+  { browser: 'uk-UA', language: 'uk' },
+  { browser: 'uk', language: 'uk' },
+  { browser: 'en-US', language: 'en' },
 ] as const;
+/** An unsupported browser language: the English site, `en` stored. */
+const UNSUPPORTED = { browser: 'de-DE', language: 'en', stored: 'en' } as const;
 
 /** A stored choice against the browser's language. */
 const STORED = [
@@ -37,12 +38,12 @@ const STORED = [
   { stored: 'de', browser: 'uk-UA', language: 'uk' },
 ] as const;
 
-for (const { browser, language, stored } of FIRST_VISITS)
+for (const { browser, language } of FIRST_VISITS)
   test.describe(`First visit with the browser in ${browser}`, () => {
     test.use({ locale: browser, viewport: WIDE });
 
     test(
-      `a ${browser} browser gets the ${language} site and the language is stored`,
+      `a ${browser} browser gets the ${language} site and its language is stored`,
       {
         tag: ['@unlinked'],
         annotation: [
@@ -54,10 +55,32 @@ for (const { browser, language, stored } of FIRST_VISITS)
 
         await homePage.expectHeading(HOME_HEADING[language]);
         await homePage.expectLanguage(language);
-        await homePage.expectStoredLanguage(stored);
+        /* Exactly what the browser reports — WebKit reports a bare `uk` locale as `uk-UA`. */
+        await homePage.expectStoredBrowserLanguage();
       },
     );
   });
+
+test.describe(`First visit with the browser in ${UNSUPPORTED.browser}`, () => {
+  test.use({ locale: UNSUPPORTED.browser, viewport: WIDE });
+
+  test(
+    `an unsupported ${UNSUPPORTED.browser} browser gets the English site and "en" is stored`,
+    {
+      tag: ['@unlinked'],
+      annotation: [
+        { type: 'source', description: 'specs/language-switching.md#1.1' },
+      ],
+    },
+    async ({ pageManager: { homePage } }) => {
+      await homePage.open();
+
+      await homePage.expectHeading(HOME_HEADING[UNSUPPORTED.language]);
+      await homePage.expectLanguage(UNSUPPORTED.language);
+      await homePage.expectStoredLanguage(UNSUPPORTED.stored);
+    },
+  );
+});
 
 for (const { stored, browser, language } of STORED)
   test.describe(`"${stored}" stored with the browser in ${browser}`, () => {

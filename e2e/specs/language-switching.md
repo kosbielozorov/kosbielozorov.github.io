@@ -61,7 +61,7 @@
 **Expected:**
 
 - With nothing stored, a Ukrainian browser (`uk-UA`, `uk`) gets the Ukrainian site and any other language (`en-US`, `de-DE`) the English one; the detected language is stored (O-5; confirmed by the site owner, 2026-11-17).
-- The stored value is exactly the browser's language when supported (`uk-UA`, `uk`, `en-US`) and `en` for an unsupported one (`de-DE`) (O-5; confirmed by the site owner (Q-1), 2026-11-17).
+- The stored value is exactly the browser's language as it reports it (`navigator.language`) when supported (`uk-UA`, `uk`, `en-US` in Chromium; WebKit reports a bare `uk` as `uk-UA`) and `en` for an unsupported one (`de-DE`) (O-5; confirmed by the site owner (Q-1), 2026-11-17).
 
 #### 1.2 A stored choice wins
 
