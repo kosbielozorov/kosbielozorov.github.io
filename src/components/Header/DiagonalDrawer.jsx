@@ -1,10 +1,9 @@
 // import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { dataInfo } from '../../info';
-
-const { github, linkedin, telegram } = dataInfo.first.socials;
-const email = dataInfo.first.email;
+import { usePortfolioData } from '../../info';
+import LanguageSwitcher from '../LanguageSwitcher';
 
 export default function DiagonalDrawer({
   isOpen,
@@ -12,6 +11,18 @@ export default function DiagonalDrawer({
   selectedIndex1,
   setSelectedIndex1,
 }) {
+  const { t } = useTranslation();
+  const dataInfo = usePortfolioData();
+  const { github, linkedin, telegram } = dataInfo.first.socials;
+  const email = dataInfo.first.email;
+
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    // Opening the drawer moves the focus into it.
+    if (isOpen) closeRef.current?.focus({ preventScroll: true });
+  }, [isOpen]);
+
   // const route = useRouter();
   // const pathname = usePathname();
   return (
@@ -20,8 +31,11 @@ export default function DiagonalDrawer({
         <div
           className={`z-50  cursor-pointer fixed w-14 h-14 lg:w-24 lg:h-24 bg-[#48AFDE] flex justify-center items-center rounded-br-3xl`}
         >
-          <div
+          <button
+            type="button"
+            ref={closeRef}
             onClick={() => setIsOpen(false)}
+            aria-label={t('nav.closeMenu')}
             className="relative w-7 lg:w-10 h-7 lg:h-10 flex justify-center items-center"
           >
             {isOpen ? (
@@ -55,7 +69,7 @@ export default function DiagonalDrawer({
                 />
               </svg>
             )}
-          </div>
+          </button>
         </div>
       </div>
 
@@ -63,17 +77,23 @@ export default function DiagonalDrawer({
         <div className="relative">
           <div className="z-20 absolute transform-gpu ease-in-out duration-500 transition-all scale-100 -translate-x-none -translate-y-none opacity-100 bg-[#223740] bg-opacity-95 w-full h-screen flex flex-col sm:flex-row lg:flex-col items-center justify-center">
             <nav className="text-white font-RecoletaBold text-center text-4xl lg:text-4xl 2xl:text-6xl uppercase">
+              <div className="flex justify-center mb-6">
+                <LanguageSwitcher onDark />
+              </div>
               <ul className="flex flex-col">
                 <li className="group my-4 xl:my-4 2xl:my-6 relative">
                   <div className="inline-block relative">
                     <a
                       href="/#home"
+                      aria-current={
+                        selectedIndex1 === 0 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(0);
                         setIsOpen(false);
                       }}
                     >
-                      Home
+                      {t('nav.home')}
                     </a>
                     {selectedIndex1 === 0 ? (
                       <div className="absolute top-2 -left-2 w-full h-full transform-gpu transition-all duration-300 -rotate-6 opacity-100 group-hover:-rotate-6 group-hover:opacity-100 bg-[#e9b200] rounded-xl -z-10"></div>
@@ -87,12 +107,15 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#experience"
+                      aria-current={
+                        selectedIndex1 === 1 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(1);
                         setIsOpen(false);
                       }}
                     >
-                      Experience
+                      {t('nav.experience')}
                     </a>
                     {selectedIndex1 === 1 ? (
                       <div className="absolute top-2 -left-2 w-full h-full transform-gpu transition-all duration-300 -rotate-6 opacity-100 group-hover:-rotate-6 group-hover:opacity-100 bg-[#e9b200] rounded-xl -z-10"></div>
@@ -106,12 +129,15 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#about-me"
+                      aria-current={
+                        selectedIndex1 === 2 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(2);
                         setIsOpen(false);
                       }}
                     >
-                      About Me
+                      {t('nav.aboutMe')}
                     </a>
                     {selectedIndex1 === 2 ? (
                       <div className="absolute top-2 -left-2 w-full h-full transform-gpu transition-all duration-300 -rotate-6 opacity-100 group-hover:-rotate-6 group-hover:opacity-100 bg-[#e9b200] rounded-xl -z-10"></div>
@@ -125,12 +151,15 @@ export default function DiagonalDrawer({
                   <div className="inline-block relative">
                     <a
                       href="/#contact-me"
+                      aria-current={
+                        selectedIndex1 === 3 ? 'location' : undefined
+                      }
                       onClick={() => {
                         setSelectedIndex1(3);
                         setIsOpen(false);
                       }}
                     >
-                      Contact Me
+                      {t('nav.contactMe')}
                     </a>
                     {selectedIndex1 === 3 ? (
                       <div className="absolute top-2 -left-2 w-full h-full transform-gpu transition-all duration-300 -rotate-6 opacity-100 group-hover:-rotate-6 group-hover:opacity-100 bg-[#e9b200] rounded-xl -z-10"></div>
@@ -144,14 +173,16 @@ export default function DiagonalDrawer({
             </nav>
             <section className="mt-14 sm:mt-12 lg:mt-14 text-center relative sm:absolute lg:relative sm:right-0 lg:right-0 h-auto sm:h-full lg:h-auto">
               <h3 className="block sm:hidden lg:block font-bold text-[#48AFDE] text-2xl uppercase mb-5">
-                Follow me Around
+                {t('drawer.followMe')}
               </h3>
               <div className="flex flex-row sm:flex-col lg:flex-row justify-center">
                 <a
                   href={github.url}
+                  aria-label="GitHub"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     stroke="currentColor"
                     fill="currentColor"
                     strokeWidth="0"
@@ -166,9 +197,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={linkedin.url}
+                  aria-label="LinkedIn"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     stroke="currentColor"
                     fill="currentColor"
                     strokeWidth="0"
@@ -183,9 +216,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={`mailto:${email}`}
+                  aria-label="Gmail"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
                     y="0px"
@@ -201,9 +236,11 @@ export default function DiagonalDrawer({
                 </a>
                 <a
                   href={telegram.url}
+                  aria-label="Telegram"
                   className="text-gray-300 hover:text-white transition-colors duration-300"
                 >
                   <svg
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
                     y="0px"

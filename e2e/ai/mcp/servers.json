@@ -1,0 +1,36 @@
+{
+  "servers": {
+    "playwright-test": {
+      "description": "Playwright MCP — planner_* / generator_* / test_* plus the full browser_* set. Superset of `npx playwright mcp`, so that one is deliberately not wired. Bundled with @playwright/test; --config points it at this package",
+      "hosts": ["claude", "cursor", "vscode"],
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "run-test-mcp-server",
+        "--config",
+        "./playwright.config.ts"
+      ]
+    },
+    "testomatio": {
+      "description": "Testomat.io TMS — resolve @S/@T ids, fetch cases, TQL search. Skill: testomatio-mcp",
+      "hosts": ["claude", "cursor", "vscode"],
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@testomatio/mcp@latest",
+        "--token",
+        "${TESTOMATIO_MCP_TOKEN}",
+        "--project",
+        "${TESTOMATIO_PROJECT}",
+        "--tools",
+        "${TESTOMATIO_TOOLS:-core}"
+      ],
+      "env": {
+        "TESTOMATIO_BASE_URL": "${TESTOMATIO_BASE_URL:-https://app.testomat.io}"
+      },
+      "secrets": ["TESTOMATIO_MCP_TOKEN"]
+    }
+  }
+}

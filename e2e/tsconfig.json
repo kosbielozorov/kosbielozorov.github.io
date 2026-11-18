@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "paths": {
+      "@fixtures": ["./app/fixtures"],
+      "@constants": ["./app/constants"],
+      "@constants/*": ["./app/constants/*"],
+      "@pages/*": ["./app/ui/pages/*"],
+      "@components/*": ["./app/ui/components/*"],
+      "@modals/*": ["./app/ui/modals/*"],
+      "@controllers/*": ["./app/api/controllers/*"],
+      "@schemas/*": ["./app/api/schemas/*"],
+      "@interfaces/*": ["./app/api/interfaces/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    ".work"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "playwright-test": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "run-test-mcp-server",
+        "--config",
+        "./playwright.config.ts"
+      ]
+    },
+    "testomatio": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@testomatio/mcp@latest",
+        "--token",
+        "${env:TESTOMATIO_MCP_TOKEN}",
+        "--project",
+        "${env:TESTOMATIO_PROJECT}",
+        "--tools",
+        "core"
+      ],
+      "env": {
+        "TESTOMATIO_BASE_URL": "https://app.testomat.io"
+      }
+    }
+  }
+}

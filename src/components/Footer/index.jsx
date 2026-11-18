@@ -1,9 +1,10 @@
 import React from 'react';
-import { dataInfo } from '../../info';
 
-const { name, secondName } = dataInfo.first;
+import { usePortfolioData } from '../../info';
 
 export default function Footer() {
+  const dataInfo = usePortfolioData();
+  const { name, secondName } = dataInfo.first;
   return (
     <React.Fragment>
       <footer className="bg-[#232323] relative print:hidden">

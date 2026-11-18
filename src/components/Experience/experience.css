@@ -10,6 +10,7 @@
 
 .experience__list .date {
   display: none;
+  order: -1;
   border-radius: 0.25rem;
 
   @media (min-width: 1110px) {
@@ -25,15 +26,7 @@
   }
 
   @media print {
-    display: block;
-    text-align: center;
-    background: #48afde;
-    color: #fff;
-    width: 100px;
-    height: 64px;
-    margin-top: 4px;
-    position: relative;
-    padding: 0.25rem 0.15rem;
+    display: none;
   }
 }
 
@@ -71,7 +64,29 @@
   }
 
   @media print {
-    margin-left: 3rem;
+    margin-left: 0;
+    /* Positioned boxes are painted after in-flow content, which reorders the
+       PDF text layer (e.g. Education ends up before jobs). */
+    position: static;
+  }
+}
+
+/* Dates as plain text next to the job title (read by ATS/parsers);
+   on wide screens the decorative badge shows them instead. */
+.experience__list .job__period {
+  margin: 0.25rem 0 0.25rem;
+  color: #77787b;
+  font-weight: 600;
+
+  @media screen and (min-width: 1110px) {
+    display: none;
+  }
+}
+
+@media print {
+  .experience__list-item .info::before,
+  .experience__list-item .info::after {
+    display: none;
   }
 }
 

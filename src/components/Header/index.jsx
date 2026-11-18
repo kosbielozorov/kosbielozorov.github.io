@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
+import LanguageSwitcher from '../LanguageSwitcher';
 import '../Header/DiagonalDrawer.css';
 import Drawer from './DiagonalDrawer';
 
 export default function Header() {
+  const { t } = useTranslation();
   const [selectedIndex1, setSelectedIndex1] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,9 +56,47 @@ export default function Header() {
     }
   }, [location]);
 
+  const toggleRef = useRef(null);
+  const wasOpen = useRef(false);
+
   const openDrawer = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    // The open drawer is modal: everything outside it is inert, Escape closes it, and closing it
+    // returns the focus to the toggle.
+    if (isOpen) {
+      wasOpen.current = true;
+      const drawer = document.getElementById('site-drawer');
+      const madeInert = [];
+      for (
+        let node = drawer;
+        node && node !== document.body;
+        node = node.parentElement
+      ) {
+        for (const sibling of node.parentElement?.children ?? []) {
+          if (sibling !== node && !sibling.hasAttribute('inert')) {
+            sibling.setAttribute('inert', '');
+            madeInert.push(sibling);
+          }
+        }
+      }
+      const onKeyDown = event => {
+        if (event.key === 'Escape') setIsOpen(false);
+      };
+      document.addEventListener('keydown', onKeyDown);
+      return () => {
+        document.removeEventListener('keydown', onKeyDown);
+        madeInert.forEach(element => element.removeAttribute('inert'));
+      };
+    }
+    if (wasOpen.current) {
+      wasOpen.current = false;
+      toggleRef.current?.focus({ preventScroll: true });
+    }
+    return undefined;
+  }, [isOpen]);
 
   const NavigationLink = ({
     to,
@@ -82,6 +123,7 @@ export default function Header() {
     return (
       <Link
         className={`menu-item ${selectedIndex === index ? 'text-black' : 'text-[#e9b200]'} group-hover:text-black`}
+        aria-current={selectedIndex === index ? 'location' : undefined}
         to={to}
         onClick={handleClick}
       >
@@ -92,7 +134,15 @@ export default function Header() {
 
   return (
     <React.Fragment>
-      <div className={`diagonal-drawer ${isOpen ? 'open' : ''}`}>
+      <div
+        id="site-drawer"
+        className={`diagonal-drawer ${isOpen ? 'open' : ''}`}
+        role="dialog"
+        aria-modal={isOpen ? 'true' : undefined}
+        aria-label={t('nav.menu')}
+        // The closed drawer is only moved off screen; inert keeps its controls out of the Tab order.
+        inert={isOpen ? undefined : ''}
+      >
         <Drawer
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -101,11 +151,16 @@ export default function Header() {
         />
       </div>
       <header
-        className={`${isScrolled ? 'headerShow' : ''} w-full fixed top-0 z-50 transition-all duration-500 print:hidden`}
+        className={`${isScrolled ? 'headerShow' : ''} ${location.pathname === '/my-resume' ? 'page-my-resume' : ''} w-full fixed top-0 z-50 transition-all duration-500 print:hidden`}
       >
         <div className="sm:visible xl:invisible relative">
-          <div
+          <button
+            type="button"
+            ref={toggleRef}
             onClick={openDrawer}
+            aria-label={t('nav.openMenu')}
+            aria-expanded={isOpen}
+            aria-controls="site-drawer"
             className="z-30 absolute cursor-pointer w-14 h-14 lg:w-24 lg:h-24 bg-[#48AFDE] flex justify-center items-center rounded-br-3xl"
           >
             <div className="relative w-7 lg:w-10 h-7 lg:h-10 flex justify-center items-center">
@@ -113,15 +168,15 @@ export default function Header() {
                 height={100}
                 width={100}
                 src="/images/drawer.png"
-                alt="drawer item"
+                alt=""
                 className="w-[150px] h-10"
               />
             </div>
-          </div>
+          </button>
         </div>
 
         <nav className="invisible xl:visible xl:max-w-4xl 2xl:max-w-[60rem] mx-auto ">
-          <ul className="menu flex font-recoletaBlack flex-row items-center h-24">
+          <ul className="menu flex w-full font-recoletaBlack flex-row items-center h-24">
             <li className="group text-2xl relative font-bold mr-20">
               {selectedIndex1 === 0 ? (
                 <span className="menu-effect transform opacity-100 -rotate-12 group-hover:-rotate-12 group-hover:opacity-100"></span>
@@ -135,7 +190,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Home
+                {t('nav.home')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -151,7 +206,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Experience
+                {t('nav.experience')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -167,7 +222,7 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                About Me
+                {t('nav.aboutMe')}
               </NavigationLink>
             </li>
             <li className="group text-2xl relative font-bold mr-20">
@@ -183,8 +238,11 @@ export default function Header() {
                 selectedIndex={selectedIndex1}
                 setSelectedIndex={setSelectedIndex1}
               >
-                Contact Me
+                {t('nav.contactMe')}
               </NavigationLink>
+            </li>
+            <li className="flex items-center ml-auto pl-8">
+              <LanguageSwitcher />
             </li>
           </ul>
         </nav>
